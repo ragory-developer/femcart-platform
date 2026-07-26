@@ -1,0 +1,20 @@
+{
+    "name":  "femcart-platform",
+    "version":  "1.0.0",
+    "description": "Femcart — Premium Women's Intimate Apparel & Lifestyle E-commerce Platform",
+    "private":  true,
+    "packageManager":  "npm@10.8.2",
+    "workspaces":  [
+                       "apps/*",
+                       "packages/*"
+                   ],
+    "scripts":  {
+                    "dev":  "turbo run dev",
+                    "build":  "turbo run build",
+                    "db:generate":  "turbo run db:generate",
+                    "lint":  "turbo run lint"
+                },
+    "devDependencies":  {
+                            "turbo":  "^2.1.2"
+                        }
+}
