@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -63,7 +63,7 @@ export default function Footer({
     <footer className="bg-white border-t border-gray-100 pt-16 pb-8 md:pb-12 mt-auto relative z-10 font-body">
       <div className="max-w-[1600px] mx-auto px-4 md:px-6">
         {/* Newsletter Banner - Alpha Style (Clean & Bold) */}
-        <div className="bg-red-50 rounded-sm p-8 md:p-12 mb-12 flex flex-col lg:flex-row items-center justify-between gap-8 border border-red-100">
+        <div className="bg-pink-50 rounded-sm p-8 md:p-12 mb-12 flex flex-col lg:flex-row items-center justify-between gap-8 border border-pink-100">
           <div className="lg:max-w-xl text-center lg:text-left">
             <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-3 font-display">{newsletterTitle}</h3>
             <p className="text-gray-600 text-[16px] font-medium">{newsletterSubtitle}</p>
@@ -78,12 +78,12 @@ export default function Footer({
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={status === "loading" || status === "success"}
                 placeholder="Enter your email address"
-                className="w-full bg-white border border-gray-200 text-gray-900 rounded-sm px-5 py-4 focus:outline-none focus:border-red-400 focus:ring-4 focus:ring-red-400/10 placeholder:text-gray-400 transition-all font-medium shadow-sm"
+                className="w-full bg-white border border-gray-200 text-gray-900 rounded-sm px-5 py-4 focus:outline-none focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 placeholder:text-gray-400 transition-all font-medium shadow-sm"
               />
               <button 
                 type="submit"
                 disabled={status === "loading" || status === "success" || !email}
-                className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-sm transition-all shadow-md shadow-red-600/20 flex items-center justify-center gap-2 whitespace-nowrap active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="bg-pink-600 hover:bg-pink-700 text-white font-bold px-8 py-4 rounded-sm transition-all shadow-md shadow-pink-600/20 flex items-center justify-center gap-2 whitespace-nowrap active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {status === "loading" ? (
                   <Loader2 size={18} className="animate-spin" />
@@ -100,7 +100,7 @@ export default function Footer({
             {(status === "success" || status === "error") && (
               <p
                 className={`text-sm font-bold mt-3 absolute -bottom-6 w-full flex items-center gap-1.5 ${
-                  status === "success" ? "text-emerald-600" : "text-red-500"
+                  status === "success" ? "text-emerald-600" : "text-pink-500"
                 }`}
               >
                 {status === "success" ? <CheckCircle2 size={14} /> : <AlertCircle size={14} />}
@@ -147,10 +147,10 @@ export default function Footer({
           <div className="col-span-1">
             <h4 className="text-gray-900 font-black text-[15px] md:text-[16px] mb-4 md:mb-6 font-display tracking-tight">Customer Service</h4>
             <ul className="space-y-3 md:space-y-4 text-[14px] md:text-[15px] font-medium text-gray-600">
-              <li><Link href="/help" className="hover:text-red-600 transition-colors">Help Center</Link></li>
-              <li><Link href="/profile/orders" className="hover:text-red-600 transition-colors">Track your order</Link></li>
-              <li><Link href="/return-policy" className="hover:text-red-600 transition-colors">Return Policy</Link></li>
-              <li><Link href="/delivery-info" className="hover:text-red-600 transition-colors">Delivery Info</Link></li>
+              <li><Link href="/help" className="hover:text-pink-600 transition-colors">Help Center</Link></li>
+              <li><Link href="/profile/orders" className="hover:text-pink-600 transition-colors">Track your order</Link></li>
+              <li><Link href="/return-policy" className="hover:text-pink-600 transition-colors">Return Policy</Link></li>
+              <li><Link href="/delivery-info" className="hover:text-pink-600 transition-colors">Delivery Info</Link></li>
             </ul>
           </div>
 
@@ -158,10 +158,10 @@ export default function Footer({
           <div className="col-span-1">
             <h4 className="text-gray-900 font-black text-[15px] md:text-[16px] mb-4 md:mb-6 font-display tracking-tight">Quick Links</h4>
             <ul className="space-y-3 md:space-y-4 text-[14px] md:text-[15px] font-medium text-gray-600">
-              <li><Link href="/about" className="hover:text-red-600 transition-colors">About Us</Link></li>
-              <li><Link href="/careers" className="hover:text-red-600 transition-colors">Careers</Link></li>
-              <li><Link href="/partner" className="hover:text-red-600 transition-colors">Partner</Link></li>
-              <li><Link href="/privacy-policy" className="hover:text-red-600 transition-colors">Privacy</Link></li>
+              <li><Link href="/about" className="hover:text-pink-600 transition-colors">About Us</Link></li>
+              <li><Link href="/careers" className="hover:text-pink-600 transition-colors">Careers</Link></li>
+              <li><Link href="/partner" className="hover:text-pink-600 transition-colors">Partner</Link></li>
+              <li><Link href="/privacy-policy" className="hover:text-pink-600 transition-colors">Privacy</Link></li>
             </ul>
           </div>
 
@@ -170,15 +170,15 @@ export default function Footer({
             <h4 className="text-gray-900 font-black text-[16px] mb-6 font-display tracking-tight">Contact Us</h4>
             <ul className="space-y-4 text-[14px] md:text-[15px] font-medium text-gray-600 flex flex-col items-center md:items-start">
               <li className="flex gap-3 text-left items-start md:items-center">
-                <MapPin size={20} className="text-red-600 shrink-0 mt-0.5 md:mt-0" />
+                <MapPin size={20} className="text-pink-600 shrink-0 mt-0.5 md:mt-0" />
                 <span>{contactAddress}</span>
               </li>
               <li className="flex gap-3 items-center">
-                <Phone size={20} className="text-red-600 shrink-0" />
+                <Phone size={20} className="text-pink-600 shrink-0" />
                 <span>{contactPhone}</span>
               </li>
               <li className="flex gap-3 items-center">
-                <Mail size={20} className="text-red-600 shrink-0" />
+                <Mail size={20} className="text-pink-600 shrink-0" />
                 <span>{contactEmail}</span>
               </li>
             </ul>
@@ -197,7 +197,7 @@ export default function Footer({
             </div>
             <div className="w-10 h-6 bg-white rounded flex items-center justify-center border border-gray-200 shadow-sm">
               <div className="flex -space-x-1">
-                <div className="w-3 h-3 rounded-full bg-red-500/80 mix-blend-multiply"></div>
+                <div className="w-3 h-3 rounded-full bg-pink-500/80 mix-blend-multiply"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500/80 mix-blend-multiply"></div>
               </div>
             </div>

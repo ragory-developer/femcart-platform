@@ -1,7 +1,12 @@
 "use client";
 
-import AlphaProductGrid from "../home/ProductGrid";
 import SectionWrapper from "../home/shared/SectionWrapper";
+import { ProductCard } from "../home-ui/shared/ProductCard";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, FreeMode, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 import { useMemo } from "react";
 
 interface ProductCrossSellProps {
@@ -100,12 +105,28 @@ export default function ProductCrossSell({
       bgWhite
       textAlign="center"
     >
-      <AlphaProductGrid 
-        products={items}
-        columnsDesktop={columnsDesktop ?? cols}
-        columnsTablet={columnsTablet}
-        columnsMobile={columnsMobile}
-      />
+      <div className="mt-8 max-w-[1440px] mx-auto px-4 md:px-6">
+        <Swiper
+          modules={[Autoplay, FreeMode, Pagination]}
+          spaceBetween={4}
+          slidesPerView={2.1}
+          freeMode={true}
+          pagination={{ clickable: true, dynamicBullets: true }}
+          autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          breakpoints={{
+            640: { slidesPerView: 3, spaceBetween: 12 },
+            1024: { slidesPerView: 4, spaceBetween: 16 },
+            1280: { slidesPerView: 5, spaceBetween: 16 },
+          }}
+          className="!pt-4 !px-1 !pb-12"
+        >
+          {items.map(p => (
+            <SwiperSlide key={p.id}>
+              <ProductCard product={p} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </SectionWrapper>
   );
 }

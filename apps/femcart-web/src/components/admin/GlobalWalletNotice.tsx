@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { AnimatePresence, motion } from "framer-motion";
@@ -44,7 +44,7 @@ export default function GlobalWalletNotice() {
           transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
           className="fixed bottom-6 right-6 z-50 w-full max-w-sm"
         >
-          <div className="bg-red-50 dark:bg-rose-950/80 backdrop-blur-xl border-l-4 border-rose-500 rounded-lg shadow-2xl p-5 border-y border-r border-rose-100 dark:border-rose-900/50">
+          <div className="bg-pink-50 dark:bg-rose-950/80 backdrop-blur-xl border-l-4 border-rose-500 rounded-lg shadow-2xl p-5 border-y border-r border-rose-100 dark:border-rose-900/50">
             <div className="flex items-start justify-between absolute right-3 top-3">
               <button 
                 onClick={() => setShow(false)}
@@ -63,7 +63,7 @@ export default function GlobalWalletNotice() {
                   Critical Low Balance
                 </h4>
                 <p className="text-sm font-medium text-rose-600 dark:text-rose-400/80 mb-3">
-                  Your wallet is currently at <span className="font-bold underline">৳{balance?.toLocaleString()}</span>. 
+                  Your wallet is currently at <span className="font-bold underline">?{balance?.toLocaleString()}</span>. 
                   If it drops to 0, SMS verification and global notifications will completely halt!
                 </p>
                 <button

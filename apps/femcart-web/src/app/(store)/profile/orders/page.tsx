@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import OrderDetailsModal from "@/components/dashboard/OrderDetailsModal";
 import UserSidebar from "@/components/dashboard/UserSidebar";
@@ -142,7 +142,7 @@ export default function OrdersPage() {
       case 'DELIVERED':
         return { color: 'text-green-600 bg-green-50 dark:bg-green-900/10 border-green-100 dark:border-green-800', icon: CheckCircle2 };
       case 'CANCELLED':
-        return { color: 'text-red-600 bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-800', icon: AlertCircle };
+        return { color: 'text-pink-600 bg-pink-50 dark:bg-pink-900/10 border-pink-100 dark:border-pink-800', icon: AlertCircle };
       default:
         return { color: 'text-gray-600 bg-gray-50 dark:bg-gray-800 border-gray-100 dark:border-gray-700', icon: Clock };
     }
@@ -202,7 +202,7 @@ export default function OrdersPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-800 p-6 rounded-3xl flex items-center gap-4 text-red-600 mb-8">
+              <div className="bg-pink-50 dark:bg-pink-900/10 border border-pink-100 dark:border-pink-800 p-6 rounded-3xl flex items-center gap-4 text-pink-600 mb-8">
                 <AlertCircle size={24} />
                 <p className="font-bold">{error}</p>
               </div>
@@ -266,7 +266,7 @@ export default function OrdersPage() {
                               {order.status}
                             </span>
                             <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">
-                              ৳{order.total}
+                              ?{order.total}
                             </span>
                           </div>
                         </div>

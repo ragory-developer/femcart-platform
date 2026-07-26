@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import SearchableDropdown from "@/components/ui/SearchableDropdown";
 import { API_URL } from "@/lib/config";
@@ -299,7 +299,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
                 </button>
                 <button
                   onClick={() => handleDelete(addr.id)}
-                  className="flex items-center gap-1 text-xs font-bold text-red-500 hover:text-red-600 transition-colors min-h-[44px] px-2"
+                  className="flex items-center gap-1 text-xs font-bold text-pink-500 hover:text-pink-600 transition-colors min-h-[44px] px-2"
                 >
                   <Trash2 size={12} /> Delete
                 </button>
@@ -315,7 +315,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             {/* Recipient Name */}
             <div>
-              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Recipient Name <span className="text-red-500">*</span></label>
+              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Recipient Name <span className="text-pink-500">*</span></label>
               <input
                 required
                 type="text"
@@ -328,7 +328,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
 
             {/* Recipient Mobile */}
             <div>
-              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Recipient Mobile <span className="text-red-500">*</span></label>
+              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Recipient Mobile <span className="text-pink-500">*</span></label>
               <input
                 required
                 type="tel"
@@ -343,7 +343,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             {/* Label */}
             <div>
-              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Address Label <span className="text-red-500">*</span></label>
+              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Address Label <span className="text-pink-500">*</span></label>
               <div className="relative">
                 <select value={formData.label} onChange={e => setFormData({ ...formData, label: e.target.value })} className={inputClass}>
                   <option value="Home">Home</option>
@@ -356,7 +356,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
 
             {/* State */}
             <div>
-              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">State <span className="text-red-500">*</span></label>
+              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">State <span className="text-pink-500">*</span></label>
               <SearchableDropdown
                 value={formData.stateId}
                 onChange={v => {
@@ -374,7 +374,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             {/* City */}
             <div>
-              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">City <span className="text-red-500">*</span></label>
+              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">City <span className="text-pink-500">*</span></label>
               {loadingCities ? (
                 <div className={`${inputClass} flex items-center gap-2 text-gray-400`}><Loader2 size={14} className="animate-spin" /> Loading...</div>
               ) : (
@@ -395,7 +395,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
 
             {/* ZIP / Area */}
             <div>
-              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">ZIP / Area <span className="text-red-500">*</span></label>
+              <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">ZIP / Area <span className="text-pink-500">*</span></label>
               {loadingAreas ? (
                 <div className={`${inputClass} flex items-center gap-2 text-gray-400`}><Loader2 size={14} className="animate-spin" /> Loading...</div>
               ) : (
@@ -415,7 +415,7 @@ export default function AddressForm({ onAddressSelect, user }: AddressFormProps)
           </div>
 
           <div>
-            <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Street Address <span className="text-red-500">*</span></label>
+            <label className="block text-sm lg:text-base font-bold text-gray-700 dark:text-gray-300 mb-1.5">Street Address <span className="text-pink-500">*</span></label>
             <textarea
               required
               rows={2}

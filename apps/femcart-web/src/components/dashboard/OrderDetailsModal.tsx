@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { AlertCircle, Calendar, Clock, CreditCard, MapPin, ShoppingBag, X } from "lucide-react";
@@ -92,7 +92,7 @@ export default function OrderDetailsModal({ orderId, onClose }: OrderDetailsModa
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center p-[clamp(1rem,3vw,1.5rem)] bg-black/60 backdrop-blur-sm">
         <div className="bg-white dark:bg-gray-900 rounded-[clamp(1.5rem,4vw,2.5rem)] w-full max-w-lg p-[clamp(1.5rem,4vw,2rem)] text-center">
-          <AlertCircle className="text-red-500 mx-auto mb-4" size={48} />
+          <AlertCircle className="text-pink-500 mx-auto mb-4" size={48} />
           <h3 className="text-xl font-black text-gray-900 dark:text-white uppercase mb-4">Error</h3>
           <p className="text-gray-600 dark:text-gray-400 mb-6 font-medium">{error || "Order not found"}</p>
           <button 
@@ -157,7 +157,7 @@ export default function OrderDetailsModal({ orderId, onClose }: OrderDetailsModa
                       </h4>
                       <div className="flex items-center justify-between mt-1">
                         <span className="text-xs font-medium text-gray-500 italic">Qty: {item.quantity}</span>
-                        <span className="text-sm font-black text-blue-600">৳{item.price * item.quantity}</span>
+                        <span className="text-sm font-black text-blue-600">?{item.price * item.quantity}</span>
                       </div>
                     </div>
                   </div>
@@ -208,21 +208,21 @@ export default function OrderDetailsModal({ orderId, onClose }: OrderDetailsModa
                   <div className="pt-6 border-t border-gray-50 dark:border-gray-800 space-y-3">
                     <div className="flex justify-between text-sm font-medium text-gray-600">
                       <span>Subtotal</span>
-                      <span className="font-bold">৳{order.subtotal}</span>
+                      <span className="font-bold">?{order.subtotal}</span>
                     </div>
                     <div className="flex justify-between text-sm font-medium text-gray-600">
                       <span>Delivery</span>
-                      <span className="font-bold">৳{order.deliveryFee}</span>
+                      <span className="font-bold">?{order.deliveryFee}</span>
                     </div>
                     {order.discount > 0 && (
                       <div className="flex justify-between text-sm font-bold text-green-600">
                         <span>Discount</span>
-                        <span>-৳{order.discount}</span>
+                        <span>-?{order.discount}</span>
                       </div>
                     )}
                     <div className="flex justify-between items-center pt-4 border-t border-gray-50 dark:border-gray-800">
                       <span className="text-[clamp(1rem,2.5vw,1.125rem)] font-black text-gray-900 dark:text-white uppercase italic tracking-tighter">Total</span>
-                      <span className="text-[clamp(1.5rem,5vw,2rem)] font-black text-blue-600 tracking-tighter italic">৳{order.total}</span>
+                      <span className="text-[clamp(1.5rem,5vw,2rem)] font-black text-blue-600 tracking-tighter italic">?{order.total}</span>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import AddressModal from "@/components/dashboard/AddressModal";
 import PhoneVerificationModal from "@/components/dashboard/PhoneVerificationModal";
@@ -361,7 +361,7 @@ export default function SettingsPage() {
                     
                     {message && (
                       <div className={`mb-8 p-4 rounded-2xl text-sm font-bold flex items-center gap-3 ${
-                        message.type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100'
+                        message.type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-pink-50 text-pink-600 border border-pink-100'
                       }`}>
                         {message.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
                         {message.text}
@@ -526,7 +526,7 @@ export default function SettingsPage() {
                                    </button>
                                    <button 
                                     onClick={() => handleDeleteAddress(addr.id)}
-                                    className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                                    className="p-2 text-gray-400 hover:text-pink-500 transition-colors"
                                    >
                                       <Trash2 size={16} />
                                    </button>
@@ -582,7 +582,7 @@ export default function SettingsPage() {
                     
                     {message && (
                       <div className={`mb-8 p-4 rounded-2xl text-sm font-bold flex items-center gap-3 ${
-                        message.type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100'
+                        message.type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-pink-50 text-pink-600 border border-pink-100'
                       }`}>
                         {message.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
                         {message.text}

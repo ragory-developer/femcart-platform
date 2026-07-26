@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { showToast } from "@/lib/toast";
@@ -178,7 +178,7 @@ export default function AdminCouponsPage() {
                  </div>
                  <div className="bg-emerald-50 dark:bg-emerald-900/20 p-5 rounded-2xl flex justify-between items-center border border-emerald-100 dark:border-emerald-800/30">
                     <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Total Discount Given</span>
-                    <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">৳{(reportData.totalDiscount || 0).toFixed(2)}</span>
+                    <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">?{(reportData.totalDiscount || 0).toFixed(2)}</span>
                  </div>
               </div>
 
@@ -258,13 +258,13 @@ export default function AdminCouponsPage() {
                       className="w-full px-5 py-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-emerald-500 transition-all font-bold text-gray-900 dark:text-white"
                     >
                       <option value="PERCENT">Percentage %</option>
-                      <option value="FIXED">Fixed Amount ৳</option>
+                      <option value="FIXED">Fixed Amount ?</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider pl-1">Min Order Amount (৳)</label>
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider pl-1">Min Order Amount (?)</label>
                   <input
                     type="number"
                     min="0"
@@ -293,7 +293,7 @@ export default function AdminCouponsPage() {
                       type="button"
                       onClick={() => setActive(!active)}
                       className={`w-full py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors ${
-                        active ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                        active ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400"
                       }`}
                     >
                       {active ? <><Check size={16}/> Active</> : <><X size={16}/> Inactive</>}
@@ -353,11 +353,11 @@ export default function AdminCouponsPage() {
              ) : (
                 filteredCoupons.map(coupon => (
                   <div key={coupon.id} className={`group flex items-center justify-between p-4 rounded-3xl border transition-all ${
-                    coupon.active ? 'border-gray-50 dark:border-gray-800 hover:border-emerald-100' : 'border-red-50 dark:border-red-900/20 bg-red-50/50 dark:bg-red-900/10'
+                    coupon.active ? 'border-gray-50 dark:border-gray-800 hover:border-emerald-100' : 'border-pink-50 dark:border-pink-900/20 bg-pink-50/50 dark:bg-pink-900/10'
                   }`}>
                     <div className="flex items-center gap-4">
                       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border ${
-                        coupon.active ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-100 dark:border-emerald-900/20 text-emerald-500' : 'bg-red-50 dark:bg-red-900/30 border-red-100 dark:border-red-900/20 text-red-500'
+                        coupon.active ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-100 dark:border-emerald-900/20 text-emerald-500' : 'bg-pink-50 dark:bg-pink-900/30 border-pink-100 dark:border-pink-900/20 text-pink-500'
                       }`}>
                         <Ticket size={24} />
                       </div>
@@ -365,16 +365,16 @@ export default function AdminCouponsPage() {
                         <p className="font-black text-lg text-gray-900 dark:text-white flex items-center gap-2">
                            {coupon.code}
                            {!coupon.active && (
-                              <span className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-widest">Inactive</span>
+                              <span className="bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-widest">Inactive</span>
                            )}
                         </p>
                         <div className="flex flex-wrap items-center gap-3 mt-1">
                            <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                             {coupon.type === 'PERCENT' ? `${coupon.discount}% OFF` : `৳${coupon.discount} OFF`}
+                             {coupon.type === 'PERCENT' ? `${coupon.discount}% OFF` : `?${coupon.discount} OFF`}
                            </span>
                            <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                            <span className="text-[11px] font-bold text-gray-500 uppercase">
-                             Min ৳{coupon.minOrder}
+                             Min ?{coupon.minOrder}
                            </span>
                            <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                            <span className="text-[11px] font-bold text-blue-500 uppercase">
@@ -383,7 +383,7 @@ export default function AdminCouponsPage() {
                            {coupon.expiresAt && (
                             <>
                               <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                              <span className={`text-[11px] font-bold uppercase ${new Date(coupon.expiresAt) < new Date() ? 'text-red-500' : 'text-gray-500'}`}>
+                              <span className={`text-[11px] font-bold uppercase ${new Date(coupon.expiresAt) < new Date() ? 'text-pink-500' : 'text-gray-500'}`}>
                                 Exp: {new Date(coupon.expiresAt).toLocaleDateString()}
                               </span>
                             </>
@@ -402,7 +402,7 @@ export default function AdminCouponsPage() {
                         <Pencil size={18} />
                       </button>
                       <button onClick={() => handleDelete(coupon.id)}
-                        className="p-3 rounded-2xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-500 transition-colors">
+                        className="p-3 rounded-2xl hover:bg-pink-50 dark:hover:bg-pink-900/20 text-gray-400 hover:text-pink-500 transition-colors">
                         <Trash2 size={18} />
                       </button>
                     </div>

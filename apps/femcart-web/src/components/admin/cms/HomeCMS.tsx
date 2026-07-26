@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { showToast } from "@/lib/toast";
@@ -231,7 +231,7 @@ const AVAILABLE_COMPONENTS: ComponentDef[] = [
       titleSchema,
       { key: "subtitle", label: "Subtitle", type: "text" },
       {
-        key: "leftBanners", label: "👈 Left Side Banners (Slider)", type: "array",
+        key: "leftBanners", label: "?? Left Side Banners (Slider)", type: "array",
         description: "Upload up to 10 banners that will slide on the LEFT side of the Hot Deals section.",
         itemLabels: ["Main Left Banner", "Left Banner 2", "Left Banner 3"],
         arraySchema: [
@@ -240,7 +240,7 @@ const AVAILABLE_COMPONENTS: ComponentDef[] = [
         ]
       },
       {
-        key: "rightBanners", label: "👉 Right Side Banners (Slider)", type: "array",
+        key: "rightBanners", label: "?? Right Side Banners (Slider)", type: "array",
         description: "Upload up to 10 banners that will slide on the RIGHT side of the Hot Deals section.",
         itemLabels: ["Main Right Banner", "Right Banner 2", "Right Banner 3"],
         arraySchema: [
@@ -323,7 +323,7 @@ const AVAILABLE_COMPONENTS: ComponentDef[] = [
       subtitle: "Handpicked promotions just for you",
       bgImageSrc: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1920&q=80",
       cards: [
-        { title: "Premium Halal Meat", subtitle: "100% Zabiha Halal", ctaText: "Shop Meat", ctaHref: "/categories/halal-meat-market", imageSrc: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80", bgColor: "bg-red-900", textColor: "text-white" },
+        { title: "Premium Halal Meat", subtitle: "100% Zabiha Halal", ctaText: "Shop Meat", ctaHref: "/categories/halal-meat-market", imageSrc: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80", bgColor: "bg-pink-900", textColor: "text-white" },
         { title: "Farm Fresh Produce", subtitle: "Daily Arrivals", ctaText: "Shop Fresh", ctaHref: "/categories/fresh-produce", imageSrc: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80", bgColor: "bg-emerald-900", textColor: "text-white" },
         { title: "Authentic Spices", subtitle: "Flavors of Home", ctaText: "Explore", ctaHref: "/categories/south-asian-grocery", imageSrc: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80", bgColor: "bg-amber-900", textColor: "text-white" }
       ]
@@ -556,7 +556,7 @@ function SortableComponentItem({ id, item, isActive, onSelect, onToggle, onDupli
       ref={setNodeRef} 
       style={style} 
       onClick={() => onSelect(item)}
-      className={`group relative w-full rounded-xl overflow-hidden border mb-6 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md bg-white dark:bg-gray-900 ${isActive ? "border-red-500 ring-2 ring-red-500/20" : "border-gray-200 dark:border-gray-700 hover:border-gray-300"}`}
+      className={`group relative w-full rounded-xl overflow-hidden border mb-6 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md bg-white dark:bg-gray-900 ${isActive ? "border-pink-500 ring-2 ring-pink-500/20" : "border-gray-200 dark:border-gray-700 hover:border-gray-300"}`}
     >
       {/* Item Toolbar / Header */}
       <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -571,7 +571,7 @@ function SortableComponentItem({ id, item, isActive, onSelect, onToggle, onDupli
           </div>
           <p className="font-semibold text-gray-700 dark:text-gray-200 text-sm tracking-wide">
             {AVAILABLE_COMPONENTS.find(c => c.type === item.type)?.label || item.type}
-            {!item.enabled && <span className="ml-2 text-[10px] bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800 px-1.5 py-0.5 rounded uppercase tracking-wider">Hidden</span>}
+            {!item.enabled && <span className="ml-2 text-[10px] bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 border border-pink-100 dark:border-pink-800 px-1.5 py-0.5 rounded uppercase tracking-wider">Hidden</span>}
           </p>
         </div>
         
@@ -592,7 +592,7 @@ function SortableComponentItem({ id, item, isActive, onSelect, onToggle, onDupli
           </button>
           <button 
             onClick={(e) => { e.stopPropagation(); onDelete(item.id); }} 
-            className="p-1.5 rounded-md transition-colors bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 shadow-sm border border-gray-200 dark:border-gray-600"
+            className="p-1.5 rounded-md transition-colors bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900/30 hover:text-pink-600 dark:hover:text-pink-400 shadow-sm border border-gray-200 dark:border-gray-600"
             title="Delete Component"
           >
             <Trash2 size={16} />
@@ -656,7 +656,7 @@ function SortableArrayItem({ id, index, item, field, imgField, otherFields, onCh
     <div 
       ref={setNodeRef} 
       style={style} 
-      className={`group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 ${isDragging ? 'ring-2 ring-red-500 shadow-2xl scale-[1.02] border-transparent' : 'hover:shadow-md'} ${isExpanded ? 'p-5' : 'p-3 hover:bg-gray-50 dark:hover:bg-gray-800/80 cursor-pointer'}`}
+      className={`group relative bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 ${isDragging ? 'ring-2 ring-pink-500 shadow-2xl scale-[1.02] border-transparent' : 'hover:shadow-md'} ${isExpanded ? 'p-5' : 'p-3 hover:bg-gray-50 dark:hover:bg-gray-800/80 cursor-pointer'}`}
       onClick={!isExpanded ? onToggleExpand : undefined}
     >
        <div className={`flex items-center justify-between ${isExpanded ? 'mb-4 pb-3 border-b border-gray-100 dark:border-gray-750' : ''}`}>
@@ -665,12 +665,12 @@ function SortableArrayItem({ id, index, item, field, imgField, otherFields, onCh
                {...attributes} 
                {...listeners} 
                onClick={(e) => e.stopPropagation()} 
-               className="cursor-grab active:cursor-grabbing p-1.5 -ml-1 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors shrink-0"
+               className="cursor-grab active:cursor-grabbing p-1.5 -ml-1 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors shrink-0"
              >
                <GripVertical size={18} />
              </div>
              
-             <span className="flex items-center justify-center w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold shrink-0">{index + 1}</span>
+             <span className="flex items-center justify-center w-6 h-6 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 text-xs font-bold shrink-0">{index + 1}</span>
              
              {field.itemLabels?.[index] && (
                <span className="px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-700 text-[10px] font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider shrink-0 hidden sm:block border border-gray-200 dark:border-gray-600">
@@ -699,10 +699,10 @@ function SortableArrayItem({ id, index, item, field, imgField, otherFields, onCh
           </div>
           
           <div className="flex items-center gap-2 shrink-0 ml-4">
-             <button type="button" onClick={(e) => { e.stopPropagation(); onToggleExpand(); }} className="flex items-center gap-1.5 text-gray-500 hover:text-red-600 px-3 py-1.5 rounded-lg transition-colors bg-gray-50 hover:bg-red-50 dark:bg-gray-900 dark:hover:bg-red-900/20 text-xs font-bold shadow-sm">
+             <button type="button" onClick={(e) => { e.stopPropagation(); onToggleExpand(); }} className="flex items-center gap-1.5 text-gray-500 hover:text-pink-600 px-3 py-1.5 rounded-lg transition-colors bg-gray-50 hover:bg-pink-50 dark:bg-gray-900 dark:hover:bg-pink-900/20 text-xs font-bold shadow-sm">
                 {isExpanded ? <><EyeOff size={14} /> Close</> : <><Settings2 size={14} /> Edit</>}
              </button>
-             <button type="button" onClick={(e) => { e.stopPropagation(); onRemove(); }} className="text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-1.5 rounded-lg transition-colors bg-gray-50 dark:bg-gray-900 shadow-sm">
+             <button type="button" onClick={(e) => { e.stopPropagation(); onRemove(); }} className="text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 p-1.5 rounded-lg transition-colors bg-gray-50 dark:bg-gray-900 shadow-sm">
                 <Trash2 size={14} />
              </button>
           </div>
@@ -852,7 +852,7 @@ function ArrayEditorComponent({ field, value, onChange, onOpenMediaPicker, categ
                     onChange(updatedItems);
                 }
              }}
-             className="w-full py-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-900/10 hover:border-red-300 transition-all flex items-center justify-center gap-2 shadow-sm bg-gray-50/50 dark:bg-gray-800/30"
+             className="w-full py-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400 hover:bg-pink-50/50 dark:hover:bg-pink-900/10 hover:border-pink-300 transition-all flex items-center justify-center gap-2 shadow-sm bg-gray-50/50 dark:bg-gray-800/30"
           >
              <Plus size={18} /> Add New {field.label.replace(/s$/i, '')}
           </button>
@@ -919,8 +919,8 @@ function FieldEditor({ field, value, onChange, onOpenMediaPicker, categories = [
 
   const baseInputClass = `w-full px-4 py-3 border rounded-xl text-sm transition-all outline-none font-medium placeholder:font-normal placeholder:text-gray-400 shadow-sm ${
     hasError 
-      ? 'border-red-500 bg-red-50 dark:bg-red-900/10 focus:ring-2 focus:ring-red-500/20 text-red-900 dark:text-red-100 placeholder:text-red-300' 
-      : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-red-500/20 focus:border-red-500'
+      ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/10 focus:ring-2 focus:ring-pink-500/20 text-pink-900 dark:text-pink-100 placeholder:text-pink-300' 
+      : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 focus:bg-white dark:focus:bg-gray-900 focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500'
   }`;
 
   if (field.type === "text") {
@@ -944,8 +944,8 @@ function FieldEditor({ field, value, onChange, onOpenMediaPicker, categories = [
   if (field.type === "image") {
     const imageContainerClass = `w-full max-h-48 min-h-[144px] aspect-auto p-2 border-2 border-dashed rounded-2xl flex items-center justify-center cursor-pointer transition-all group overflow-hidden relative ${
       hasError 
-        ? 'border-red-500 bg-red-50 dark:bg-red-900/10 hover:border-red-600' 
-        : 'border-gray-300 dark:border-gray-700 hover:border-red-500 hover:bg-red-50/50 dark:hover:bg-red-900/10 bg-gray-50 dark:bg-gray-900'
+        ? 'border-pink-500 bg-pink-50 dark:bg-pink-900/10 hover:border-pink-600' 
+        : 'border-gray-300 dark:border-gray-700 hover:border-pink-500 hover:bg-pink-50/50 dark:hover:bg-pink-900/10 bg-gray-50 dark:bg-gray-900'
     }`;
 
     return (
@@ -971,14 +971,14 @@ function FieldEditor({ field, value, onChange, onOpenMediaPicker, categories = [
               <button 
                 type="button"
                 onClick={(e) => { e.stopPropagation(); onChange(""); }}
-                className="absolute top-2 right-2 p-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                className="absolute top-2 right-2 p-1.5 bg-pink-600 hover:bg-pink-700 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                 title="Remove image"
               >
                 <Trash2 size={16} />
               </button>
             </>
           ) : (
-            <div className="flex flex-col items-center text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
+            <div className="flex flex-col items-center text-gray-400 dark:text-gray-500 group-hover:text-pink-500 dark:group-hover:text-pink-400 transition-colors">
               <ImagePlus size={32} strokeWidth={1.5} className="mb-2" />
               <span className="text-sm font-semibold">Upload or Select Image</span>
             </div>
@@ -1009,10 +1009,10 @@ function FieldEditor({ field, value, onChange, onOpenMediaPicker, categories = [
   }
   if (field.type === "boolean") {
     return (
-      <label className="flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900 cursor-pointer hover:border-red-300 transition-colors">
+      <label className="flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900 cursor-pointer hover:border-pink-300 transition-colors">
         <input 
           type="checkbox" checked={!!value} onChange={(e) => onChange(e.target.checked)}
-          className="rounded border-gray-300 text-red-600 focus:ring-red-500 w-5 h-5 cursor-pointer"
+          className="rounded border-gray-300 text-pink-600 focus:ring-pink-500 w-5 h-5 cursor-pointer"
         />
         <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Enabled</span>
       </label>
@@ -1261,7 +1261,7 @@ export default function HomeCMS() {
   const selectedDef = selectedItem ? AVAILABLE_COMPONENTS.find(c => c.type === selectedItem.type) : null;
 
   if (loading) {
-    return <div className="p-12 flex justify-center"><Loader2 className="animate-spin text-red-500 w-8 h-8" /></div>;
+    return <div className="p-12 flex justify-center"><Loader2 className="animate-spin text-pink-500 w-8 h-8" /></div>;
   }
 
   return (
@@ -1276,7 +1276,7 @@ export default function HomeCMS() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 bg-red-600 text-white px-6 py-2.5 rounded-xl hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/20 transition-all font-bold disabled:opacity-50 active:scale-95"
+          className="flex items-center gap-2 bg-pink-600 text-white px-6 py-2.5 rounded-xl hover:bg-pink-700 hover:shadow-lg hover:shadow-pink-600/20 transition-all font-bold disabled:opacity-50 active:scale-95"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save Layout
@@ -1310,7 +1310,7 @@ export default function HomeCMS() {
                    {!showAddComponent ? (
                      <button 
                        onClick={() => setShowAddComponent(true)}
-                       className="flex items-center gap-2 bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 font-bold px-8 py-3 rounded-xl hover:text-red-600 hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all shadow-sm"
+                       className="flex items-center gap-2 bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 font-bold px-8 py-3 rounded-xl hover:text-pink-600 hover:border-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-all shadow-sm"
                      >
                        <PlusCircle size={20} /> Add New Component
                      </button>
@@ -1318,7 +1318,7 @@ export default function HomeCMS() {
                      <div className="absolute top-8 w-[400px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 p-2 overflow-hidden">
                        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700 mb-2">
                          <h4 className="font-bold text-sm text-gray-900 dark:text-white">Choose Component</h4>
-                         <button onClick={() => setShowAddComponent(false)} className="text-gray-400 hover:text-red-500">
+                         <button onClick={() => setShowAddComponent(false)} className="text-gray-400 hover:text-pink-500">
                            <X size={16} />
                          </button>
                        </div>
@@ -1330,7 +1330,7 @@ export default function HomeCMS() {
                              className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors flex items-center justify-between group"
                            >
                              <span className="font-semibold text-gray-700 dark:text-gray-200 text-sm">{def.label}</span>
-                             <Plus size={16} className="text-gray-300 group-hover:text-red-500 transition-colors" />
+                             <Plus size={16} className="text-gray-300 group-hover:text-pink-500 transition-colors" />
                            </button>
                          ))}
                        </div>
@@ -1366,9 +1366,9 @@ export default function HomeCMS() {
             </div>
           ) : (
             <div className="space-y-6 flex-1 overflow-y-auto pb-8 pr-2">
-              <div className="p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-900/20">
-                <p className="text-sm font-semibold text-red-800 dark:text-red-400">{selectedDef.label}</p>
-                <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-1 font-mono">{selectedItem.id}</p>
+              <div className="p-3 bg-pink-50 dark:bg-pink-900/10 rounded-lg border border-pink-100 dark:border-pink-900/20">
+                <p className="text-sm font-semibold text-pink-800 dark:text-pink-400">{selectedDef.label}</p>
+                <p className="text-xs text-pink-600/80 dark:text-pink-400/80 mt-1 font-mono">{selectedItem.id}</p>
               </div>
 
               {selectedDef.schema.length === 0 && (

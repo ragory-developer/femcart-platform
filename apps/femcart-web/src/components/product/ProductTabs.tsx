@@ -43,7 +43,7 @@ export default function ProductTabs({ product }: { product: any }) {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-[clamp(1rem,3vw,1.5rem)] py-3 sm:py-[clamp(0.75rem,2vw,1rem)] min-h-[44px] sm:min-h-[48px] font-bold text-xs sm:text-[clamp(0.875rem,2vw,1rem)] whitespace-nowrap transition-all relative ${
                 isActive 
-                  ? "text-red-600 dark:text-red-500" 
+                  ? "text-pink-600 dark:text-pink-500" 
                   : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
               }`}
             >
@@ -52,7 +52,7 @@ export default function ProductTabs({ product }: { product: any }) {
               {isActive && (
                 <motion.div 
                   layoutId="activeTabIndicator"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 dark:bg-red-500"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-pink-600 dark:bg-pink-500"
                 />
               )}
             </button>
@@ -67,7 +67,7 @@ export default function ProductTabs({ product }: { product: any }) {
           <div className="text-gray-600 dark:text-gray-300">
             {product.description ? (
               <article 
-                className="prose prose-sm sm:prose-base prose-red dark:prose-invert max-w-none prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed sm:prose-p:leading-loose prose-p:mb-4 sm:prose-p:mb-6 prose-headings:font-black prose-headings:tracking-tight prose-headings:text-gray-900 dark:prose-headings:text-white prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mt-8 sm:prose-h2:mt-12 prose-h2:mb-4 sm:prose-h2:mb-6 prose-h2:border-b prose-h2:border-gray-100 dark:prose-h2:border-gray-800 prose-h2:pb-3 sm:prose-h2:pb-4 prose-h3:text-xl sm:prose-h3:text-2xl prose-h3:mt-6 sm:prose-h3:mt-8 prose-h3:mb-3 sm:prose-h3:mb-4 prose-h3:text-red-700 dark:prose-h3:text-red-400 prose-li:marker:text-red-500 prose-img:rounded-lg prose-img:shadow-sm"
+                className="prose prose-sm sm:prose-base prose-pink dark:prose-invert max-w-none prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed sm:prose-p:leading-loose prose-p:mb-4 sm:prose-p:mb-6 prose-headings:font-black prose-headings:tracking-tight prose-headings:text-gray-900 dark:prose-headings:text-white prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mt-8 sm:prose-h2:mt-12 prose-h2:mb-4 sm:prose-h2:mb-6 prose-h2:border-b prose-h2:border-gray-100 dark:prose-h2:border-gray-800 prose-h2:pb-3 sm:prose-h2:pb-4 prose-h3:text-xl sm:prose-h3:text-2xl prose-h3:mt-6 sm:prose-h3:mt-8 prose-h3:mb-3 sm:prose-h3:mb-4 prose-h3:text-pink-700 dark:prose-h3:text-pink-400 prose-li:marker:text-pink-500 prose-img:rounded-lg prose-img:shadow-sm"
                 dangerouslySetInnerHTML={{ __html: product.description }}
               />
             ) : (
@@ -132,20 +132,20 @@ export default function ProductTabs({ product }: { product: any }) {
                   return (
                     <div 
                       key={i} 
-                      className={`overflow-hidden transition-all duration-200 border ${isOpen ? 'border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-900/10 shadow-sm' : 'border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 hover:bg-gray-50 dark:hover:bg-gray-800/50'} rounded-xl group cursor-pointer`}
+                      className={`overflow-hidden transition-all duration-200 border ${isOpen ? 'border-pink-200 dark:border-pink-900/50 bg-pink-50/50 dark:bg-pink-900/10 shadow-sm' : 'border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 hover:bg-gray-50 dark:hover:bg-gray-800/50'} rounded-xl group cursor-pointer`}
                       itemProp="mainEntity" itemScope itemType="https://schema.org/Question"
                       onClick={() => setOpenFaqIndex(isOpen ? null : i)}
                     >
                       <div className="flex items-center justify-between p-[clamp(1rem,3vw,1.5rem)] select-none">
                         <div className="flex gap-4 items-center">
-                          <div className={`p-2.5 rounded-xl transition-colors ${isOpen ? 'bg-red-600 text-white shadow-md shadow-red-600/20' : 'bg-white dark:bg-gray-900 text-gray-400 group-hover:text-red-500'}`}>
+                          <div className={`p-2.5 rounded-xl transition-colors ${isOpen ? 'bg-pink-600 text-white shadow-md shadow-pink-600/20' : 'bg-white dark:bg-gray-900 text-gray-400 group-hover:text-pink-500'}`}>
                             <MessageCircleQuestion size={20} />
                           </div>
-                          <h4 className={`font-bold text-[clamp(0.9rem,2vw,1.1rem)] tracking-tight transition-colors ${isOpen ? 'text-red-700 dark:text-red-400' : 'text-gray-900 dark:text-white'}`} itemProp="name">
+                          <h4 className={`font-bold text-[clamp(0.9rem,2vw,1.1rem)] tracking-tight transition-colors ${isOpen ? 'text-pink-700 dark:text-pink-400' : 'text-gray-900 dark:text-white'}`} itemProp="name">
                             {faq.question}
                           </h4>
                         </div>
-                        <div className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${isOpen ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rotate-180' : 'bg-white dark:bg-gray-900 text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-gray-800'}`}>
+                        <div className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${isOpen ? 'bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rotate-180' : 'bg-white dark:bg-gray-900 text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-gray-800'}`}>
                           <ChevronDown size={18} />
                         </div>
                       </div>
@@ -176,9 +176,9 @@ export default function ProductTabs({ product }: { product: any }) {
         {/* Reviews Tab */}
         <div className={activeTab === "reviews" ? "block animate-in fade-in slide-in-from-bottom-2 duration-500" : "hidden"}>
           {/* Reviews content stays mostly the same but rendered always */}
-          <div className="flex items-center gap-[clamp(1rem,3vw,1.5rem)] mb-[clamp(1.5rem,4vw,2rem)] p-[clamp(1rem,3vw,1.5rem)] bg-red-50 dark:bg-red-900/20 rounded-lg">
+          <div className="flex items-center gap-[clamp(1rem,3vw,1.5rem)] mb-[clamp(1.5rem,4vw,2rem)] p-[clamp(1rem,3vw,1.5rem)] bg-pink-50 dark:bg-pink-900/20 rounded-lg">
             <div className="text-center">
-              <div className="text-[clamp(2.5rem,6vw,3rem)] font-black text-red-600">{product.averageRating > 0 ? product.averageRating.toFixed(1) : "0.0"}</div>
+              <div className="text-[clamp(2.5rem,6vw,3rem)] font-black text-pink-600">{product.averageRating > 0 ? product.averageRating.toFixed(1) : "0.0"}</div>
               <div className="flex items-center justify-center text-amber-500 my-1">
                 {[...Array(5)].map((_, i) => <Star key={i} size={16} className={i < Math.round(product.averageRating || 0) ? "fill-current" : "text-gray-300 dark:text-gray-600"} />)}
               </div>

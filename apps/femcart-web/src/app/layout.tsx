@@ -101,7 +101,7 @@ export default async function RootLayout({
       <head>
         {headerCode ? parse(headerCode, getParseOptions(true)) : null}
       </head>
-      <body className={`${manrope.variable} ${outfit.variable} antialiased selection:bg-red-500/30 min-h-[100dvh] flex flex-col font-sans overflow-x-clip pt-[env(safe-area-inset-top)]`}>
+      <body className={`${manrope.variable} ${outfit.variable} antialiased selection:bg-pink-500/30 min-h-[100dvh] flex flex-col font-sans overflow-x-clip pt-[env(safe-area-inset-top)]`}>
         <NextTopLoader color="#ff0798ff" showSpinner={false} />
         <ReactQueryProvider>
           <AuthProvider>

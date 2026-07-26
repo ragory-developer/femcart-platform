@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import SearchableDropdown from "@/components/ui/SearchableDropdown";
 import { API_URL } from "@/lib/config";
@@ -319,7 +319,7 @@ export default function AdminLocationsPage() {
             />
           </div>
 
-          {/* Cities tab â€” filter by Division */}
+          {/* Cities tab — filter by Division */}
           {activeTab === "cities" && (
             <SearchableDropdown
               value={cityFilterStateId}
@@ -332,7 +332,7 @@ export default function AdminLocationsPage() {
             />
           )}
 
-          {/* Areas tab â€” filter by Division + City */}
+          {/* Areas tab — filter by Division + City */}
           {activeTab === "areas" && (
             <>
               <SearchableDropdown
@@ -388,7 +388,7 @@ export default function AdminLocationsPage() {
               ? <>Showing areas in city: <strong>{cities.find(c => c.id === areaFilterCityId)?.name}</strong></>
               : <>Showing areas in division: <strong>{states.find(s => s.id === areaFilterStateId)?.name}</strong></>
             }
-            &nbsp;â€” {filteredAreas.length} results
+            &nbsp;— {filteredAreas.length} results
             <button onClick={() => { setAreaFilterStateId(""); setAreaFilterCityId(""); }} className="ml-auto text-purple-500 hover:text-purple-700">
               <X size={14} />
             </button>
@@ -439,7 +439,7 @@ export default function AdminLocationsPage() {
                           <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
                             state.status === "active"
                               ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300"
-                              : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                              : "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300"
                           }`}>
                             {state.status}
                           </span>
@@ -449,7 +449,7 @@ export default function AdminLocationsPage() {
                             <button onClick={() => openModal("state", "edit", state)} className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors">
                               <Pencil size={14} />
                             </button>
-                            <button onClick={() => handleDelete("state", state.id)} className="p-1.5 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 transition-colors">
+                            <button onClick={() => handleDelete("state", state.id)} className="p-1.5 rounded-lg bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 hover:bg-pink-100 transition-colors">
                               <Trash2 size={14} />
                             </button>
                           </div>
@@ -491,7 +491,7 @@ export default function AdminLocationsPage() {
                             onClick={() => setCityFilterStateId(city.stateId)}
                             className="text-xs px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 transition-colors"
                           >
-                            {city.state?.name || "â€”"}
+                            {city.state?.name || "—"}
                           </button>
                         </td>
                         <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-center text-gray-500 dark:text-gray-400">
@@ -503,13 +503,13 @@ export default function AdminLocationsPage() {
                           </button>
                         </td>
                         <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-center font-medium text-gray-900 dark:text-white">
-                          à§³{city.deliveryCharge ?? 0}
+                          ?{city.deliveryCharge ?? 0}
                         </td>
                         <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-center">
                           <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
                             city.status === "active"
                               ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300"
-                              : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                              : "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300"
                           }`}>
                             {city.status}
                           </span>
@@ -519,7 +519,7 @@ export default function AdminLocationsPage() {
                             <button onClick={() => openModal("city", "edit", city)} className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors">
                               <Pencil size={14} />
                             </button>
-                            <button onClick={() => handleDelete("city", city.id)} className="p-1.5 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 transition-colors">
+                            <button onClick={() => handleDelete("city", city.id)} className="p-1.5 rounded-lg bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 hover:bg-pink-100 transition-colors">
                               <Trash2 size={14} />
                             </button>
                           </div>
@@ -558,20 +558,20 @@ export default function AdminLocationsPage() {
                                 {area.name}
                               </div>
                             </td>
-                            <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-gray-500 dark:text-gray-400">{area.city?.name || "â€”"}</td>
+                            <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-gray-500 dark:text-gray-400">{area.city?.name || "—"}</td>
                             <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-gray-500 dark:text-gray-400">
                               <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300">
-                                {area.city?.state?.name || "â€”"}
+                                {area.city?.state?.name || "—"}
                               </span>
                             </td>
                             <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-center font-medium text-gray-900 dark:text-white">
-                              à§³{area.deliveryCharge ?? 0}
+                              ?{area.deliveryCharge ?? 0}
                             </td>
                             <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-center">
                               <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
                                 area.status === "active"
                                   ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300"
-                                  : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                                  : "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300"
                               }`}>
                                 {area.status}
                               </span>
@@ -581,7 +581,7 @@ export default function AdminLocationsPage() {
                                 <button onClick={() => openModal("area", "edit", area)} className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors">
                                   <Pencil size={14} />
                                 </button>
-                                <button onClick={() => handleDelete("area", area.id)} className="p-1.5 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 transition-colors">
+                                <button onClick={() => handleDelete("area", area.id)} className="p-1.5 rounded-lg bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 hover:bg-pink-100 transition-colors">
                                   <Trash2 size={14} />
                                 </button>
                               </div>
@@ -615,7 +615,7 @@ export default function AdminLocationsPage() {
 
             <div className="px-6 py-5 space-y-4">
               {error && (
-                <div className="flex items-center gap-2 px-3 py-2.5 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-xl text-sm">
+                <div className="flex items-center gap-2 px-3 py-2.5 bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 rounded-xl text-sm">
                   <AlertCircle size={15} className="shrink-0" />
                   {error}
                 </div>
@@ -624,7 +624,7 @@ export default function AdminLocationsPage() {
               {modal.type === "city" && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                    Division <span className="text-red-500">*</span>
+                    Division <span className="text-pink-500">*</span>
                   </label>
                   <SearchableDropdown
                     value={formData.stateId || ""}
@@ -650,7 +650,7 @@ export default function AdminLocationsPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                      City <span className="text-red-500">*</span>
+                      City <span className="text-pink-500">*</span>
                     </label>
                     <SearchableDropdown
                       value={formData.cityId || ""}
@@ -667,7 +667,7 @@ export default function AdminLocationsPage() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                   {modal.type === "state" ? "Division" : modal.type === "city" ? "City" : "Area"} Name{" "}
-                  <span className="text-red-500">*</span>
+                  <span className="text-pink-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -683,7 +683,7 @@ export default function AdminLocationsPage() {
               {(modal.type === "city" || modal.type === "area") && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                    Delivery Charge (à§³)
+                    Delivery Charge (?)
                   </label>
                   <input
                     type="number"
@@ -706,7 +706,7 @@ export default function AdminLocationsPage() {
                         formData.status === s
                           ? s === "active"
                             ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300"
-                            : "border-red-400 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                            : "border-pink-400 bg-pink-50 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300"
                           : "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300"
                       }`}
                     >

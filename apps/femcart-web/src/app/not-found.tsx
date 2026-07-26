@@ -13,7 +13,7 @@ export default function NotFound() {
       
       {/* Background Decor */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-50 pointer-events-none -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-100 dark:bg-red-900/20 rounded-full blur-3xl opacity-50 pointer-events-none translate-x-1/2 translate-y-1/2" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-100 dark:bg-pink-900/20 rounded-full blur-3xl opacity-50 pointer-events-none translate-x-1/2 translate-y-1/2" />
       
       <div className="relative z-10 w-full max-w-3xl flex flex-col items-center text-center">
         
@@ -24,7 +24,7 @@ export default function NotFound() {
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
           className="relative mb-8"
         >
-          <div className="text-[120px] md:text-[180px] font-black tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-red-500 drop-shadow-sm select-none">
+          <div className="text-[120px] md:text-[180px] font-black tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-pink-500 drop-shadow-sm select-none">
             404
           </div>
           

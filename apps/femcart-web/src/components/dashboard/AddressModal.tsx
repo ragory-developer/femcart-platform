@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { Logger } from "@/lib/logger";
@@ -118,7 +118,7 @@ export default function AddressModal({ address, onClose, onSuccess }: AddressMod
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-lg text-red-600 text-sm font-bold text-center">
+            <div className="mb-6 p-4 bg-pink-50 dark:bg-pink-900/10 border border-pink-100 dark:border-pink-900/30 rounded-lg text-pink-600 text-sm font-bold text-center">
               {error}
             </div>
           )}

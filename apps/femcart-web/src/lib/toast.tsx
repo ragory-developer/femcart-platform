@@ -12,8 +12,8 @@ export const showToast = {
   error: (message: string, description?: string) => {
     toast.error(message, {
       description,
-      icon: <AlertCircle className="text-red-500 w-5 h-5" />,
-      className: "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border border-red-100 dark:border-red-900 shadow-xl shadow-red-900/5",
+      icon: <AlertCircle className="text-pink-500 w-5 h-5" />,
+      className: "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border border-pink-100 dark:border-pink-900 shadow-xl shadow-pink-900/5",
     });
   },
   info: (message: string, description?: string) => {

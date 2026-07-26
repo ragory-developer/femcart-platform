@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { API_URL } from '@/lib/config';
 
 import { showToast } from "@/lib/toast";
@@ -39,7 +39,7 @@ const STATUS_CONFIG = {
   running: { label: 'Running', color: 'text-blue-400', bg: 'bg-blue-900/50', icon: Loader2 },
   paused:  { label: 'Paused',  color: 'text-yellow-400', bg: 'bg-yellow-900/40', icon: AlertTriangle },
   done:    { label: 'Done',    color: 'text-green-400', bg: 'bg-green-900/30', icon: CheckCircle2 },
-  failed:  { label: 'Failed',  color: 'text-red-400', bg: 'bg-red-900/30', icon: XCircle },
+  failed:  { label: 'Failed',  color: 'text-pink-400', bg: 'bg-pink-900/30', icon: XCircle },
 };
 
 function getToken() {
@@ -179,7 +179,7 @@ export default function ImportProcessTab() {
           <button
             onClick={clearTasks}
             disabled={tasks.length === 0}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-700 hover:bg-red-600 text-white text-sm transition-colors disabled:opacity-40"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-pink-700 hover:bg-pink-600 text-white text-sm transition-colors disabled:opacity-40"
           >
             <Trash2 size={14} /> Clear All
           </button>
@@ -252,7 +252,7 @@ export default function ImportProcessTab() {
                       </div>
                       <span className="text-[10px] text-gray-400 font-bold whitespace-nowrap">
                         {task.imported}/{task.totalItems}
-                        {task.failed > 0 && <span className="text-red-400 ml-1">({task.failed} failed)</span>}
+                        {task.failed > 0 && <span className="text-pink-400 ml-1">({task.failed} failed)</span>}
                       </span>
                     </div>
                   </div>
@@ -299,12 +299,12 @@ export default function ImportProcessTab() {
                     ) : (
                       task.details.map((line, i) => {
                         const color =
-                          line.includes('✅') || line.includes('✔️') ? 'text-green-400' :
-                          line.includes('❌') || line.includes('💥') ? 'text-red-400' :
-                          line.includes('⚠️') || line.includes('⏸️') ? 'text-yellow-400' :
-                          line.includes('🚀') ? 'text-blue-400' :
-                          line.includes('🖼️') ? 'text-purple-400' :
-                          line.includes('⚙️') ? 'text-cyan-400' :
+                          line.includes('?') || line.includes('??') ? 'text-green-400' :
+                          line.includes('?') || line.includes('??') ? 'text-pink-400' :
+                          line.includes('??') || line.includes('??') ? 'text-yellow-400' :
+                          line.includes('??') ? 'text-blue-400' :
+                          line.includes('???') ? 'text-purple-400' :
+                          line.includes('??') ? 'text-cyan-400' :
                           'text-gray-400';
                         return (
                           <p key={i} className={color}>{line}</p>

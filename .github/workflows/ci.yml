@@ -1,4 +1,4 @@
-﻿name: Femmart Platform CI
+name: Femmart Platform CI
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./femmart-api
+        working-directory: ./apps/femcart-api
 
     steps:
     - uses: actions/checkout@v4
@@ -21,9 +21,9 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: '24.x'
         cache: 'npm'
-        cache-dependency-path: './femmart-api/package-lock.json'
+        cache-dependency-path: './apps/femcart-api/package-lock.json'
         
     - name: Install dependencies
       run: npm ci
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./femmart-web
+        working-directory: ./apps/femcart-web
 
     steps:
     - uses: actions/checkout@v4
@@ -58,9 +58,9 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: '24.x'
         cache: 'npm'
-        cache-dependency-path: './femmart-web/package-lock.json'
+        cache-dependency-path: './apps/femcart-web/package-lock.json'
         
     - name: Install dependencies
       run: npm ci

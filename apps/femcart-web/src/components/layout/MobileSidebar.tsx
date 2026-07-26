@@ -1,11 +1,11 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronRight, Phone, Info, ShoppingBag } from "lucide-react";
 import { useNavigationStore } from "@/store/navigationStore";
-import { getCategoryIcon } from "@/lib/utils";
+import { getCategoryIcon, getFilterUrl } from "@/lib/utils";
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -15,7 +15,7 @@ interface MobileSidebarProps {
 
 export default function MobileSidebar({ isOpen, onClose, storeName = "Femcart" }: MobileSidebarProps) {
   const categories = useNavigationStore(state => state.categories);
-  const bottomNavbarItems = useNavigationStore(state => state.bottomNavbarItems);
+  
 
   const [expandedCategory, setExpandedCategory] = React.useState<string | null>(null);
 
@@ -60,7 +60,7 @@ export default function MobileSidebar({ isOpen, onClose, storeName = "Femcart" }
               <span className="text-xl font-black text-gray-900 tracking-tight font-display">{storeName}</span>
               <button
                 onClick={onClose}
-                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-pink-600 hover:bg-pink-50 rounded-full transition-colors"
               >
                 <X size={20} strokeWidth={2.5} />
               </button>
@@ -85,31 +85,31 @@ export default function MobileSidebar({ isOpen, onClose, storeName = "Femcart" }
                         {hasDropdown ? (
                           <button
                             onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
-                            className="flex items-center justify-between p-3 text-sm font-bold text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors group"
+                            className="flex items-center justify-between p-3 text-sm font-bold text-gray-700 hover:text-pink-600 hover:bg-pink-50 rounded-xl transition-colors group"
                           >
                             <div className="flex items-center gap-3">
                               {category.image ? (
                                 <img src={category.image} alt={category.title} className="w-5 h-5 object-cover rounded shadow-sm" />
                               ) : IconComponent ? (
-                                <IconComponent size={20} className="text-gray-500 group-hover:text-red-600 transition-colors" />
+                                <IconComponent size={20} className="text-gray-500 group-hover:text-pink-600 transition-colors" />
                               ) : (
                                 <div className="w-5 h-5 bg-gray-100 rounded" />
                               )}
                               <span>{category.title}</span>
                             </div>
-                            <ChevronRight size={16} className={`text-gray-400 group-hover:text-red-600 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
+                            <ChevronRight size={16} className={`text-gray-400 group-hover:text-pink-600 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
                           </button>
                         ) : (
                           <Link
                             href={url}
                             onClick={onClose}
-                            className="flex items-center justify-between p-3 text-sm font-bold text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors group"
+                            className="flex items-center justify-between p-3 text-sm font-bold text-gray-700 hover:text-pink-600 hover:bg-pink-50 rounded-xl transition-colors group"
                           >
                             <div className="flex items-center gap-3">
                               {category.image ? (
                                 <img src={category.image} alt={category.title} className="w-5 h-5 object-cover rounded shadow-sm" />
                               ) : IconComponent ? (
-                                <IconComponent size={20} className="text-gray-500 group-hover:text-red-600 transition-colors" />
+                                <IconComponent size={20} className="text-gray-500 group-hover:text-pink-600 transition-colors" />
                               ) : (
                                 <div className="w-5 h-5 bg-gray-100 rounded" />
                               )}
@@ -130,16 +130,16 @@ export default function MobileSidebar({ isOpen, onClose, storeName = "Femcart" }
                               <Link
                                 href={url}
                                 onClick={onClose}
-                                className="block py-2 text-sm font-bold text-red-600 hover:text-red-700 transition-colors"
+                                className="block py-2 text-sm font-bold text-pink-600 hover:text-pink-700 transition-colors"
                               >
                                 Shop All {category.title}
                               </Link>
                               {category.subcategories.map((subItem: any, idx: number) => (
                                 <Link
                                   key={idx}
-                                  href={subItem.href || "#"}
+                                  href={getFilterUrl(subItem.href || "#")}
                                   onClick={onClose}
-                                  className="block py-2 text-sm font-medium text-gray-600 hover:text-red-600 transition-colors"
+                                  className="block py-2 text-sm font-medium text-gray-600 hover:text-pink-600 transition-colors"
                                 >
                                   {subItem.title}
                                 </Link>
@@ -155,13 +155,13 @@ export default function MobileSidebar({ isOpen, onClose, storeName = "Femcart" }
 
               {/* Footer Links */}
               <div className="p-6 border-t border-gray-100 bg-gray-50 flex items-center justify-center gap-6 mt-auto">
-                <Link href="/products" onClick={onClose} className="p-3 text-gray-400 hover:text-red-600 hover:bg-red-100 bg-white shadow-sm rounded-full transition-colors" aria-label="Shop All">
+                <Link href="/products" onClick={onClose} className="p-3 text-gray-400 hover:text-pink-600 hover:bg-pink-100 bg-white shadow-sm rounded-full transition-colors" aria-label="Shop All">
                   <ShoppingBag size={20} />
                 </Link>
-                <Link href="/contact" onClick={onClose} className="p-3 text-gray-400 hover:text-red-600 hover:bg-red-100 bg-white shadow-sm rounded-full transition-colors" aria-label="Contact Support">
+                <Link href="/contact" onClick={onClose} className="p-3 text-gray-400 hover:text-pink-600 hover:bg-pink-100 bg-white shadow-sm rounded-full transition-colors" aria-label="Contact Support">
                   <Phone size={20} />
                 </Link>
-                <Link href="/about" onClick={onClose} className="p-3 text-gray-400 hover:text-red-600 hover:bg-red-100 bg-white shadow-sm rounded-full transition-colors" aria-label="About Us">
+                <Link href="/about" onClick={onClose} className="p-3 text-gray-400 hover:text-pink-600 hover:bg-pink-100 bg-white shadow-sm rounded-full transition-colors" aria-label="About Us">
                   <Info size={20} />
                 </Link>
               </div>

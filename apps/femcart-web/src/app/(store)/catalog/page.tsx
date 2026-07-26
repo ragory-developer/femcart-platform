@@ -93,7 +93,7 @@ export default async function CatalogPage({
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 mb-20">
-          <aside className="hidden lg:block sticky top-8 h-fit w-72 shrink-0 lg:pr-8">
+          <aside className="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar w-72 shrink-0 lg:pr-8">
             <Suspense fallback={<div className="w-full h-[100dvh] animate-pulse bg-gray-100 rounded-3xl" />}>
               <ProductFilters hideCategoryFilter={false} />
             </Suspense>

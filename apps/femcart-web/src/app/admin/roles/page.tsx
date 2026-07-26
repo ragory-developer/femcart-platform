@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useAuth } from "@/context/AuthContext";
 import { API_URL } from "@/lib/config";
@@ -221,7 +221,7 @@ export default function AdminRolesPage() {
                 </span>
                 {!role.isSystem && (
                   <div className="flex gap-2">
-                    <button onClick={(e) => handleDelete(role.id, e)} className="text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
+                    <button onClick={(e) => handleDelete(role.id, e)} className="text-gray-400 hover:text-pink-500 transition-colors"><Trash2 size={16} /></button>
                   </div>
                 )}
               </div>

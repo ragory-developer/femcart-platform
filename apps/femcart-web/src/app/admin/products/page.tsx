@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { showToast } from "@/lib/toast";
@@ -104,7 +104,7 @@ export default function AdminProductsPage() {
             {product.categories.length > 0 ? (
               catText
             ) : (
-              <span className="text-[10px] font-bold text-red-500 dark:text-red-450">Uncategorized</span>
+              <span className="text-[10px] font-bold text-pink-500 dark:text-pink-450">Uncategorized</span>
             )}
           </p>
         );
@@ -123,7 +123,7 @@ export default function AdminProductsPage() {
             {product.brand.name}
           </p>
         ) : (
-          <span className="text-xs text-gray-400">â€”</span>
+          <span className="text-xs text-gray-400">—</span>
         )
       )
     },
@@ -156,7 +156,7 @@ export default function AdminProductsPage() {
               <span className={`inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold font-mono w-fit whitespace-nowrap ${
                 totalStock > 10 ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
                 totalStock > 0 ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400" :
-                "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+                "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400"
               }`}>
                 {totalStock > 0 ? `${totalStock} in stock` : "Out of stock"}
               </span>
@@ -171,7 +171,7 @@ export default function AdminProductsPage() {
           <span className={`inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold font-mono w-fit whitespace-nowrap ${
             product.stock > 10 ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
             product.stock > 0 ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400" :
-            "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+            "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400"
           }`}>
             {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
           </span>
@@ -235,7 +235,7 @@ export default function AdminProductsPage() {
               className={`p-2 rounded-xl border transition-all shadow-sm ${
                 isMultipleSelected
                   ? "bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50"
-                  : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-550 hover:text-red-650 hover:border-red-250 dark:hover:border-red-900/50 hover:bg-red-50/50 dark:hover:bg-red-900/20 hover:shadow active:scale-95"
+                  : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-550 hover:text-pink-650 hover:border-pink-250 dark:hover:border-pink-900/50 hover:bg-pink-50/50 dark:hover:bg-pink-900/20 hover:shadow active:scale-95"
               }`}
               title={isMultipleSelected ? "Delete disabled when multiple selected" : "Delete Product"}
             >
@@ -297,7 +297,7 @@ export default function AdminProductsPage() {
                 {product.categories.length > 0 ? (
                   product.categories.map(c => c.name).join(", ")
                 ) : (
-                  <span className="text-[9px] font-bold text-red-550">Uncategorized</span>
+                  <span className="text-[9px] font-bold text-pink-550">Uncategorized</span>
                 )}
               </p>
             </div>
@@ -318,7 +318,7 @@ export default function AdminProductsPage() {
                   <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-black font-mono w-fit whitespace-nowrap ${
                     totalStock > 10 ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
                     totalStock > 0 ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400" :
-                    "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+                    "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400"
                   }`}>
                     {totalStock > 0 ? `${totalStock} in stock` : "Out of stock"}
                   </span>
@@ -328,7 +328,7 @@ export default function AdminProductsPage() {
               <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-black font-mono w-fit whitespace-nowrap ${
                 product.stock > 10 ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
                 product.stock > 0 ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400" :
-                "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+                "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400"
               }`}>
                 {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
               </span>
@@ -370,7 +370,7 @@ export default function AdminProductsPage() {
                   className={`p-1.5 rounded-lg border transition-colors ${
                     isMultipleSelected
                       ? "bg-gray-50/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50"
-                      : "bg-gray-50/50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-550 dark:text-gray-450 hover:text-red-650"
+                      : "bg-gray-50/50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-550 dark:text-gray-450 hover:text-pink-650"
                   }`}
                 >
                   <Trash2 size={14} />
@@ -515,7 +515,7 @@ export default function AdminProductsPage() {
   const formatPrice = (p: Product) => {
     if (p.productType === "VARIABLE" && p.priceRange) {
       if (p.priceRange.min === p.priceRange.max) return <span className="font-mono text-sm">${p.priceRange.min.toFixed(2)}</span>;
-      return <span className="font-mono text-xs md:text-sm">${p.priceRange.min.toFixed(2)} â€“ ${p.priceRange.max.toFixed(2)}</span>;
+      return <span className="font-mono text-xs md:text-sm">${p.priceRange.min.toFixed(2)} – ${p.priceRange.max.toFixed(2)}</span>;
     }
     
     const isOnSale = p.specialPrice && p.specialPrice < p.price;
@@ -575,7 +575,7 @@ export default function AdminProductsPage() {
                 </button>
                 <button
                   onClick={initiateBulkDelete}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold flex items-center gap-2 transition-transform active:scale-95 shadow-md shadow-red-600/10"
+                  className="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-xl text-sm font-bold flex items-center gap-2 transition-transform active:scale-95 shadow-md shadow-pink-600/10"
                 >
                   <Trash2 size={16} /> Delete Selected
                 </button>

@@ -1,4 +1,4 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import ProductOverview from "@/components/product/ProductOverview";
 import ProductSchema from "@/components/product/shared/ProductSchema";
 import ProductViewTracker from "@/components/product/shared/ProductViewTracker";
@@ -130,7 +130,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               {item.href ? (
                 <Link 
                   href={item.href}
-                  className="flex items-center bg-gray-200 hover:bg-red-600 hover:text-white transition-colors h-8"
+                  className="flex items-center bg-gray-200 hover:bg-pink-600 hover:text-white transition-colors h-8"
                   style={{ 
                     clipPath: index === 0 
                       ? 'polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%)' 

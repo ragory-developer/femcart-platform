@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import MediaLibraryModal from "@/components/admin/MediaLibraryModal";
 import { API_URL } from "@/lib/config";
@@ -314,7 +314,7 @@ export default function NavbarManager() {
     let options: { id: string, title: string }[] = [];
     for (const item of itemsList) {
       if (item.id === excludeId) continue;
-      options.push({ id: item.id, title: `${"  ".repeat(level)} ${level > 0 ? "└ " : ""}${item.title}` });
+      options.push({ id: item.id, title: `${"��".repeat(level)} ${level > 0 ? "+ " : ""}${item.title}` });
       if (item.children) {
         options = [...options, ...getFlatOptions(item.children, level + 1, excludeId)];
       }
@@ -386,7 +386,7 @@ export default function NavbarManager() {
                       <Edit2 size={16} />
                     </button>
                     {!item.isSystem && (
-                      <button onClick={() => handleDelete(item.id)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-100 hover:text-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-400 text-gray-600 dark:text-gray-300 transition-colors" title="Delete">
+                      <button onClick={() => handleDelete(item.id)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-pink-100 hover:text-pink-700 dark:hover:bg-pink-900/30 dark:hover:text-pink-400 text-gray-600 dark:text-gray-300 transition-colors" title="Delete">
                         <Trash2 size={16} />
                       </button>
                     )}
@@ -456,7 +456,7 @@ export default function NavbarManager() {
                           <ImageIcon size={16} /> Change Logo
                         </span>
                       </div>
-                      <button type="button" onClick={(e) => { e.stopPropagation(); setGlobalSettings({ ...globalSettings, store_logo: "" }); }} className="absolute top-3 right-3 bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-lg shadow-sm">
+                      <button type="button" onClick={(e) => { e.stopPropagation(); setGlobalSettings({ ...globalSettings, store_logo: "" }); }} className="absolute top-3 right-3 bg-pink-500 hover:bg-pink-600 text-white p-1.5 rounded-lg shadow-sm">
                         <X size={14} />
                       </button>
                     </>

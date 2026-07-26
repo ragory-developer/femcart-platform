@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { showToast } from "@/lib/toast";
@@ -370,7 +370,7 @@ export default function SpecificationsPage() {
                           </button>
                           <button
                             onClick={(e) => handleDeleteSpecification(spec.id, e)}
-                            className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                            className="p-1.5 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
                           >
                             <Trash2 size={16} />
                           </button>
@@ -520,7 +520,7 @@ export default function SpecificationsPage() {
                                 </button>
                                 <button
                                   onClick={() => handleDeleteValue(val.id)}
-                                  className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-white dark:hover:bg-gray-700 rounded-md transition-colors"
+                                  className="p-1.5 text-gray-400 hover:text-pink-500 hover:bg-white dark:hover:bg-gray-700 rounded-md transition-colors"
                                 >
                                   <Trash2 size={14} />
                                 </button>

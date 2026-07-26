@@ -83,7 +83,7 @@ export default function UserSidebar() {
         
         <button
           onClick={logout}
-          className="flex items-center justify-between px-[clamp(1rem,3vw,1.5rem)] py-[clamp(0.75rem,2vw,1rem)] min-h-[44px] rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300 mt-[clamp(0.5rem,1.5vw,1rem)] group w-full"
+          className="flex items-center justify-between px-[clamp(1rem,3vw,1.5rem)] py-[clamp(0.75rem,2vw,1rem)] min-h-[44px] rounded-lg text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-all duration-300 mt-[clamp(0.5rem,1.5vw,1rem)] group w-full"
         >
           <div className="flex items-center gap-3">
             <LogOut size={20} className="group-hover:-translate-x-0.5 transition-transform" />

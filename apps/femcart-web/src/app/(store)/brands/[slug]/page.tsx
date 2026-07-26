@@ -138,7 +138,7 @@ export default async function BrandPage({
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 mb-20">
-          <aside className="hidden lg:block sticky top-8 h-fit w-72 shrink-0 lg:border-r lg:border-gray-100 lg:dark:border-gray-800/60 lg:pr-8">
+          <aside className="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar w-72 shrink-0 lg:border-r lg:border-gray-100 lg:dark:border-gray-800/60 lg:pr-8">
             <Suspense fallback={<div className="w-full h-[100dvh] animate-pulse bg-gray-100 dark:bg-gray-800 rounded-3xl" />}>
               <ProductFilters />
             </Suspense>

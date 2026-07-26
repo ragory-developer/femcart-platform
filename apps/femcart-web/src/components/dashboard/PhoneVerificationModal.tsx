@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { Logger } from "@/lib/logger";
@@ -147,7 +147,7 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
               </div>
 
               {error && (
-                <div className="flex items-center gap-2 p-4 bg-red-50 text-red-600 rounded-lg text-xs font-bold border border-red-100">
+                <div className="flex items-center gap-2 p-4 bg-pink-50 text-pink-600 rounded-lg text-xs font-bold border border-pink-100">
                   <AlertCircle size={14} />
                   {error}
                 </div>

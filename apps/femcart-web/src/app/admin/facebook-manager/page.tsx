@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 import { showToast } from "@/lib/toast";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -275,13 +275,13 @@ export default function FacebookManagerPage() {
 
           {/* Account Health Banner */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className={`p-5 rounded-2xl border flex items-center gap-4 ${accountHealth.account_status === 'ACTIVE' ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/10 dark:border-emerald-900/30' : 'bg-red-50 border-red-200 dark:bg-red-900/10 dark:border-red-900/30'}`}>
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${accountHealth.account_status === 'ACTIVE' ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400'}`}>
+            <div className={`p-5 rounded-2xl border flex items-center gap-4 ${accountHealth.account_status === 'ACTIVE' ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/10 dark:border-emerald-900/30' : 'bg-pink-50 border-pink-200 dark:bg-pink-900/10 dark:border-pink-900/30'}`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${accountHealth.account_status === 'ACTIVE' ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400' : 'bg-pink-100 text-pink-600 dark:bg-pink-900/40 dark:text-pink-400'}`}>
                 {accountHealth.account_status === 'ACTIVE' ? <CheckCircle2 size={24} /> : <AlertTriangle size={24} />}
               </div>
               <div>
                 <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Ad Account Status</p>
-                <div className={`text-lg font-black ${accountHealth.account_status === 'ACTIVE' ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400'}`}>
+                <div className={`text-lg font-black ${accountHealth.account_status === 'ACTIVE' ? 'text-emerald-700 dark:text-emerald-400' : 'text-pink-700 dark:text-pink-400'}`}>
                   {accountHealth.account_status}
                 </div>
               </div>
@@ -316,7 +316,7 @@ export default function FacebookManagerPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex-1 bg-gray-100 dark:bg-gray-800 h-2.5 rounded-full overflow-hidden">
-                    <div className={`h-full transition-all duration-1000 ${accountHealth.api_limit_usage_percent > 80 ? 'bg-red-500' : 'bg-indigo-500'}`} style={{ width: `${accountHealth.api_limit_usage_percent}%` }}></div>
+                    <div className={`h-full transition-all duration-1000 ${accountHealth.api_limit_usage_percent > 80 ? 'bg-pink-500' : 'bg-indigo-500'}`} style={{ width: `${accountHealth.api_limit_usage_percent}%` }}></div>
                   </div>
                   <span className="font-bold text-sm text-gray-900 dark:text-white">{accountHealth.api_limit_usage_percent}%</span>
                 </div>
@@ -428,7 +428,7 @@ export default function FacebookManagerPage() {
                 >
                   <option value="">-- Choose a product to advertise --</option>
                   {products.map(p => (
-                    <option key={p.id} value={p.id}>{p.name} - ৳{p.price}</option>
+                    <option key={p.id} value={p.id}>{p.name} - ?{p.price}</option>
                   ))}
                 </select>
               </div>
@@ -441,8 +441,8 @@ export default function FacebookManagerPage() {
                     onChange={(e) => setAdForm({...adForm, objective: e.target.value})}
                     className="w-full px-5 py-3 rounded-xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-blue-500 font-medium text-gray-900 dark:text-white"
                   >
-                    <option value="CONVERSIONS">🛍️ Get More Sales</option>
-                    <option value="TRAFFIC">🖱️ Get More Website Visitors</option>
+                    <option value="CONVERSIONS">??? Get More Sales</option>
+                    <option value="TRAFFIC">??? Get More Website Visitors</option>
                   </select>
                 </div>
                 <div className="space-y-2">
@@ -452,9 +452,9 @@ export default function FacebookManagerPage() {
                     onChange={(e) => setAdForm({...adForm, placement: e.target.value})}
                     className="w-full px-5 py-3 rounded-xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-blue-500 font-medium text-gray-900 dark:text-white"
                   >
-                    <option value="AUTO">✨ Everywhere (Recommended)</option>
-                    <option value="FB">🔵 Facebook Only</option>
-                    <option value="IG">📸 Instagram Only</option>
+                    <option value="AUTO">? Everywhere (Recommended)</option>
+                    <option value="FB">?? Facebook Only</option>
+                    <option value="IG">?? Instagram Only</option>
                   </select>
                 </div>
               </div>
@@ -508,7 +508,7 @@ export default function FacebookManagerPage() {
                 {creatingAd ? "Launching Campaign..." : "Launch Ad Campaign"}
               </button>
               {!settings.facebook_user_access_token && (
-                <p className="text-center text-sm text-red-500 font-bold mt-2">Connect your Facebook account in settings to launch ads.</p>
+                <p className="text-center text-sm text-pink-500 font-bold mt-2">Connect your Facebook account in settings to launch ads.</p>
               )}
             </div>
           </div>
@@ -520,7 +520,7 @@ export default function FacebookManagerPage() {
                    <div className="w-10 h-10 bg-gray-200 dark:bg-gray-800 rounded-full flex-shrink-0"></div>
                    <div>
                      <div className="font-bold text-sm text-gray-900 dark:text-white">Your E-commerce Store</div>
-                     <div className="text-xs text-gray-500">Sponsored • 🌍</div>
+                     <div className="text-xs text-gray-500">Sponsored � ??</div>
                    </div>
                 </div>
                 <div className="px-3 pb-3 text-sm text-gray-800 dark:text-gray-200">

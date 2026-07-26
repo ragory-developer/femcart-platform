@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useAuth } from "@/context/AuthContext";
 import { API_URL } from "@/lib/config";
@@ -253,7 +253,7 @@ export default function AdminUsersPage() {
                           <button onClick={() => openEdit(admin)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 hover:text-emerald-500 transition-colors">
                             <Pencil size={16} />
                           </button>
-                          <button onClick={() => setDeleteTarget(admin)} className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-500 hover:text-red-500 transition-colors">
+                          <button onClick={() => setDeleteTarget(admin)} className="p-2 rounded-lg hover:bg-pink-50 dark:hover:bg-pink-900/20 text-gray-500 hover:text-pink-500 transition-colors">
                             <Trash2 size={16} />
                           </button>
                         </>
@@ -277,7 +277,7 @@ export default function AdminUsersPage() {
               <button onClick={closeModal} className="text-gray-400 hover:text-gray-900 dark:hover:text-white"><X size={20} /></button>
             </div>
 
-            {error && <div className="bg-red-50 dark:bg-red-900/20 text-red-600 px-4 py-3 rounded-xl mb-5 text-sm">{error}</div>}
+            {error && <div className="bg-pink-50 dark:bg-pink-900/20 text-pink-600 px-4 py-3 rounded-xl mb-5 text-sm">{error}</div>}
 
             <div className="space-y-4">
               <div>
@@ -374,8 +374,8 @@ export default function AdminUsersPage() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={closeModal} />
           <div className="relative w-full max-w-sm bg-white dark:bg-gray-950 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-2xl p-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Trash2 size={28} className="text-red-500" />
+              <div className="w-16 h-16 bg-pink-100 dark:bg-pink-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Trash2 size={28} className="text-pink-500" />
               </div>
               <h2 className="text-xl font-black dark:text-white mb-2">Delete Admin</h2>
               <p className="text-gray-500 text-sm mb-6">
@@ -386,7 +386,7 @@ export default function AdminUsersPage() {
                   Cancel
                 </button>
                 <button onClick={handleDelete} disabled={saving}
-                  className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                  className="flex-1 px-4 py-3 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                   {saving ? <Loader2 size={16} className="animate-spin" /> : null}
                   Delete
                 </button>

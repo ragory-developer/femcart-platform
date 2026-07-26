@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { Logger } from "@/lib/logger";
@@ -251,13 +251,13 @@ export default function MediaLibraryModal({
 
     const isDark = document.documentElement.classList.contains("dark");
     const result = await Swal.fire({
-      title: '<span class="text-red-600 dark:text-red-500 font-bold text-2xl flex items-center gap-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Critical Action</span>',
+      title: '<span class="text-pink-600 dark:text-pink-500 font-bold text-2xl flex items-center gap-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Critical Action</span>',
       html: `
         <div class="text-left space-y-4 mt-2">
           <p class="text-gray-700 dark:text-gray-300 text-base">
             You are about to permanently delete <b class="text-gray-900 dark:text-white font-bold">${selectedItems.length} image(s)</b> from your media library.
           </p>
-          <div class="p-4 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-xl border border-red-200 dark:border-red-800/50 text-sm leading-relaxed shadow-inner">
+          <div class="p-4 bg-pink-50 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded-xl border border-pink-200 dark:border-pink-800/50 text-sm leading-relaxed shadow-inner">
             <strong class="font-black flex items-center gap-1.5 mb-2 uppercase tracking-wide">
               Danger: Breaking Change Possible
             </strong>
@@ -276,8 +276,8 @@ export default function MediaLibraryModal({
       background: isDark ? '#1f2937' : '#ffffff',
       color: isDark ? '#f9fafb' : '#111827',
       customClass: {
-        popup: 'rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-red-500/10 border border-gray-100 dark:border-gray-800',
-        confirmButton: 'rounded-xl font-bold px-6 py-3 shadow-lg shadow-red-600/20 hover:scale-105 transition-transform',
+        popup: 'rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-pink-500/10 border border-gray-100 dark:border-gray-800',
+        confirmButton: 'rounded-xl font-bold px-6 py-3 shadow-lg shadow-pink-600/20 hover:scale-105 transition-transform',
         cancelButton: 'rounded-xl font-bold px-6 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
       },
       didOpen: () => {
@@ -367,7 +367,7 @@ export default function MediaLibraryModal({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ type: "spring", duration: 0.3 }}
-            className="fixed inset-4 md:inset-8 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-red-500/10 z-[10000] flex flex-col overflow-hidden"
+            className="fixed inset-4 md:inset-8 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-pink-500/10 z-[10000] flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 shrink-0">
@@ -424,7 +424,7 @@ export default function MediaLibraryModal({
                           placeholder="Search media..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900 dark:text-white"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-900 dark:text-white"
                         />
                       </div>
                     </div>
@@ -444,10 +444,10 @@ export default function MediaLibraryModal({
                   <div className="flex-1 flex items-center justify-center p-8">
                     <div
                       {...getRootProps()}
-                      className={`w-full max-w-2xl border-2 border-dashed rounded-2xl p-20 text-center cursor-pointer transition-all bg-white dark:bg-gray-800 shadow-sm border-gray-200 dark:border-gray-700 hover:border-red-500 hover:shadow-red-500/10 ${
+                      className={`w-full max-w-2xl border-2 border-dashed rounded-2xl p-20 text-center cursor-pointer transition-all bg-white dark:bg-gray-800 shadow-sm border-gray-200 dark:border-gray-700 hover:border-pink-500 hover:shadow-pink-500/10 ${
                         isDragActive
-                          ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                          : "border-gray-300 dark:border-gray-650 hover:border-red-400 hover:bg-gray-50 dark:hover:bg-gray-750"
+                          ? "border-pink-500 bg-pink-50 dark:bg-pink-900/20"
+                          : "border-gray-300 dark:border-gray-650 hover:border-pink-400 hover:bg-gray-50 dark:hover:bg-gray-750"
                       }`}
                     >
                       <input {...getInputProps()} />
@@ -455,24 +455,24 @@ export default function MediaLibraryModal({
                         <div className="space-y-4">
                           <Loader2
                             size={48}
-                            className="mx-auto text-red-500 animate-spin"
+                            className="mx-auto text-pink-500 animate-spin"
                           />
                           <p className="text-lg font-bold text-gray-700 dark:text-gray-300">
                             Uploading... {uploadProgress}%
                           </p>
                           <div className="w-64 mx-auto bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                             <div
-                              className="bg-red-500 h-2 rounded-full transition-all"
+                              className="bg-pink-500 h-2 rounded-full transition-all"
                               style={{ width: `${uploadProgress}%` }}
                             />
                           </div>
                         </div>
                       ) : (
                         <div className="space-y-4">
-                          <div className="w-20 h-20 mx-auto rounded-2xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center">
+                          <div className="w-20 h-20 mx-auto rounded-2xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center">
                             <Upload
                               size={32}
-                              className="text-red-500"
+                              className="text-pink-500"
                             />
                           </div>
                           <div>
@@ -540,7 +540,7 @@ export default function MediaLibraryModal({
                               <p className="flex justify-between">
                                 <span className="font-medium">Dimensions:</span>
                                 <span className="text-gray-700 dark:text-gray-300">
-                                  {selected.width} × {selected.height}
+                                  {selected.width} � {selected.height}
                                 </span>
                               </p>
                             )}
@@ -562,7 +562,7 @@ export default function MediaLibraryModal({
                                 type="text"
                                 value={editTitle}
                                 onChange={(e) => setEditTitle(e.target.value)}
-                                className="w-full px-3 py-2 rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-900 dark:text-white"
+                                className="w-full px-3 py-2 rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none text-gray-900 dark:text-white"
                               />
                             </div>
                             <div>
@@ -574,7 +574,7 @@ export default function MediaLibraryModal({
                                 value={editAlt}
                                 onChange={(e) => setEditAlt(e.target.value)}
                                 placeholder="Describe this image for accessibility"
-                                className="w-full px-3 py-2 rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-900 dark:text-white"
+                                className="w-full px-3 py-2 rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none text-gray-900 dark:text-white"
                               />
                             </div>
                             <div>
@@ -585,7 +585,7 @@ export default function MediaLibraryModal({
                                 value={editCaption}
                                 onChange={(e) => setEditCaption(e.target.value)}
                                 rows={2}
-                                className="w-full px-3 py-2 rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none text-gray-900 dark:text-white resize-none"
+                                className="w-full px-3 py-2 rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none text-gray-900 dark:text-white resize-none"
                               />
                             </div>
                           </div>
@@ -617,7 +617,7 @@ export default function MediaLibraryModal({
                                   }}
                                   className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl border transition-colors ${
                                     isPreferred
-                                      ? "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300 font-semibold"
+                                      ? "border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-300 font-semibold"
                                       : "border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                                   }`}
                                 >
@@ -634,13 +634,13 @@ export default function MediaLibraryModal({
                         <button
                           onClick={handleSaveAttributes}
                           disabled={saving}
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-600 text-white px-3 py-2 rounded-2xl text-sm font-bold transition-colors disabled:opacity-50"
+                          className="flex-1 inline-flex items-center justify-center gap-1.5 bg-pink-600 hover:bg-pink-600 text-white px-3 py-2 rounded-2xl text-sm font-bold transition-colors disabled:opacity-50"
                         >
                           <Save size={14} /> {saving ? "Saving..." : "Save"}
                         </button>
                         <button
                           onClick={handleDelete}
-                          className="px-3 py-2 rounded-2xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                          className="px-3 py-2 rounded-2xl text-sm font-medium text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -651,7 +651,7 @@ export default function MediaLibraryModal({
                     <div className="p-4 border-t border-gray-200 dark:border-gray-700 shrink-0">
                       <button
                         onClick={handleInsert}
-                        className="w-full bg-red-600 hover:bg-red-600 text-white py-2.5 rounded-xl text-sm font-bold transition-colors shadow-sm"
+                        className="w-full bg-pink-600 hover:bg-pink-600 text-white py-2.5 rounded-xl text-sm font-bold transition-colors shadow-sm"
                       >
                         Insert Image
                       </button>
@@ -669,10 +669,10 @@ export default function MediaLibraryModal({
               animate={{ y: 0, opacity: 1, x: "-50%", scale: 1 }}
               exit={{ y: 50, opacity: 0, x: "-50%", scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="fixed bottom-8 left-1/2 z-[10010] bg-white dark:bg-gray-800 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-red-500/10 rounded-full pl-6 pr-2 py-2 flex items-center gap-6 border border-gray-200 dark:border-gray-700"
+              className="fixed bottom-8 left-1/2 z-[10010] bg-white dark:bg-gray-800 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-pink-500/10 rounded-full pl-6 pr-2 py-2 flex items-center gap-6 border border-gray-200 dark:border-gray-700"
             >
               <div className="flex items-center gap-3">
-                <div className="bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                <div className="bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 w-8 h-8 rounded-full flex items-center justify-center font-bold">
                   {selectedItems.length}
                 </div>
                 <span className="font-semibold text-gray-700 dark:text-gray-300">Selected</span>
@@ -683,14 +683,14 @@ export default function MediaLibraryModal({
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleDelete}
-                  className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors group relative"
+                  className="p-2 text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 rounded-full transition-colors group relative"
                   title="Delete Selected"
                 >
                   <Trash2 size={20} />
                 </button>
                 <button
                   onClick={handleInsert}
-                  className="px-6 py-2.5 bg-red-600 text-white hover:bg-red-600 shadow-lg shadow-red-600/20 rounded-full text-sm font-bold flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
+                  className="px-6 py-2.5 bg-pink-600 text-white hover:bg-pink-600 shadow-lg shadow-pink-600/20 rounded-full text-sm font-bold flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
                 >
                   Insert {selectedItems.length} Images
                 </button>

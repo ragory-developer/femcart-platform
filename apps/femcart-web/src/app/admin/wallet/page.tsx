@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { showToast } from "@/lib/toast";
@@ -123,17 +123,17 @@ export default function WalletManagementPage() {
 
            <div className="flex items-end gap-3 mb-4">
               <span className="text-6xl font-black text-gray-900 dark:text-white tracking-tighter italic">
-                ৳{balance !== null ? balance.toLocaleString() : "..."}
+                ?{balance !== null ? balance.toLocaleString() : "..."}
               </span>
               <span className="text-base font-bold text-gray-400 mb-2.5 tracking-tight uppercase">Available Balance</span>
            </div>
 
            {balance !== null && balance < 100 && (
-             <div className="mt-6 p-4 bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 rounded-r-xl">
-                <p className="text-sm text-red-600 dark:text-red-400 font-bold tracking-tight uppercase">
-                   ⚠️ Warning: Critical low balance!
+             <div className="mt-6 p-4 bg-pink-50 dark:bg-pink-900/10 border-l-4 border-pink-500 rounded-r-xl">
+                <p className="text-sm text-pink-600 dark:text-pink-400 font-bold tracking-tight uppercase">
+                   ?? Warning: Critical low balance!
                 </p>
-                <p className="text-xs text-red-500/80 dark:text-red-400/80 mt-1 font-medium">
+                <p className="text-xs text-pink-500/80 dark:text-pink-400/80 mt-1 font-medium">
                    Please top up immediately. If the balance reaches 0, critical actions like OTP verification and SMS notifications will fail to deliver.
                 </p>
              </div>
@@ -202,12 +202,12 @@ export default function WalletManagementPage() {
                     <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750">
                       <div className="flex items-center gap-2">
                         {tx.type === 'DEDUCTION' ? (
-                          <ArrowDownCircle size={14} className="text-red-500" />
+                          <ArrowDownCircle size={14} className="text-pink-500" />
                         ) : (
                           <ArrowUpCircle size={14} className="text-emerald-500" />
                         )}
                         <span className={`text-[10px] font-black uppercase tracking-widest ${
-                          tx.type === 'DEDUCTION' ? 'text-red-500' : 'text-emerald-500'
+                          tx.type === 'DEDUCTION' ? 'text-pink-500' : 'text-emerald-500'
                         }`}>
                           {tx.type}
                         </span>
@@ -215,7 +215,7 @@ export default function WalletManagementPage() {
                     </td>
                     <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750">
                       <span className="text-sm font-black text-gray-900 dark:text-white">
-                        {tx.type === 'DEDUCTION' ? '-' : '+'}৳{tx.amount.toFixed(2)}
+                        {tx.type === 'DEDUCTION' ? '-' : '+'}?{tx.amount.toFixed(2)}
                       </span>
                     </td>
                     <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750">
@@ -265,7 +265,7 @@ export default function WalletManagementPage() {
 
               <form onSubmit={handleTopUp} className="space-y-6">
                  <div className="space-y-2">
-                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Amount (৳)</label>
+                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Amount (?)</label>
                     <input 
                       type="number"
                       required
@@ -286,7 +286,7 @@ export default function WalletManagementPage() {
                         onClick={() => setAmount(val.toString())}
                         className="py-2.5 text-xs font-black uppercase tracking-widest rounded-xl bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-emerald-500 text-gray-600 dark:text-gray-400 hover:text-emerald-500 transition-all"
                       >
-                        +৳{val}
+                        +?{val}
                       </button>
                     ))}
                  </div>

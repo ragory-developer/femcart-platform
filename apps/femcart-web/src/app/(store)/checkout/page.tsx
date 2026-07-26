@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import * as fpixel from "@/lib/fpixel";
@@ -300,7 +300,7 @@ function CheckoutContent() {
                   </h2>
                   <div className="mb-6">
                     <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                      Email Address for Receipt <span className="text-red-500">*</span>
+                      Email Address for Receipt <span className="text-pink-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -357,7 +357,7 @@ function CheckoutContent() {
                           Qty: <span className="text-gray-900 dark:text-white">{item.quantity}</span>
                         </div>
                         <div className="text-sm font-bold text-blue-600 dark:text-blue-400 mt-1">
-                          ৳{(item.price * item.quantity).toFixed(2)}
+                          ?{(item.price * item.quantity).toFixed(2)}
                         </div>
                       </div>
                     </div>
@@ -386,19 +386,19 @@ function CheckoutContent() {
                 <div className="flex justify-between text-sm font-medium text-gray-600 dark:text-gray-400 pt-2">
                   <span>Subtotal</span>
                   <span className="text-gray-900 dark:text-white font-bold">
-                    {calculatingTotals ? <Loader2 className="animate-spin w-4 h-4 inline" /> : `৳${orderTotals.subtotal.toFixed(2)}`}
+                    {calculatingTotals ? <Loader2 className="animate-spin w-4 h-4 inline" /> : `?${orderTotals.subtotal.toFixed(2)}`}
                   </span>
                 </div>
                 {orderTotals.discount > 0 && (
                   <div className="flex justify-between text-sm font-bold text-emerald-600 dark:text-emerald-400">
                     <span>Discount {appliedCoupon && `(${appliedCoupon})`}</span>
-                    <span>-৳{orderTotals.discount.toFixed(2)}</span>
+                    <span>-?{orderTotals.discount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm font-medium text-gray-600 dark:text-gray-400">
                   <span>Delivery Fee</span>
                   <span className="text-gray-900 dark:text-white font-bold">
-                    {calculatingTotals ? <Loader2 className="animate-spin w-4 h-4 inline" /> : (orderTotals.deliveryFee > 0 ? `৳${orderTotals.deliveryFee.toFixed(2)}` : 'Calculated next step')}
+                    {calculatingTotals ? <Loader2 className="animate-spin w-4 h-4 inline" /> : (orderTotals.deliveryFee > 0 ? `?${orderTotals.deliveryFee.toFixed(2)}` : 'Calculated next step')}
                   </span>
                 </div>
                 <div className="pt-6 mt-2 border-t border-gray-100 dark:border-gray-700 flex justify-between items-end">
@@ -407,7 +407,7 @@ function CheckoutContent() {
                     <span className="text-xs text-gray-500 font-medium mt-1 block">Including Taxes</span>
                   </div>
                   <span className="text-3xl font-black text-blue-600 dark:text-blue-400 tracking-tighter">
-                    {calculatingTotals ? <Loader2 className="animate-spin w-8 h-8 inline" /> : `৳${orderTotals.total.toFixed(2)}`}
+                    {calculatingTotals ? <Loader2 className="animate-spin w-8 h-8 inline" /> : `?${orderTotals.total.toFixed(2)}`}
                   </span>
                 </div>
               </div>

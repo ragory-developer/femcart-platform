@@ -158,7 +158,7 @@ export default function GlobalSearch({ desktopOnly = false, mobileOnly = false }
       {query.length === 0 ? (
         <div className="p-2 sm:p-3">
           <h3 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5 flex items-center gap-1.5 px-1">
-            <TrendingUp className="w-3.5 h-3.5 text-red-500" /> Popular Brands
+            <TrendingUp className="w-3.5 h-3.5 text-pink-500" /> Popular Brands
           </h3>
           <div className="flex overflow-x-auto gap-1.5 px-1 pb-1 scrollbar-hide [-ms-overflow-style:'none'] [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden">
             {popularBrands.map((brand) => (
@@ -169,7 +169,7 @@ export default function GlobalSearch({ desktopOnly = false, mobileOnly = false }
                   setIsFocused(false);
                   closeSearch();
                 }} 
-                className="whitespace-nowrap px-2.5 py-1 bg-gray-50/80 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/50 rounded-md text-[12px] font-medium text-gray-600 dark:text-gray-300 hover:bg-red-50 hover:border-red-200 hover:text-red-700 dark:hover:bg-red-900/20 dark:hover:border-red-800 dark:hover:text-red-400 transition-all duration-200 active:scale-95"
+                className="whitespace-nowrap px-2.5 py-1 bg-gray-50/80 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/50 rounded-md text-[12px] font-medium text-gray-600 dark:text-gray-300 hover:bg-pink-50 hover:border-pink-200 hover:text-pink-700 dark:hover:bg-pink-900/20 dark:hover:border-pink-800 dark:hover:text-pink-400 transition-all duration-200 active:scale-95"
               >
                 {brand.name}
               </button>
@@ -204,14 +204,14 @@ export default function GlobalSearch({ desktopOnly = false, mobileOnly = false }
               setIsFocused(false);
               closeSearch();
             }}
-            className="w-full mt-1.5 py-2.5 flex items-center justify-center gap-1.5 text-[13px] font-bold text-red-600 hover:text-red-700 bg-red-50/50 dark:bg-red-900/10 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+            className="w-full mt-1.5 py-2.5 flex items-center justify-center gap-1.5 text-[13px] font-bold text-pink-600 hover:text-pink-700 bg-pink-50/50 dark:bg-pink-900/10 hover:bg-pink-50 dark:hover:bg-pink-900/30 rounded-lg transition-colors"
           >
             See all results for "{query}" <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       ) : query.length > 0 && (isLoading || query !== debouncedQuery) ? (
         <div className="flex flex-col items-center justify-center py-12 px-4">
-          <Loader2 className="w-6 h-6 text-red-500 animate-spin mb-3" />
+          <Loader2 className="w-6 h-6 text-pink-500 animate-spin mb-3" />
           <p className="text-sm font-medium text-gray-400">Searching...</p>
         </div>
       ) : !isLoading && query.length > 0 ? (
@@ -234,9 +234,9 @@ export default function GlobalSearch({ desktopOnly = false, mobileOnly = false }
                     setIsFocused(false);
                     closeSearch();
                   }}
-                  className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 rounded-lg transition-colors flex items-center gap-1.5 active:scale-95"
+                  className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-pink-50 dark:hover:bg-pink-900/30 hover:text-pink-600 dark:hover:text-pink-400 rounded-lg transition-colors flex items-center gap-1.5 active:scale-95"
                 >
-                  <TrendingUp className="w-3.5 h-3.5 opacity-50 text-red-500" />
+                  <TrendingUp className="w-3.5 h-3.5 opacity-50 text-pink-500" />
                   {brand.name}
                 </button>
               ))}

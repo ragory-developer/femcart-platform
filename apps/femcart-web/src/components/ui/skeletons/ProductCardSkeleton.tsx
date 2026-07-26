@@ -77,7 +77,7 @@ export function ProductCardSkeleton({
         }`}
       >
         {/* Category */}
-        <SkeletonBase className="w-16 h-3 rounded bg-red-500/10 dark:bg-red-500/20" />
+        <SkeletonBase className="w-16 h-3 rounded bg-pink-500/10 dark:bg-pink-500/20" />
 
         {/* Title (2 lines) */}
         <div className="space-y-1.5 mt-1">

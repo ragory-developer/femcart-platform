@@ -20,10 +20,10 @@ export default function InventoryLogisticsTab() {
               type="text" 
               {...register("sku")}
               placeholder="e.g. PRD-12345"
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.sku ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.sku ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
             />
             {errors.sku && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.sku.message}
               </p>
             )}
@@ -35,10 +35,10 @@ export default function InventoryLogisticsTab() {
               type="text" 
               {...register("stock")}
               placeholder="0"
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.stock ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.stock ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
             />
             {errors.stock && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.stock.message}
               </p>
             )}
@@ -85,10 +85,10 @@ export default function InventoryLogisticsTab() {
               type="text" 
               {...register("countryOfOrigin")}
               placeholder="e.g. Bangladesh, UAE, USA..."
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.countryOfOrigin ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.countryOfOrigin ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
             />
             {errors.countryOfOrigin && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.countryOfOrigin.message}
               </p>
             )}

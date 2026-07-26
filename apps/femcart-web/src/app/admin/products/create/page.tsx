@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import FaqTab from "@/components/admin/tabs/FaqTab";
@@ -242,10 +242,10 @@ export default function CreateProductPage() {
                   : "text-gray-550 dark:text-gray-400 hover:bg-gray-150/40 dark:hover:bg-gray-850/30 hover:text-gray-950 dark:hover:text-white border-transparent hover:translate-x-1"
               }`}
             >
-              <tab.icon size={18} className={`transition-colors duration-200 ${activeTab === tab.id ? "text-emerald-650 dark:text-emerald-555" : tabHasError(tab.id, errors) ? "text-red-500 dark:text-red-400" : "text-gray-400 dark:text-gray-500"}`} />
-              <span className={tabHasError(tab.id, errors) ? "text-red-600 dark:text-red-400" : ""}>{tab.label}</span>
+              <tab.icon size={18} className={`transition-colors duration-200 ${activeTab === tab.id ? "text-emerald-650 dark:text-emerald-555" : tabHasError(tab.id, errors) ? "text-pink-500 dark:text-pink-400" : "text-gray-400 dark:text-gray-500"}`} />
+              <span className={tabHasError(tab.id, errors) ? "text-pink-600 dark:text-pink-400" : ""}>{tab.label}</span>
               {tabHasError(tab.id, errors) && (
-                <span className="ml-auto flex items-center justify-center w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400">
+                <span className="ml-auto flex items-center justify-center w-5 h-5 rounded-full bg-pink-100 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400">
                   <AlertCircle size={12} />
                 </span>
               )}

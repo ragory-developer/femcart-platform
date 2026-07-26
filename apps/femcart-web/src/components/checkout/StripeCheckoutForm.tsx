@@ -51,7 +51,7 @@ export default function StripeCheckoutForm({ onSuccess, onError }: StripeCheckou
         <PaymentElement id="payment-element" />
         
         {errorMessage && (
-          <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg font-medium">
+          <div className="mt-4 p-3 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 text-sm rounded-lg font-medium">
             {errorMessage}
           </div>
         )}

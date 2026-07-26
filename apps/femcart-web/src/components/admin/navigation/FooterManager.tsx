@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { Edit2, Plus, Trash2, ChevronRight, Link as LinkIcon } from "lucide-react";
@@ -317,7 +317,7 @@ export default function FooterManager() {
                             <button onClick={() => openEditSection(sec)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 text-gray-600 dark:text-gray-300 transition-colors" title="Edit Column">
                               <Edit2 size={16} />
                             </button>
-                            <button onClick={() => handleDeleteSection(sec.id)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-100 hover:text-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-400 text-gray-600 dark:text-gray-300 transition-colors" title="Delete Column">
+                            <button onClick={() => handleDeleteSection(sec.id)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-pink-100 hover:text-pink-700 dark:hover:bg-pink-900/30 dark:hover:text-pink-400 text-gray-600 dark:text-gray-300 transition-colors" title="Delete Column">
                               <Trash2 size={16} />
                             </button>
                           </div>
@@ -362,7 +362,7 @@ export default function FooterManager() {
                                 <button onClick={() => openEditLink(link)} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 text-gray-500 transition-colors" title="Edit Link">
                                   <Edit2 size={14} />
                                 </button>
-                                <button onClick={() => handleDeleteLink(link.id)} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-red-100 hover:text-red-700 dark:hover:bg-red-900/30 dark:hover:text-red-400 text-gray-500 transition-colors" title="Delete Link">
+                                <button onClick={() => handleDeleteLink(link.id)} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-pink-100 hover:text-pink-700 dark:hover:bg-pink-900/30 dark:hover:text-pink-400 text-gray-500 transition-colors" title="Delete Link">
                                   <Trash2 size={14} />
                                 </button>
                               </div>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import MediaLibraryModal from "@/components/admin/MediaLibraryModal";
@@ -192,7 +192,7 @@ export default function AdminCategoriesPage() {
 
   const parentOptions = [
     { value: "", label: "None (Root)" },
-    ...flatList.map(c => ({ value: c.id, label: `${"—".repeat(c.depth)} ${c.name}` }))
+    ...flatList.map(c => ({ value: c.id, label: `${"�".repeat(c.depth)} ${c.name}` }))
   ];
 
   const filteredFlatList = flatList.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -269,7 +269,7 @@ export default function AdminCategoriesPage() {
                     <Pencil size={15} />
                   </button>
                   <button onClick={() => handleDelete(cat.id)}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 transition-colors">
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pink-900/20 transition-colors">
                     <Trash2 size={15} />
                   </button>
                 </div>

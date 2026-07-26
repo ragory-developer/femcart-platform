@@ -394,7 +394,7 @@ export default function PromotionsPage() {
                               </span>
                             ))
                           ) : (
-                            <span className="text-xs text-red-500 dark:text-red-400">Uncategorized</span>
+                            <span className="text-xs text-pink-500 dark:text-pink-400">Uncategorized</span>
                           )}
                         </div>
                       </td>
@@ -475,7 +475,7 @@ export default function PromotionsPage() {
             ) : (
               <button
                 onClick={handleRemovePromotions}
-                className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-red-500/20 text-sm"
+                className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-xl font-bold transition-colors shadow-lg shadow-pink-500/20 text-sm"
               >
                 Remove Discounts
               </button>

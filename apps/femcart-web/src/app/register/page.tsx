@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import SearchableDropdown from "@/components/ui/SearchableDropdown";
 import { API_URL } from "@/lib/config";
@@ -22,12 +22,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-/* ─── Types ─────────────────────────────────────────────── */
+/* --- Types ----------------------------------------------- */
 type Step = 1 | 2 | 3 | 4;
 
 interface LocationItem { id: string; name: string; }
 
-/* ─── Step Indicator ─────────────────────────────────────── */
+/* --- Step Indicator --------------------------------------- */
 const STEPS = [
   { label: "Email",   icon: Mail },
   { label: "Verify",  icon: KeyRound },
@@ -71,11 +71,11 @@ function StepIndicator({ current }: { current: Step }) {
   );
 }
 
-/* ─── Shared input style ─────────────────────────────────── */
-const inputCls = (icon = true) => "block w-full rounded-xl border border-gray-200 dark:border-gray-700 py-3.5 pl-11 pr-4 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 sm:text-sm bg-gray-50/50 dark:bg-gray-900/50 transition-all duration-300";
-const btnCls = "w-full bg-gradient-to-r from-red-600 to-red-500 text-white font-bold py-3.5 rounded-xl hover:from-red-500 hover:to-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 shadow-[0_8px_20px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_25px_rgba(220,38,38,0.35)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none mt-6 text-sm flex items-center justify-center gap-2";
+/* --- Shared input style ----------------------------------- */
+const inputCls = (icon = true) => "block w-full rounded-xl border border-gray-200 dark:border-gray-700 py-3.5 pl-11 pr-4 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-pink-500 focus:outline-none focus:ring-4 focus:ring-pink-500/10 sm:text-sm bg-gray-50/50 dark:bg-gray-900/50 transition-all duration-300";
+const btnCls = "w-full bg-gradient-to-r from-pink-600 to-pink-500 text-white font-bold py-3.5 rounded-xl hover:from-pink-500 hover:to-pink-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 shadow-[0_8px_20px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_25px_rgba(220,38,38,0.35)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none mt-6 text-sm flex items-center justify-center gap-2";
 
-/* ─── Main Page ──────────────────────────────────────────── */
+/* --- Main Page -------------------------------------------- */
 export default function RegisterPage() {
   const router = useRouter();
   const { setUser } = useAuthStore();
@@ -99,7 +99,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  // Step 4 — location data
+  // Step 4 � location data
   const [states, setStates] = useState<LocationItem[]>([]);
   const [cities, setCities] = useState<LocationItem[]>([]);
   const [areas, setAreas] = useState<LocationItem[]>([]);
@@ -115,14 +115,14 @@ export default function RegisterPage() {
     recipientPhone: "",
   });
 
-  /* ─── Countdown timer ─── */
+  /* --- Countdown timer --- */
   useEffect(() => {
     if (countdown <= 0) return;
     const t = setTimeout(() => setCountdown(c => c - 1), 1000);
     return () => clearTimeout(t);
   }, [countdown]);
 
-  /* ─── Fetch states once ─── */
+  /* --- Fetch states once --- */
   useEffect(() => {
     fetch(`${API_URL}/api/locations/states`)
       .then(r => r.json())
@@ -153,9 +153,9 @@ export default function RegisterPage() {
     setAddrForm(f => ({ ...f, areaId: "", area: "" }));
   };
 
-  /* ══════════════════════════════════════
-   * STEP 1 — Send OTP
-   * ══════════════════════════════════════ */
+  /* --------------------------------------
+   * STEP 1 � Send OTP
+   * -------------------------------------- */
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -172,7 +172,7 @@ export default function RegisterPage() {
         return;
       }
       if (data.data?.isRegistered) {
-        // Full account already exists — redirect to login
+        // Full account already exists � redirect to login
         setIsRegistered(true);
         return;
       }
@@ -185,9 +185,9 @@ export default function RegisterPage() {
     }
   };
 
-  /* ══════════════════════════════════════
-   * STEP 2 — Verify OTP
-   * ══════════════════════════════════════ */
+  /* --------------------------------------
+   * STEP 2 � Verify OTP
+   * -------------------------------------- */
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -217,9 +217,9 @@ export default function RegisterPage() {
     }
   };
 
-  /* ══════════════════════════════════════
-   * STEP 3 — Complete profile
-   * ══════════════════════════════════════ */
+  /* --------------------------------------
+   * STEP 3 � Complete profile
+   * -------------------------------------- */
   const handleCompleteProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -250,9 +250,9 @@ export default function RegisterPage() {
     }
   };
 
-  /* ══════════════════════════════════════
-   * STEP 4 — Save address
-   * ══════════════════════════════════════ */
+  /* --------------------------------------
+   * STEP 4 � Save address
+   * -------------------------------------- */
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!addrForm.stateId || !addrForm.cityId || !addrForm.areaId || !addrForm.address.trim()) {
@@ -276,7 +276,7 @@ export default function RegisterPage() {
       // Load the user object and finalize auth
       const storedUser = JSON.parse(localStorage.getItem("user") || "null");
       if (storedUser) setUser(storedUser);
-      // Clear tokens — user must log in freshly
+      // Clear tokens � user must log in freshly
       localStorage.removeItem("femcart_access_token");
       localStorage.removeItem("femcart_refresh_token");
       localStorage.removeItem("token");
@@ -289,7 +289,7 @@ export default function RegisterPage() {
     }
   };
 
-  /* ─── "Already registered" modal ─── */
+  /* --- "Already registered" modal --- */
   if (isRegistered) {
     return (
       <div className="container mx-auto px-4 py-24 flex items-center justify-center min-h-[80vh]">
@@ -326,7 +326,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-[100dvh] flex flex-col justify-center bg-slate-50 dark:bg-slate-950 py-12 sm:px-6 lg:px-8 font-sans relative overflow-hidden">
       {/* Decorative ambient background */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-red-600/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-pink-600/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <Link href="/" className="flex justify-center mb-6 group">
@@ -338,26 +338,26 @@ export default function RegisterPage() {
           Create an account
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-          Join Femcart — takes less than 2 minutes.
+          Join Femcart � takes less than 2 minutes.
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <div className="bg-white dark:bg-slate-900 py-8 px-4 shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-slate-200/80 dark:border-slate-800 sm:rounded-2xl sm:px-10 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-red-600" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-pink-600" />
           <div className="mb-6">
             <StepIndicator current={step} />
           </div>
 
           {/* Error */}
           {error && (
-            <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg mb-6 text-sm font-medium flex items-center gap-3">
-              <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse min-w-[8px]" />
+            <div className="bg-pink-50 dark:bg-pink-500/10 border border-pink-200 dark:border-pink-500/20 text-pink-600 dark:text-pink-400 px-4 py-3 rounded-lg mb-6 text-sm font-medium flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-pink-500 animate-pulse min-w-[8px]" />
               {error}
             </div>
           )}
 
-          {/* ─── STEP 1: Email ─── */}
+          {/* --- STEP 1: Email --- */}
           {step === 1 && (
             <form onSubmit={handleSendOtp} className="space-y-5">
               <div>
@@ -365,7 +365,7 @@ export default function RegisterPage() {
                   Email Address
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-red-500 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                     <Mail size={18} />
                   </div>
                   <input
@@ -390,7 +390,7 @@ export default function RegisterPage() {
             </form>
           )}
 
-          {/* ─── STEP 2: OTP ─── */}
+          {/* --- STEP 2: OTP --- */}
           {step === 2 && (
             <form onSubmit={handleVerifyOtp} className="space-y-5">
               <div>
@@ -401,7 +401,7 @@ export default function RegisterPage() {
                   <span className="text-xs text-gray-500">Sent to <strong className="text-gray-900 dark:text-gray-200 font-medium">{email}</strong></span>
                 </div>
                 <div className="relative group">
-                  <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-red-500 transition-colors" size={18} />
+                  <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-pink-500 transition-colors" size={18} />
                   <input
                     id="regOtp"
                     type="text"
@@ -451,7 +451,7 @@ export default function RegisterPage() {
             </form>
           )}
 
-          {/* ─── STEP 3: Profile ─── */}
+          {/* --- STEP 3: Profile --- */}
           {step === 3 && (
             <form onSubmit={handleCompleteProfile} className="space-y-4">
               <div>
@@ -459,7 +459,7 @@ export default function RegisterPage() {
                   Full Name
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-red-500 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                     <User size={18} />
                   </div>
                   <input
@@ -479,7 +479,7 @@ export default function RegisterPage() {
                   Phone Number (Optional)
                 </label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-red-500 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                     <Phone size={18} />
                   </div>
                   <input
@@ -525,7 +525,7 @@ export default function RegisterPage() {
                   id="reg-profile-btn"
                   type="submit"
                   disabled={loading || !name.trim() || password.length < 6}
-                  className="w-full bg-red-600 text-white font-semibold py-2.5 rounded-lg hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 shadow-sm transition-all duration-200 disabled:opacity-50 mt-6 text-sm flex items-center justify-center gap-2"
+                  className="w-full bg-pink-600 text-white font-semibold py-2.5 rounded-lg hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 shadow-sm transition-all duration-200 disabled:opacity-50 mt-6 text-sm flex items-center justify-center gap-2"
                 >
                   {loading ? <Loader2 className="animate-spin" size={16} /> : <>Continue <ChevronRight size={16} /></>}
                 </button>
@@ -533,7 +533,7 @@ export default function RegisterPage() {
             </form>
           )}
 
-          {/* ─── STEP 4: Address ─── */}
+          {/* --- STEP 4: Address --- */}
           {step === 4 && (
             <form onSubmit={handleSaveAddress} className="space-y-4">
               <p className="text-xs text-gray-400 font-medium -mt-2 mb-4">
@@ -598,9 +598,9 @@ export default function RegisterPage() {
                     onChange={e => setAddrForm(f => ({ ...f, label: e.target.value }))}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium text-sm"
                   >
-                    <option value="Home">🏠 Home</option>
-                    <option value="Work">🏢 Work</option>
-                    <option value="Other">📍 Other</option>
+                    <option value="Home">?? Home</option>
+                    <option value="Work">?? Work</option>
+                    <option value="Other">?? Other</option>
                   </select>
                 </div>
               </div>
@@ -674,7 +674,7 @@ export default function RegisterPage() {
                   id="reg-address-btn"
                   type="submit"
                   disabled={loading || !addrForm.stateId || !addrForm.cityId || !addrForm.areaId || !addrForm.address.trim()}
-                  className="w-full bg-red-600 text-white font-semibold py-2.5 rounded-lg hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 shadow-sm transition-all duration-200 disabled:opacity-50 mt-6 text-sm flex items-center justify-center gap-2"
+                  className="w-full bg-pink-600 text-white font-semibold py-2.5 rounded-lg hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 shadow-sm transition-all duration-200 disabled:opacity-50 mt-6 text-sm flex items-center justify-center gap-2"
                 >
                   {loading ? <Loader2 className="animate-spin" size={16} /> : <><CheckCircle2 size={16} /> Complete Registration</>}
                 </button>
@@ -686,7 +686,7 @@ export default function RegisterPage() {
           <div className="mt-8 text-center border-t border-slate-200/80 dark:border-slate-800 pt-6 relative z-10">
             <p className="text-sm text-slate-600 dark:text-slate-400">
               Already have an account?{" "}
-              <Link href="/login" className="font-medium text-red-600 dark:text-red-400 hover:text-red-500 transition-colors">
+              <Link href="/login" className="font-medium text-pink-600 dark:text-pink-400 hover:text-pink-500 transition-colors">
                 Sign in
               </Link>
             </p>

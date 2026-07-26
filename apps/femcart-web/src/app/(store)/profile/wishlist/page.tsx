@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import UserSidebar from "@/components/dashboard/UserSidebar";
 import { useAuth } from "@/context/AuthContext";
@@ -175,11 +175,11 @@ export default function WishlistPage() {
                         </Link>
                         <div className="mt-2 flex items-baseline gap-2">
                           <span className="font-black text-lg text-gray-900 dark:text-white">
-                            ৳{item.product.specialPrice || item.product.price}
+                            ?{item.product.specialPrice || item.product.price}
                           </span>
                           {item.product.specialPrice && (
                             <span className="text-sm font-bold text-gray-400 line-through">
-                              ৳{item.product.price}
+                              ?{item.product.price}
                             </span>
                           )}
                         </div>
@@ -194,7 +194,7 @@ export default function WishlistPage() {
                         </button>
                         <button
                           onClick={() => removeFromWishlist(item.id)}
-                          className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                          className="p-2 text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 rounded-xl transition-colors"
                           title="Remove from wishlist"
                         >
                           <Trash2 size={20} />

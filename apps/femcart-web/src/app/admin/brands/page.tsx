@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import MediaLibraryModal from "@/components/admin/MediaLibraryModal";
@@ -338,7 +338,7 @@ export default function AdminBrandsPage() {
                         <Pencil size={18} />
                       </button>
                       <button onClick={() => handleDelete(brand.id)}
-                        className="p-3 rounded-2xl hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-500 transition-colors">
+                        className="p-3 rounded-2xl hover:bg-pink-50 dark:hover:bg-pink-900/20 text-gray-400 hover:text-pink-500 transition-colors">
                         <Trash2 size={18} />
                       </button>
                     </div>

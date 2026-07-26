@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import UserSidebar from "@/components/dashboard/UserSidebar";
 import { useAuth } from "@/context/AuthContext";
@@ -97,7 +97,7 @@ export default function WalletPage() {
                   <div className="flex justify-between items-start mb-8">
                     <div>
                       <p className="text-gray-300 font-bold uppercase tracking-widest text-xs mb-1">Available Balance</p>
-                      <h2 className="text-4xl sm:text-5xl font-black tracking-tighter">৳{data.balance.toLocaleString()}</h2>
+                      <h2 className="text-4xl sm:text-5xl font-black tracking-tighter">?{data.balance.toLocaleString()}</h2>
                     </div>
                     <div className="p-3 bg-white/10 backdrop-blur-md rounded-2xl">
                       <CreditCard size={24} className="text-white" />
@@ -132,7 +132,7 @@ export default function WalletPage() {
                   
                   <div>
                     <p className="text-sm font-medium text-orange-50 mb-3 bg-black/20 p-3 rounded-xl inline-block">
-                      100 Points = ৳1 Store Credit
+                      100 Points = ?1 Store Credit
                     </p>
                     <button 
                       disabled={data.rewardPoints < 100}
@@ -166,7 +166,7 @@ export default function WalletPage() {
                       <div key={tx.id} className="p-4 sm:p-6 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                           <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
-                            isCredit ? 'bg-green-50 text-green-600 dark:bg-green-900/20' : 'bg-red-50 text-red-600 dark:bg-red-900/20'
+                            isCredit ? 'bg-green-50 text-green-600 dark:bg-green-900/20' : 'bg-pink-50 text-pink-600 dark:bg-pink-900/20'
                           }`}>
                             {isCredit ? <ArrowDownRight size={20} /> : <ArrowUpRight size={20} />}
                           </div>
@@ -180,7 +180,7 @@ export default function WalletPage() {
                         </div>
                         <div className="text-right">
                           <p className={`font-black text-lg ${isCredit ? 'text-green-600' : 'text-gray-900 dark:text-white'}`}>
-                            {isCredit ? '+' : ''}৳{Math.abs(tx.amount).toLocaleString()}
+                            {isCredit ? '+' : ''}?{Math.abs(tx.amount).toLocaleString()}
                           </p>
                           <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md ${
                             tx.status === 'COMPLETED' ? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400' : 'bg-yellow-100 text-yellow-700'

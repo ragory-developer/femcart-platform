@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
@@ -100,9 +100,9 @@ export default function ConnectionTab() {
 
       {testResult && (
         <div className={`p-4 rounded-xl flex items-start gap-3 ${
-          testResult.success ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-800 border border-red-200"
+          testResult.success ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-pink-50 text-pink-800 border border-pink-200"
         }`}>
-          {testResult.success ? <CheckCircle2 className="shrink-0 text-emerald-500" /> : <XCircle className="shrink-0 text-red-500" />}
+          {testResult.success ? <CheckCircle2 className="shrink-0 text-emerald-500" /> : <XCircle className="shrink-0 text-pink-500" />}
           <div className="text-sm font-medium">{testResult.message}</div>
         </div>
       )}

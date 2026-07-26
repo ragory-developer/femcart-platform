@@ -160,7 +160,7 @@ export default function TrashBinPage() {
               e.stopPropagation();
               handlePurge(item.entityType, item.id);
             }}
-            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-1 group"
+            className="p-2 text-pink-600 hover:bg-pink-50 rounded-lg transition-colors flex items-center gap-1 group"
             title="Permanently Delete"
           >
             <Trash2 className="w-4 h-4" />
@@ -176,7 +176,7 @@ export default function TrashBinPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Trash2 className="w-6 h-6 text-red-500" />
+            <Trash2 className="w-6 h-6 text-pink-500" />
             Trash Bin
           </h1>
           <p className="text-gray-500 mt-1 flex items-center gap-1">

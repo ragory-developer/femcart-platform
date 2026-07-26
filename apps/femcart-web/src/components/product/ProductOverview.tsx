@@ -67,7 +67,7 @@ const FlashSaleBanner = ({ endTime, stock }: { endTime: string, stock: number })
       }}
       style={{
         backgroundSize: "200% 200%",
-        backgroundImage: "linear-gradient(to right, #ec4899, #ef4444, #8b5cf6, #6366f1, #ec4899)"
+        backgroundImage: "linear-gradient(to right, #f472b6, #fbbf24, #f472b6)"
       }}
       className="w-full rounded p-4 mb-0 text-white overflow-hidden relative shadow-xl border border-white/10"
     >
@@ -130,22 +130,25 @@ const getButtonColorClass = (color?: string) => {
     case 'indigo': return 'bg-indigo-600 hover:bg-indigo-700 text-white';
     case 'rose': return 'bg-rose-600 hover:bg-rose-700 text-white';
     case 'gray': return 'bg-gray-800 hover:bg-gray-900 text-white';
+    case 'pink': return 'bg-pink-500 hover:bg-pink-600 text-white';
     case 'primary':
     case 'emerald':
     case 'red':
-    default: return 'bg-red-600 hover:bg-red-700 text-white';
+    default: return 'bg-pink-500 hover:bg-pink-600 text-white';
   }
 };
 
 const getPillColorClass = (color?: string) => {
   switch (color) {
+    case 'pink':
+      return 'bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/50 border-pink-100 dark:border-pink-900/20';
     case 'primary':
     case 'emerald':
     case 'red':
-      return 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/50 border-red-100 dark:border-red-900/20';
+      return 'bg-pink-50 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-pink-900/50 border-pink-100 dark:border-pink-900/20';
     case 'gray': return 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-gray-100 dark:border-gray-800';
     case 'indigo':
-    default: return 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 border-indigo-100 dark:border-indigo-900/20';
+    default: return 'bg-gray-50 dark:bg-gray-900/30 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900/50 border-gray-100 dark:border-gray-900/20';
   }
 };
 // ---------------------------------
@@ -170,10 +173,10 @@ export default function ProductOverview({
   descriptionColor,
   descriptionAlign = "left",
   elementsOrder = ["category_brand", "title", "rating", "tags", "flash_sale", "price", "description", "variants", "add_to_cart", "features", "sku"],
-  buttonColor = "red",
+  buttonColor = "pink",
   buttonSize = "md",
   buttonAlign = "left",
-  pillColor = "indigo",
+  pillColor = "pink",
   pillSize = "xs",
   pillAlign = "left",
   bannerColor = "rose",
@@ -286,7 +289,7 @@ export default function ProductOverview({
       <div className={`flex flex-col mb-2 sm:mb-3 ${getAlignClass(priceAlign)} min-h-[40px] justify-center`}>
         <div className={`flex items-center gap-2 sm:gap-3 flex-wrap ${priceAlign === 'center' || priceAlign === 'text-center' ? 'justify-center' : priceAlign === 'right' || priceAlign === 'text-right' ? 'justify-end' : ''}`}>
           <span
-            className={`${priceSize} font-extrabold tracking-tight ${getTextColorClass(priceColor, 'text-gray-900 dark:text-white')}`}
+            className={`text-3xl sm:text-4xl font-medium tracking-tight ${getTextColorClass(priceColor, 'text-gray-900 dark:text-white')}`}
             style={getTextColorStyle(priceColor)}
           >
             ৳{currentPrice.toFixed(2)}
@@ -299,7 +302,7 @@ export default function ProductOverview({
           {isDiscounted && (
             <div className={`flex items-center gap-3 ${priceAlign === 'center' ? 'justify-center' : priceAlign === 'right' ? 'justify-end' : ''}`}>
               <span className="text-xl sm:text-2xl text-gray-400 line-through font-medium">৳{originalPrice.toFixed(2)}</span>
-              <span className="bg-rose-100 text-rose-600 px-3 py-1 rounded-sm text-xs sm:text-sm font-bold shadow-sm whitespace-nowrap">
+              <span className="bg-pink-50 text-pink-600 border border-pink-100 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">
                 Save ৳{(originalPrice - currentPrice).toFixed(2)}
               </span>
             </div>
@@ -339,7 +342,7 @@ export default function ProductOverview({
                 window.dispatchEvent(new CustomEvent('builder:highlightElement', { detail: { elementId } }));
               }
             }}
-            className={`text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white leading-[1.2] tracking-tight mb-1 break-words ${getAlignClass(titleAlign)} ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-red-500/50 hover:bg-red-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
+            className={`font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white leading-[1.1] mb-2 break-words ${getAlignClass(titleAlign)} ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-pink-500/50 hover:bg-pink-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
             style={getTextColorStyle(titleColor)}
           >
             {name}
@@ -432,7 +435,7 @@ export default function ProductOverview({
                 window.dispatchEvent(new CustomEvent('builder:highlightElement', { detail: { elementId } }));
               }
             }}
-            className={`flex flex-col gap-1 mb-3 sm:mb-4 overflow-hidden ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-red-500/50 hover:bg-red-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
+            className={`flex flex-col gap-1 mb-3 sm:mb-4 overflow-hidden ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-pink-500/50 hover:bg-pink-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
           >
             {renderPrice()}
             {productType !== "VARIABLE" && !isDiscounted && (
@@ -453,7 +456,7 @@ export default function ProductOverview({
                 window.dispatchEvent(new CustomEvent('builder:highlightElement', { detail: { elementId } }));
               }
             }}
-            className={`w-full max-w-full relative mb-8 ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-red-500/50 hover:bg-red-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
+            className={`w-full max-w-full relative mb-8 ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-pink-500/50 hover:bg-pink-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
           >
             <div
               className={`w-full ${descriptionSize} ${!descriptionColor ? 'text-gray-800 dark:text-gray-200' : ''} leading-relaxed transition-all duration-500 overflow-hidden relative text-${descriptionAlign} ${!isExpanded ? "max-h-[140px]" : "max-h-[4000px]"
@@ -569,7 +572,7 @@ export default function ProductOverview({
         return (
           <div
             key={elementId}
-            className={`mb-3 sm:mb-4 flex justify-${buttonAlign} ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-red-500/50 hover:bg-red-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
+            className={`mb-3 sm:mb-4 flex justify-${buttonAlign} ${forceShowElements ? 'cursor-pointer hover:outline-dashed hover:outline-2 hover:outline-pink-500/50 hover:bg-pink-50/10 p-1 -m-1 rounded-sm transition-all' : ''}`}
             onClickCapture={(e) => {
               if (forceShowElements && typeof window !== 'undefined') {
                 e.preventDefault();
@@ -597,23 +600,23 @@ export default function ProductOverview({
 
         const stockBg = stockColor === "emerald" ? "bg-emerald-50/50 dark:bg-emerald-900/20 border-emerald-100 dark:border-emerald-800" :
                         stockColor === "amber" ? "bg-amber-50/50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800" :
-                        "bg-red-50/50 dark:bg-red-900/20 border-red-100 dark:border-red-800";
+                        "bg-pink-50/50 dark:bg-pink-900/20 border-pink-100 dark:border-pink-800";
         
         const stockIconBorder = stockColor === "emerald" ? "border-emerald-100 dark:border-emerald-700" :
                                 stockColor === "amber" ? "border-amber-100 dark:border-amber-700" :
-                                "border-red-100 dark:border-red-700";
+                                "border-pink-100 dark:border-pink-700";
         
         const stockIconText = stockColor === "emerald" ? "text-emerald-600" :
                               stockColor === "amber" ? "text-amber-600" :
-                              "text-red-600";
+                              "text-pink-600";
                               
         const stockSubtext = stockColor === "emerald" ? "text-emerald-600/80 dark:text-emerald-400/80" :
                              stockColor === "amber" ? "text-amber-600/80 dark:text-amber-400/80" :
-                             "text-red-600/80 dark:text-red-400/80";
+                             "text-pink-600/80 dark:text-pink-400/80";
                              
         const stockText = stockColor === "emerald" ? "text-emerald-700 dark:text-emerald-400" :
                           stockColor === "amber" ? "text-amber-700 dark:text-amber-400" :
-                          "text-red-700 dark:text-red-400";
+                          "text-pink-700 dark:text-pink-400";
 
         return (
           <div key={elementId} className={`grid grid-cols-2 lg:grid-cols-1 gap-2 sm:gap-3 ${skuAlertStyle === 'cards' ? 'border-t border-gray-100 dark:border-gray-800 pt-3 sm:pt-5 mt-1 sm:mt-2' : 'opacity-80 mt-2 sm:mt-4'}`}>
@@ -705,7 +708,7 @@ export default function ProductOverview({
             />
             <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-10 flex flex-col gap-2">
               {hasSpecialPrice && (
-                <div className="font-black px-[clamp(0.5rem,2vw,1.25rem)] py-[clamp(0.125rem,1vw,0.5rem)] rounded-sm sm:rounded transform -rotate-3 uppercase tracking-wider text-[clamp(0.625rem,1.5vw,0.875rem)] bg-red-600 text-white shadow-xl">
+                <div className="font-black px-[clamp(0.5rem,2vw,1.25rem)] py-[clamp(0.125rem,1vw,0.5rem)] rounded-sm sm:rounded transform -rotate-3 uppercase tracking-wider text-[clamp(0.625rem,1.5vw,0.875rem)] bg-pink-600 text-white shadow-xl">
                   Flash Deal
                 </div>
               )}
@@ -715,7 +718,7 @@ export default function ProductOverview({
                 const diffDays = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
                 if (diffDays <= 14) {
                   return (
-                    <div className="font-black px-3 py-1 sm:px-4 sm:py-1.5 rounded-sm uppercase tracking-wider text-[10px] sm:text-xs w-fit bg-red-600 text-white shadow-lg">
+                    <div className="font-black px-3 py-1 sm:px-4 sm:py-1.5 rounded-sm uppercase tracking-wider text-[10px] sm:text-xs w-fit bg-pink-600 text-white shadow-lg">
                       NEW
                     </div>
                   );

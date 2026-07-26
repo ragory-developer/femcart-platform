@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -255,13 +255,13 @@ export default function AdminMediaPage() {
     const ids = selectedItems.map(i => i.id);
 
     const result = await Swal.fire({
-      title: '<span class="text-red-600 dark:text-red-500 font-bold text-2xl flex items-center gap-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Critical Action</span>',
+      title: '<span class="text-pink-600 dark:text-pink-500 font-bold text-2xl flex items-center gap-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Critical Action</span>',
       html: `
         <div class="text-left space-y-4 mt-2">
           <p class="text-gray-700 dark:text-gray-300 text-base">
             You are about to permanently delete <b class="text-gray-900 dark:text-white font-bold">${ids.length} image(s)</b> from your media library.
           </p>
-          <div class="p-4 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-xl border border-red-200 dark:border-red-800/50 text-sm leading-relaxed shadow-inner">
+          <div class="p-4 bg-pink-50 dark:bg-pink-900/20 text-pink-800 dark:text-pink-300 rounded-xl border border-pink-200 dark:border-pink-800/50 text-sm leading-relaxed shadow-inner">
             <strong class="font-black flex items-center gap-1.5 mb-2 uppercase tracking-wide">
               Danger: Breaking Change Possible
             </strong>
@@ -281,7 +281,7 @@ export default function AdminMediaPage() {
       color: settings.theme === 'dark' ? '#f9fafb' : '#111827',
       customClass: {
         popup: 'rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800',
-        confirmButton: 'rounded-xl font-bold px-6 py-3 shadow-lg shadow-red-600/20 hover:scale-105 transition-transform',
+        confirmButton: 'rounded-xl font-bold px-6 py-3 shadow-lg shadow-pink-600/20 hover:scale-105 transition-transform',
         cancelButton: 'rounded-xl font-bold px-6 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
       },
       didOpen: () => {
@@ -366,7 +366,7 @@ export default function AdminMediaPage() {
             Media Library
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
-            {items.length} image{items.length !== 1 ? "s" : ""} Â· Drag &amp; drop
+            {items.length} image{items.length !== 1 ? "s" : ""} · Drag &amp; drop
             anywhere to upload
           </p>
         </div>
@@ -558,7 +558,7 @@ export default function AdminMediaPage() {
                       <p className="flex justify-between">
                         <span className="font-medium">Original:</span>
                         <span className="text-gray-700 dark:text-gray-300">
-                          {selected.width} Ã— {selected.height}px
+                          {selected.width} × {selected.height}px
                         </span>
                       </p>
                     )}
@@ -620,7 +620,7 @@ export default function AdminMediaPage() {
                     </button>
                     <button
                       onClick={initiateDeleteFlow}
-                      className="px-3 py-2 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-800 transition-colors"
+                      className="px-3 py-2 rounded-lg text-sm font-medium text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 border border-pink-200 dark:border-pink-800 transition-colors"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -679,7 +679,7 @@ export default function AdminMediaPage() {
               className="fixed bottom-8 left-1/2 z-[10010] bg-white dark:bg-gray-800 shadow-2xl rounded-full pl-6 pr-2 py-2 flex items-center gap-6 border border-gray-200 dark:border-gray-700"
             >
               <div className="flex items-center gap-3">
-                <div className="bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                <div className="bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 w-8 h-8 rounded-full flex items-center justify-center font-bold">
                   {selectedItems.length}
                 </div>
                 <span className="font-semibold text-gray-700 dark:text-gray-300">Selected</span>
@@ -690,7 +690,7 @@ export default function AdminMediaPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={initiateDeleteFlow}
-                  className="px-6 py-2.5 bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-600/20 rounded-full text-sm font-bold flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
+                  className="px-6 py-2.5 bg-pink-600 text-white hover:bg-pink-700 shadow-lg shadow-pink-600/20 rounded-full text-sm font-bold flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
                 >
                   <Trash2 size={18} /> Delete Selected
                 </button>

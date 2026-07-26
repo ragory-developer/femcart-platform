@@ -182,7 +182,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link href="/categories/everyday" className="text-[18px] font-medium text-text-pink-500 hover:text-pink-500 transition-colors">Everyday</Link>
                 <Link href="/categories/lounge" className="text-[18px] font-medium text-text-pink-500 hover:text-pink-500 transition-colors">Lounge</Link>
                 <Link href="/catalog" className="text-[18px] font-medium text-pink-500 transition-colors">New In</Link>
-                <Link href="/catalog?sale=true" className="text-[18px] font-medium text-red-500 hover:text-red-600 transition-colors">Sale</Link>
+                <Link href="/catalog?sale=true" className="text-[18px] font-medium text-pink-500 hover:text-pink-600 transition-colors">Sale</Link>
               </nav>
             </motion.div>
           </>

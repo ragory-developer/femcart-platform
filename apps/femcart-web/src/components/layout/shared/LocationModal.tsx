@@ -92,7 +92,7 @@ export function LocationModal({ isOpen, onClose, themeColor = "emerald" }: Locat
 
   const colorMap: Record<string, string> = {
     emerald: "bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500",
-    red: "bg-red-600 hover:bg-red-700 focus:ring-red-500",
+    red: "bg-pink-600 hover:bg-pink-700 focus:ring-pink-500",
   };
   const btnColor = colorMap[themeColor] || colorMap.emerald;
 

@@ -1,4 +1,4 @@
-﻿import { API_URL } from '@/lib/config';
+import { API_URL } from '@/lib/config';
 import { AlertTriangle, MessageSquare, Send, Ticket, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -161,7 +161,7 @@ export function SmsCouponModal({
                   >
                     <option value="">-- Choose Coupon to Insert --</option>
                     {coupons.map(c => (
-                      <option key={c.id} value={c.code}>{c.code}  —  {c.discount}{c.type === 'PERCENT' ? '%' : '৳'} Off</option>
+                      <option key={c.id} value={c.code}>{c.code}  �  {c.discount}{c.type === 'PERCENT' ? '%' : '?'} Off</option>
                     ))}
                   </select>
                 </div>
@@ -215,12 +215,12 @@ export function SmsCouponModal({
 
             {/* Wallet Status Area */}
             {isInsufficient ? (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 rounded-lg flex gap-3 items-start">
-                 <AlertTriangle className="text-red-600 dark:text-red-400 shrink-0 mt-0.5" size={16} />
+              <div className="bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 p-4 rounded-lg flex gap-3 items-start">
+                 <AlertTriangle className="text-pink-600 dark:text-pink-400 shrink-0 mt-0.5" size={16} />
                  <div>
-                   <p className="text-sm font-semibold text-red-800 dark:text-red-300 mb-1">Insufficient Funds</p>
-                   <p className="text-xs text-red-700 dark:text-red-400">
-                     Cost: ৳{totalCost.toFixed(2)} / Balance: ৳{walletBalance?.toFixed(2)}
+                   <p className="text-sm font-semibold text-pink-800 dark:text-pink-300 mb-1">Insufficient Funds</p>
+                   <p className="text-xs text-pink-700 dark:text-pink-400">
+                     Cost: ?{totalCost.toFixed(2)} / Balance: ?{walletBalance?.toFixed(2)}
                    </p>
                  </div>
               </div>
@@ -228,11 +228,11 @@ export function SmsCouponModal({
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 rounded-lg flex items-center justify-between">
                 <div>
                   <p className="text-xs text-gray-500 mb-0.5">Campaign Cost</p>
-                  <p className="text-base font-semibold text-gray-900 dark:text-white">৳{totalCost.toFixed(2)}</p>
+                  <p className="text-base font-semibold text-gray-900 dark:text-white">?{totalCost.toFixed(2)}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-gray-500 mb-0.5">Wallet Balance</p>
-                  <p className="text-base font-semibold text-emerald-600 dark:text-emerald-400">৳{walletBalance?.toFixed(2)}</p>
+                  <p className="text-base font-semibold text-emerald-600 dark:text-emerald-400">?{walletBalance?.toFixed(2)}</p>
                 </div>
               </div>
             )}

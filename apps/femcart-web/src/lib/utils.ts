@@ -108,3 +108,16 @@ export function getCategoryIcon(title: string) {
   if (t.includes("dairy") || t.includes("milk") || t.includes("cheese")) return Milk;
   return Package; // default icon
 }
+export function getFilterUrl(url: string) {
+  if (!url) return "#";
+  if (url.startsWith("/category/")) {
+    return "/catalog?category=" + url.replace("/category/", "");
+  }
+  if (url.startsWith("/categories/")) {
+    return "/catalog?category=" + url.replace("/categories/", "");
+  }
+  if (url.startsWith("/brands/")) {
+    return "/catalog?brand=" + url.replace("/brands/", "");
+  }
+  return url;
+}

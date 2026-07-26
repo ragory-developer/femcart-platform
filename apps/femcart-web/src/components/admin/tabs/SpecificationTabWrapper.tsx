@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import {
@@ -18,7 +18,7 @@ import { showToast } from "@/lib/toast";
 
 const API = `${API_URL}/api/specifications`;
 
-// ── Types ──────────────────────────────────────────────────────────────────
+// -- Types ------------------------------------------------------------------
 
 interface SpecificationValue {
   id: string;
@@ -46,7 +46,7 @@ function getToken() {
     : "";
 }
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+// -- Helpers ----------------------------------------------------------------
 
 function buildValueLabel(spec: Specification, selectedIds: string[]): string {
   return spec.values
@@ -55,7 +55,7 @@ function buildValueLabel(spec: Specification, selectedIds: string[]): string {
     .join(" | ");
 }
 
-// ── Main Component ─────────────────────────────────────────────────────────
+// -- Main Component ---------------------------------------------------------
 
 export default function SpecificationTabWrapper() {
   const { control, formState: { errors } } = useFormContext<ProductFormValues>();
@@ -86,7 +86,7 @@ export default function SpecificationTabWrapper() {
   const [newValueText, setNewValueText] = useState("");
   const [creatingValue, setCreatingValue] = useState(false);
 
-  // ── Data loading ────────────────────────────────────────────────────────
+  // -- Data loading --------------------------------------------------------
 
   const fetchCatalog = useCallback(async () => {
     setLoadingCatalog(true);
@@ -111,7 +111,7 @@ export default function SpecificationTabWrapper() {
     fetchCatalog();
   }, [fetchCatalog]);
 
-  // ── Derived state ───────────────────────────────────────────────────────
+  // -- Derived state -------------------------------------------------------
 
   const activeSpecification = catalog.find((a) => a.id === activeSpecId) ?? null;
 
@@ -130,7 +130,7 @@ export default function SpecificationTabWrapper() {
     v.value.toLowerCase().includes(valueSearch.toLowerCase())
   );
 
-  // ── Specification actions ───────────────────────────────────────────────────
+  // -- Specification actions ---------------------------------------------------
 
   // Toggle specification from catalog into/out of product list
   const toggleSpecificationInProduct = (spec: Specification) => {
@@ -213,7 +213,7 @@ export default function SpecificationTabWrapper() {
     }
   };
 
-  // ── Value actions ───────────────────────────────────────────────────────
+  // -- Value actions -------------------------------------------------------
 
   const toggleValue = (val: SpecificationValue) => {
     if (!activeSpecification) return;
@@ -229,7 +229,7 @@ export default function SpecificationTabWrapper() {
       // Update existing row
       update(idx, { ...specifications[idx], _selectedValueIds: newIds, value: newLabel } as any);
     } else {
-      // Specification is in catalog but not yet added to product — add it now
+      // Specification is in catalog but not yet added to product � add it now
       append({
         name: activeSpecification.name,
         value: newLabel,
@@ -337,7 +337,7 @@ export default function SpecificationTabWrapper() {
     }
   };
 
-  // ── Render ──────────────────────────────────────────────────────────────
+  // -- Render --------------------------------------------------------------
 
   return (
     <div className="max-w-4xl space-y-8 animate-in fade-in duration-300">
@@ -347,10 +347,10 @@ export default function SpecificationTabWrapper() {
           <p className="text-sm text-gray-500 mt-1">Select specifications and their values or create new ones.</p>
         </div>
 
-      {/* ── Two-panel layout ── */}
+      {/* -- Two-panel layout -- */}
       <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800 flex min-h-[420px]">
 
-        {/* ── LEFT: Specification list ── */}
+        {/* -- LEFT: Specification list -- */}
         <div className="w-56 shrink-0 border-r border-gray-200 dark:border-gray-700 flex flex-col">
           <div className="px-3 py-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40">
             <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
@@ -366,7 +366,7 @@ export default function SpecificationTabWrapper() {
                 type="text"
                 value={specSearch}
                 onChange={(e) => setSpecSearch(e.target.value)}
-                placeholder="Search specs…"
+                placeholder="Search specs�"
                 className="w-full pl-6 pr-2 py-1.5 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
               />
               {specSearch && (
@@ -384,7 +384,7 @@ export default function SpecificationTabWrapper() {
           <div className="flex-1 overflow-y-auto">
             {loadingCatalog ? (
               <div className="flex items-center justify-center gap-2 py-10 text-gray-400 text-sm">
-                <Loader2 size={16} className="animate-spin" /> Loading…
+                <Loader2 size={16} className="animate-spin" /> Loading�
               </div>
             ) : filteredCatalog.length === 0 ? (
               <p className="text-center text-xs text-gray-400 py-8 px-3">
@@ -424,7 +424,7 @@ export default function SpecificationTabWrapper() {
                         e.stopPropagation();
                         handleDeleteSpecification(spec.id);
                       }}
-                      className="pr-3 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="pr-3 text-gray-300 hover:text-pink-500 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <Trash2 size={12} />
                     </button>
@@ -447,7 +447,7 @@ export default function SpecificationTabWrapper() {
                     handleCreateSpecification();
                   }
                 }}
-                placeholder="New specification…"
+                placeholder="New specification�"
                 className="flex-1 min-w-0 px-2 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
               />
               <button
@@ -466,7 +466,7 @@ export default function SpecificationTabWrapper() {
           </div>
         </div>
 
-        {/* ── RIGHT: Values panel ── */}
+        {/* -- RIGHT: Values panel -- */}
         <div className="flex-1 flex flex-col min-w-0">
           {!activeSpecification ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-8 text-gray-400">
@@ -495,7 +495,7 @@ export default function SpecificationTabWrapper() {
                   onClick={() => toggleSpecificationInProduct(activeSpecification)}
                   className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors ${
                     addedSpecIds.includes(activeSpecification.id)
-                      ? "border-red-300 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                      ? "border-pink-300 text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20"
                       : "border-emerald-400 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                   }`}
                 >
@@ -514,7 +514,7 @@ export default function SpecificationTabWrapper() {
                       type="text"
                       value={valueSearch}
                       onChange={(e) => setValueSearch(e.target.value)}
-                      placeholder="Search values…"
+                      placeholder="Search values�"
                       className="w-full pl-8 pr-8 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
                     />
                     {valueSearch && (
@@ -533,7 +533,7 @@ export default function SpecificationTabWrapper() {
               <div className="flex-1 overflow-y-auto p-5">
                 {activeSpecification.values.length === 0 ? (
                   <p className="text-sm text-gray-400 italic">
-                    No values yet — create one below.
+                    No values yet � create one below.
                   </p>
                 ) : filteredValues.length === 0 ? (
                   <p className="text-sm text-gray-400 italic">
@@ -558,7 +558,7 @@ export default function SpecificationTabWrapper() {
                           </button>
                           <button
                             onClick={() => handleDeleteValue(val)}
-                            className="absolute -top-1 -right-1 bg-red-100 text-red-600 p-1 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-200"
+                            className="absolute -top-1 -right-1 bg-pink-100 text-pink-600 p-1 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-pink-200"
                           >
                             <Trash2 size={10} />
                           </button>
@@ -592,7 +592,7 @@ export default function SpecificationTabWrapper() {
                         handleCreateValue();
                       }
                     }}
-                    placeholder={`Add new value for "${activeSpecification.name}"…`}
+                    placeholder={`Add new value for "${activeSpecification.name}"�`}
                     className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
                   />
                   <button
@@ -614,14 +614,14 @@ export default function SpecificationTabWrapper() {
         </div>
       </div>
 
-      {/* ── Added specifications summary ── */}
+      {/* -- Added specifications summary -- */}
       {specifications.length > 0 && (
         <div className="space-y-2">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             Added to this product
           </p>
           {errors.specifications && (
-            <p className="text-red-500 text-xs mt-1.5 font-medium flex items-center gap-1">
+            <p className="text-pink-500 text-xs mt-1.5 font-medium flex items-center gap-1">
               <AlertCircle size={14}/> Please make sure all added specifications have at least one value selected.
             </p>
           )}
@@ -629,7 +629,7 @@ export default function SpecificationTabWrapper() {
             {specifications.map((spec, idx) => (
               <div
                 key={spec._attributeId || idx}
-                className={`flex items-start justify-between gap-3 bg-gray-50 dark:bg-gray-800/60 border ${errors.specifications?.[idx] ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} rounded-xl px-4 py-3`}
+                className={`flex items-start justify-between gap-3 bg-gray-50 dark:bg-gray-800/60 border ${errors.specifications?.[idx] ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} rounded-xl px-4 py-3`}
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-gray-900 dark:text-white">
@@ -654,7 +654,7 @@ export default function SpecificationTabWrapper() {
                 </div>
                 <button
                   onClick={() => removeFromProduct(spec._attributeId!)}
-                  className="shrink-0 text-gray-400 hover:text-red-500 p-1 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  className="shrink-0 text-gray-400 hover:text-pink-500 p-1 rounded-md hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
                 >
                   <X size={16} />
                 </button>

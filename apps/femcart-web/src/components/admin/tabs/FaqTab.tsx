@@ -50,7 +50,7 @@ export default function FaqTab() {
                 <button 
                   type="button"
                   onClick={() => remove(index)}
-                  className="absolute top-4 right-4 p-1 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  className="absolute top-4 right-4 p-1 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
                 >
                   <X size={18} />
                 </button>
@@ -64,10 +64,10 @@ export default function FaqTab() {
                       type="text"
                       {...register(`faqs.${index}.question`)}
                       placeholder="e.g. Is this product organic?"
-                      className={`w-full px-4 py-2.5 rounded-lg border ${faqError?.question ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors`}
+                      className={`w-full px-4 py-2.5 rounded-lg border ${faqError?.question ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors`}
                     />
                     {faqError?.question && (
-                      <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+                      <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                         <AlertCircle size={14}/> {faqError.question.message}
                       </p>
                     )}
@@ -80,10 +80,10 @@ export default function FaqTab() {
                       {...register(`faqs.${index}.answer`)}
                       placeholder="e.g. Yes, all our products are 100% certified organic."
                       rows={3}
-                      className={`w-full px-4 py-2.5 rounded-lg border ${faqError?.answer ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors resize-none`}
+                      className={`w-full px-4 py-2.5 rounded-lg border ${faqError?.answer ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors resize-none`}
                     />
                     {faqError?.answer && (
-                      <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+                      <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                         <AlertCircle size={14}/> {faqError.answer.message}
                       </p>
                     )}

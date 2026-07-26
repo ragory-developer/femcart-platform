@@ -32,11 +32,11 @@ export default function SeoTab() {
                 value={slug || ""} 
                 onChange={(e) => setValue("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
                 placeholder="custom-product-url"
-                className={`flex-1 px-4 py-2.5 rounded-r-lg border ${errors.slug ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+                className={`flex-1 px-4 py-2.5 rounded-r-lg border ${errors.slug ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
               />
             </div>
             {errors.slug ? (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.slug.message}
               </p>
             ) : (
@@ -52,10 +52,10 @@ export default function SeoTab() {
               type="text" 
               {...register("metaTitle")}
               placeholder="SEO optimized title..."
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.metaTitle ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.metaTitle ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
             />
             {errors.metaTitle && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.metaTitle.message}
               </p>
             )}
@@ -69,10 +69,10 @@ export default function SeoTab() {
               type="text" 
               {...register("metaKeywords")}
               placeholder="fresh, groceries, organic, ..."
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.metaKeywords ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.metaKeywords ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
             />
             {errors.metaKeywords && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.metaKeywords.message}
               </p>
             )}
@@ -86,10 +86,10 @@ export default function SeoTab() {
               {...register("metaDescription")}
               rows={4}
               placeholder="Write a highly descriptive summary for search engines..."
-              className={`w-full px-4 py-3 rounded-lg border ${errors.metaDescription ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white resize-y transition-colors leading-relaxed`} 
+              className={`w-full px-4 py-3 rounded-lg border ${errors.metaDescription ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white resize-y transition-colors leading-relaxed`} 
             />
             {errors.metaDescription && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.metaDescription.message}
               </p>
             )}

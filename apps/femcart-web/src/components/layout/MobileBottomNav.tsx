@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Home, LayoutGrid, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getFilterUrl } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export interface MobileBottomNavProps {
@@ -23,7 +24,7 @@ export default function MobileBottomNav({
   activeColor = "text-olive dark:text-lime",
   badgeBgColor = "bg-brand-red",
   badgeTextColor = "text-white",
-  borderClass = "border-t border-red-500/50 dark:border-red-500/50",
+  borderClass = "border-t border-pink-500/50 dark:border-pink-500/50",
   hideOnDesktop = true,
 }: MobileBottomNavProps = {}) {
   const pathname = usePathname();
@@ -108,7 +109,7 @@ export default function MobileBottomNav({
           return (
             <Link
               key={item.id}
-              href={item.href!}
+              href={getFilterUrl(item.href!)}
               className="flex-1 flex flex-col items-center justify-center h-full outline-none active:scale-95 transition-transform"
               aria-label={item.label}
               prefetch={false}

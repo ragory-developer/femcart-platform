@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
+import { getFilterUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { useSettingsStore } from "@/store/settingsStore";
@@ -102,19 +103,19 @@ export default function Navbar({
       <header className={`sticky top-0 z-50 flex flex-col font-sans transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
 
         {/* Tier 1: Top Banner */}
-        <div className="bg-red-600 text-white shadow-md relative z-20 hidden md:block border-b border-red-700">
+        <div className="bg-pink-600 text-white shadow-md relative z-20 hidden md:block border-b border-pink-700">
           <div className="max-w-[1600px] mx-auto px-4 md:px-6 py-1 flex justify-between items-center">
             <div className="flex items-center gap-5 text-white/95 text-[12px] font-semibold tracking-wide">
               <span className="hidden lg:flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                 <MapPin size={15} className="text-white/70" />
                 {(settings.footer_address || "123 Grocery Ave, NY 10001").replace(/\n/g, ', ')}
               </span>
-              <div className="hidden lg:block w-px h-4 bg-red-700" />
+              <div className="hidden lg:block w-px h-4 bg-pink-700" />
               <span className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                 <Phone size={15} className="text-white/70" />
                 {supportPhone}
               </span>
-              <div className="hidden lg:block w-px h-4 bg-red-700" />
+              <div className="hidden lg:block w-px h-4 bg-pink-700" />
               <span className="hidden xl:flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                 <Mail size={15} className="text-white/70" />
                 {settings.footer_email || "support@grocery.com"}
@@ -164,7 +165,7 @@ export default function Navbar({
                                   key={subItem.id}
                                   href={subItem.url}
                                   target={subItem.target || "_self"}
-                                  className="block px-4 py-2 text-[13px] font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 transition-colors normal-case whitespace-nowrap"
+                                  className="block px-4 py-2 text-[13px] font-medium text-gray-700 hover:text-pink-600 hover:bg-pink-50 transition-colors normal-case whitespace-nowrap"
                                 >
                                   {subItem.title}
                                 </Link>
@@ -189,15 +190,15 @@ export default function Navbar({
             <div className="flex items-center gap-2 lg:gap-4 shrink-0">
               {/* Mobile Menu Toggle */}
               <button
-                className="lg:hidden p-2 -ml-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition-colors focus-visible:ring-2 focus-visible:ring-red-500 outline-none"
+                className="lg:hidden p-2 -ml-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 transition-colors focus-visible:ring-2 focus-visible:ring-pink-500 outline-none"
                 onClick={() => setIsMobileMenuOpen(true)}
                 aria-label="Open mobile menu"
               >
                 <Menu size={24} />
               </button>
 
-              <Link href="/" className="flex items-center outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-xl group py-1.5">
-                <span className="text-2xl font-black tracking-tighter text-red-600 flex items-center transition-transform group-hover:scale-[1.02]">
+              <Link href="/" className="flex items-center outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded-xl group py-1.5">
+                <span className="text-2xl font-black tracking-tighter text-pink-600 flex items-center transition-transform group-hover:scale-[1.02]">
                   <Image
                     src={(!settings.store_logo || settings.store_logo === "null" || settings.store_logo === "undefined") ? "/logo.png" : settings.store_logo}
                     alt={(!settings.store_name || settings.store_name === "null" || settings.store_name === "undefined") ? "Femcart" : settings.store_name}
@@ -217,7 +218,7 @@ export default function Navbar({
                 <div className="flex flex-col">
                   <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Deliver to</span>
                   <span
-                    className="text-[13px] font-bold text-red-600 cursor-pointer hover:text-red-700 transition-colors"
+                    className="text-[13px] font-bold text-pink-600 cursor-pointer hover:text-pink-700 transition-colors"
                     onClick={() => setIsLocationModalOpen(true)}
                   >
                     {currentLocation}
@@ -237,14 +238,14 @@ export default function Navbar({
               {/* Mobile Search Trigger */}
               <button
                 onClick={useGlobalSearchStore((state) => state.openSearch)}
-                className="md:hidden w-10 h-10 flex items-center justify-center text-gray-600 hover:text-red-600 hover:bg-gray-100 rounded-full transition-colors"
+                className="md:hidden w-10 h-10 flex items-center justify-center text-gray-600 hover:text-pink-600 hover:bg-gray-100 rounded-full transition-colors"
               >
                 <Search className="w-5 h-5" />
               </button>
 
               {/* Language Dropdown */}
               <div className="relative group hidden sm:block">
-                <button className="h-10 md:h-12 flex items-center gap-1.5 text-gray-600 hover:text-red-600 font-bold text-sm px-2 transition-colors rounded-xl hover:bg-red-50">
+                <button className="h-10 md:h-12 flex items-center gap-1.5 text-gray-600 hover:text-pink-600 font-bold text-sm px-2 transition-colors rounded-xl hover:bg-pink-50">
                   <Globe size={20} />
                   <span>EN</span>
                   <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
@@ -253,10 +254,10 @@ export default function Navbar({
                 {/* Dropdown */}
                 <div className="absolute right-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-[160px]">
                   <div className="bg-white border border-gray-100/60 rounded-2xl shadow-xl overflow-hidden py-1">
-                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-red-600 bg-red-50 transition-colors">English (EN)</button>
-                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">Español (ES)</button>
-                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">Français (FR)</button>
-                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors">العربية (AR)</button>
+                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-pink-600 bg-pink-50 transition-colors">English (EN)</button>
+                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">Espa�ol (ES)</button>
+                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">Fran�ais (FR)</button>
+                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">??????? (AR)</button>
                   </div>
                 </div>
               </div>
@@ -265,7 +266,7 @@ export default function Navbar({
               <div className="flex items-center gap-1 lg:gap-2">
                 <button
                   onClick={useCartStore((state) => state.openCart)}
-                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-gray-600 hover:text-red-600 hover:bg-gray-100 rounded-full transition-colors relative"
+                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-gray-600 hover:text-pink-600 hover:bg-gray-100 rounded-full transition-colors relative"
                 >
                   <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
                   <AnimatePresence>
@@ -274,7 +275,7 @@ export default function Navbar({
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         exit={{ scale: 0 }}
-                        className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 h-4 w-4 md:h-5 md:w-5 bg-red-600 text-white text-[10px] md:text-[11px] font-bold flex items-center justify-center rounded-full shadow-sm"
+                        className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 h-4 w-4 md:h-5 md:w-5 bg-pink-600 text-white text-[10px] md:text-[11px] font-bold flex items-center justify-center rounded-full shadow-sm"
                       >
                         {cartCount}
                       </motion.span>
@@ -286,7 +287,7 @@ export default function Navbar({
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
-                      className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-red-600 rounded-full transition-colors shadow-sm"
+                      className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-pink-600 rounded-full transition-colors shadow-sm"
                     >
                       <UserIcon className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
@@ -305,7 +306,7 @@ export default function Navbar({
                           <Link
                             href={user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin' : '/dashboard'}
                             onClick={() => setUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors font-medium"
+                            className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors font-medium"
                           >
                             <LayoutDashboard size={16} />
                             Dashboard
@@ -323,17 +324,17 @@ export default function Navbar({
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 hidden sm:flex">
-                    <Link href="/login" prefetch={false} className="flex items-center justify-center px-4 py-2 text-sm font-bold text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors">
+                    <Link href="/login" prefetch={false} className="flex items-center justify-center px-4 py-2 text-sm font-bold text-gray-700 hover:text-pink-600 hover:bg-pink-50 rounded-xl transition-colors">
                       Sign In
                     </Link>
-                    <Link href="/register" prefetch={false} className="flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors shadow-sm">
+                    <Link href="/register" prefetch={false} className="flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-pink-600 hover:bg-pink-700 rounded-xl transition-colors shadow-sm">
                       Register
                     </Link>
                   </div>
                 )}
                 {/* Mobile login icon fallback */}
                 {!user && (
-                  <Link href="/login" prefetch={false} className="w-10 h-10 flex sm:hidden items-center justify-center text-gray-600 hover:text-red-600 hover:bg-gray-100 rounded-full transition-colors">
+                  <Link href="/login" prefetch={false} className="w-10 h-10 flex sm:hidden items-center justify-center text-gray-600 hover:text-pink-600 hover:bg-gray-100 rounded-full transition-colors">
                     <UserIcon className="w-5 h-5" />
                   </Link>
                 )}
@@ -355,15 +356,15 @@ export default function Navbar({
                 onMouseLeave={() => setIsMegaMenuOpen(false)}
                 onClick={() => !isHeroCategoryVisible && setIsMegaMenuOpen(!isMegaMenuOpen)}
               >
-                <Menu size={14} className="text-red-600" />
-                <span className="text-red-600 font-black whitespace-nowrap">SHOP BY CATEGORY</span>
+                <Menu size={14} className="text-pink-600" />
+                <span className="text-pink-600 font-black whitespace-nowrap">SHOP BY CATEGORY</span>
                 <AnimatePresence>
                   {isMegaMenuOpen && (
                     <Megamenu
-                      themeColor="text-red-600"
-                      themeHover="hover:text-red-600"
-                      themeBorder="border-red-600"
-                      themeBgActive="bg-red-50"
+                      themeColor="text-pink-600"
+                      themeHover="hover:text-pink-600"
+                      themeBorder="border-pink-600"
+                      themeBgActive="bg-pink-50"
                       data={categories}
                     />
                   )}
@@ -376,12 +377,12 @@ export default function Navbar({
               <div className="w-full flex items-center gap-x-4 lg:gap-x-4 xl:gap-x-6 gap-y-2 overflow-x-auto scrollbar-hide pb-1 md:pb-0 flex-nowrap justify-start xl:justify-center">
                 {bottomNavbarItems.map((item) => {
                   const hasDropdown = !!(item.children && item.children.length > 0);
-                  const getUrl = (url: string) => url?.startsWith('/categories/') ? `/products?category=${url.replace('/categories/', '')}` : (url || '#');
+                  const getUrl = (url: string) => getFilterUrl(url || "#");
 
                   return (
                     <div
                       key={item.id}
-                      className="relative py-2.5 md:py-1.5 cursor-pointer flex items-center gap-1 hover:text-red-600 transition-colors shrink-0 pointer-events-auto"
+                      className="relative py-2.5 md:py-1.5 cursor-pointer flex items-center gap-1 hover:text-pink-600 transition-colors shrink-0 pointer-events-auto"
                       onMouseEnter={() => setHoveredCategory(item.id)}
                       onMouseLeave={() => setHoveredCategory(null)}
                       onClick={() => {
@@ -393,7 +394,7 @@ export default function Navbar({
                       <Link href={getUrl(item.url)} target={item.target || "_self"} className="whitespace-nowrap flex items-center gap-1">
                         {item.title}
                         {hasDropdown && (
-                          <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${hoveredCategory === item.id ? 'text-red-600 rotate-180' : ''}`} />
+                          <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${hoveredCategory === item.id ? 'text-pink-600 rotate-180' : ''}`} />
                         )}
                       </Link>
 
@@ -413,7 +414,7 @@ export default function Navbar({
                                   key={subItem.id}
                                   href={getUrl(subItem.url)}
                                   target={subItem.target || "_self"}
-                                  className="block px-4 py-2 text-[13px] font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 transition-colors normal-case whitespace-nowrap"
+                                  className="block px-4 py-2 text-[13px] font-medium text-gray-700 hover:text-pink-600 hover:bg-pink-50 transition-colors normal-case whitespace-nowrap"
                                 >
                                   {subItem.title}
                                 </Link>
@@ -430,10 +431,10 @@ export default function Navbar({
 
             {/* Right: Support Links (Hidden on small screens to prevent squishing) */}
             <div className="hidden xl:flex items-center gap-6 text-[12px] font-medium text-gray-600 shrink-0">
-              <Link href="/location-hours" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
+              <Link href="/location-hours" className="flex items-center gap-1.5 hover:text-pink-600 transition-colors">
                 <Store size={14} className="text-gray-400" /> Our outlets
               </Link>
-              <Link href="/help" className="flex items-center gap-1.5 hover:text-red-600 transition-colors">
+              <Link href="/help" className="flex items-center gap-1.5 hover:text-pink-600 transition-colors">
                 <HelpCircle size={14} className="text-gray-400" /> Help line
               </Link>
             </div>

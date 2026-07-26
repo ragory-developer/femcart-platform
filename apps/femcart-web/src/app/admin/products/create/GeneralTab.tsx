@@ -1,4 +1,4 @@
-﻿import SearchableSelect from "@/components/admin/SearchableSelect";
+import SearchableSelect from "@/components/admin/SearchableSelect";
 import { API_URL } from "@/lib/config";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -106,7 +106,7 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
 
   const categoryOptions = flatCats.map(c => ({
     value: c.id,
-    label: `${"—".repeat(c.depth)} ${c.name}`
+    label: `${"�".repeat(c.depth)} ${c.name}`
   }));
 
   const brandOptions = brands.map(b => ({
@@ -171,15 +171,15 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
         
         <div className="space-y-6">
           <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Product Name <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Product Name <span className="text-pink-500">*</span></label>
             <input 
               type="text" 
               {...register("name")}
               placeholder="e.g. Premium Cotton T-Shirt"
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.name ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.name ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors`} 
             />
             {errors.name && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.name.message}
               </p>
             )}
@@ -194,14 +194,14 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
                   onChange: (e) => setValue("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))
                 })}
                 placeholder="Leave blank to auto-generate from name"
-                className={`w-full px-4 py-2.5 rounded-lg border ${slugWarning || errors.slug ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors`} 
+                className={`w-full px-4 py-2.5 rounded-lg border ${slugWarning || errors.slug ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium transition-colors`} 
               />
               {slugChecking && <div className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-t-transparent border-blue-500 rounded-full animate-spin"></div>}
             </div>
             {slugWarning ? (
-              <p className="absolute top-full left-0 mt-1 text-[11px] text-red-500 font-medium">{slugWarning}</p>
+              <p className="absolute top-full left-0 mt-1 text-[11px] text-pink-500 font-medium">{slugWarning}</p>
             ) : errors.slug ? (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.slug.message}
               </p>
             ) : (
@@ -258,15 +258,15 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Regular Price (৳) <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Regular Price (?) <span className="text-pink-500">*</span></label>
             <input 
               type="text" 
               {...register("price")}
               placeholder="0.00"
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.price ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.price ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
             />
             {errors.price && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.price.message}
               </p>
             )}
@@ -277,10 +277,10 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
               type="text" 
               {...register("specialPrice")}
               placeholder="0.00"
-              className={`w-full px-4 py-2.5 rounded-lg border ${errors.specialPrice ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
+              className={`w-full px-4 py-2.5 rounded-lg border ${errors.specialPrice ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} bg-gray-50 dark:bg-gray-900/50 text-sm focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white transition-colors`} 
             />
             {errors.specialPrice && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.specialPrice.message}
               </p>
             )}
@@ -312,7 +312,7 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Categories <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Categories <span className="text-pink-500">*</span></label>
             <Controller
               name="categoryIds"
               control={control}
@@ -322,13 +322,13 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
                   value={field.value || []}
                   onChange={field.onChange}
                   placeholder="Select categories..."
-                  className={`text-gray-900 dark:text-white ${errors.categoryIds ? 'border-red-500 border rounded-lg' : ''}`}
+                  className={`text-gray-900 dark:text-white ${errors.categoryIds ? 'border-pink-500 border rounded-lg' : ''}`}
                   isMulti
                 />
               )}
             />
             {errors.categoryIds && (
-              <p className="absolute top-full left-0 mt-1 text-red-500 text-[11px] font-medium flex items-center gap-1">
+              <p className="absolute top-full left-0 mt-1 text-pink-500 text-[11px] font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> {errors.categoryIds.message}
               </p>
             )}

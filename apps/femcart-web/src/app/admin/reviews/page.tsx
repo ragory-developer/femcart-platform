@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { resolveImageUrl } from "@/lib/utils";
@@ -278,7 +278,7 @@ export default function AdminReviewsPage() {
                           </button>
                           <button
                             onClick={() => {/* Implement Delete if needed */}}
-                            className="p-2 bg-red-50 text-red-600 hover:bg-red-500 hover:text-white dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white rounded-xl transition-colors border border-red-200 dark:border-red-800/50"
+                            className="p-2 bg-pink-50 text-pink-600 hover:bg-pink-500 hover:text-white dark:bg-pink-900/20 dark:text-pink-400 dark:hover:bg-pink-600 dark:hover:text-white rounded-xl transition-colors border border-pink-200 dark:border-pink-800/50"
                             title="Delete"
                           >
                             <Trash2 size={18} />

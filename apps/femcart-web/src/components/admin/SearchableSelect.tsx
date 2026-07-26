@@ -95,11 +95,11 @@ export default function SearchableSelect({
           singleValue: () => "text-gray-900 dark:text-white",
           input: () => "text-gray-900 dark:text-white",
           placeholder: () => "text-gray-400",
-          clearIndicator: () => "text-gray-400 hover:text-red-500 cursor-pointer p-1 rounded-md min-h-[44px] min-w-[44px] flex items-center justify-center",
+          clearIndicator: () => "text-gray-400 hover:text-pink-500 cursor-pointer p-1 rounded-md min-h-[44px] min-w-[44px] flex items-center justify-center",
           dropdownIndicator: () => "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer p-1 min-h-[44px] min-w-[44px] flex items-center justify-center",
           multiValue: () => "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 rounded-lg m-1",
           multiValueLabel: () => "px-2 py-1 text-xs font-semibold flex items-center",
-          multiValueRemove: () => "px-2 py-1 hover:bg-emerald-200 dark:hover:bg-emerald-800 hover:text-red-500 rounded-r-lg cursor-pointer",
+          multiValueRemove: () => "px-2 py-1 hover:bg-emerald-200 dark:hover:bg-emerald-800 hover:text-pink-500 rounded-r-lg cursor-pointer",
         }}
       />
     </div>

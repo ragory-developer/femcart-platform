@@ -55,7 +55,7 @@ const themeStyles = {
     btnPrimary: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20",
   },
   puja: {
-    bg: "bg-gradient-to-b from-red-50/50 via-rose-50/30 to-white dark:from-slate-900 dark:via-rose-900/10 dark:to-slate-950",
+    bg: "bg-gradient-to-b from-pink-50/50 via-rose-50/30 to-white dark:from-slate-900 dark:via-rose-900/10 dark:to-slate-950",
     badgeBg: "bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400",
     starColor: "text-rose-500 fill-rose-500",
     quoteColor: "text-rose-200 dark:text-rose-800/40",
@@ -77,7 +77,7 @@ const themeStyles = {
     badgeBg: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400",
     starColor: "text-orange-500 fill-orange-500",
     quoteColor: "text-orange-200 dark:text-orange-800/40",
-    productColor: "text-red-600 dark:text-red-500",
+    productColor: "text-pink-600 dark:text-pink-500",
     accentStarColor: "text-orange-500 fill-orange-500",
     btnPrimary: "bg-orange-600 hover:bg-orange-700 text-white shadow-orange-600/20",
   },
@@ -91,12 +91,12 @@ const themeStyles = {
     btnPrimary: "bg-yellow-500 hover:bg-yellow-600 text-black shadow-yellow-500/10 font-bold",
   },
   christmas: {
-    bg: "bg-gradient-to-b from-green-50/50 via-red-50/30 to-white dark:from-slate-900 dark:via-green-900/5 dark:to-slate-950",
+    bg: "bg-gradient-to-b from-green-50/50 via-pink-50/30 to-white dark:from-slate-900 dark:via-green-900/5 dark:to-slate-950",
     badgeBg: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400",
     starColor: "text-green-500 fill-green-500",
     quoteColor: "text-green-200 dark:text-green-800/40",
-    productColor: "text-red-600 dark:text-red-500",
-    accentStarColor: "text-red-500 fill-red-500",
+    productColor: "text-pink-600 dark:text-pink-500",
+    accentStarColor: "text-pink-500 fill-pink-500",
     btnPrimary: "bg-green-700 hover:bg-green-800 text-white shadow-green-700/20",
   },
 };

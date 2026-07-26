@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -239,7 +239,7 @@ export default function ReviewModal({ orderId, items, onClose, onSuccess }: Revi
                         <img src={resolveImageUrl(img)} className="w-full h-full object-cover" />
                         <button 
                           onClick={() => removeImage(step - 1, idx)}
-                          className="absolute inset-0 bg-red-500/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute inset-0 bg-pink-500/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                         >
                           <X size={16} />
                         </button>

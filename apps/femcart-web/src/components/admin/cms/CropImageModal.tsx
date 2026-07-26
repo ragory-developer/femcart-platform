@@ -107,7 +107,7 @@ export function CropImageModal({ imageUrl, onClose, onSave }: { imageUrl: string
           </h2>
           <button 
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-all"
+            className="p-2 text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/10 rounded-xl transition-all"
           >
             <X size={20} />
           </button>
@@ -149,7 +149,7 @@ export function CropImageModal({ imageUrl, onClose, onSave }: { imageUrl: string
              <button 
                onClick={handleSave} 
                disabled={isUploading}
-               className="flex items-center gap-2 bg-red-600 text-white px-6 py-2.5 rounded-xl hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/20 transition-all font-bold disabled:opacity-50"
+               className="flex items-center gap-2 bg-pink-600 text-white px-6 py-2.5 rounded-xl hover:bg-pink-700 hover:shadow-lg hover:shadow-pink-600/20 transition-all font-bold disabled:opacity-50"
              >
                {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                Apply Crop

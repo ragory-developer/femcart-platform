@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import UserGroupBadges from "@/components/dashboard/UserGroupBadges";
@@ -78,13 +78,13 @@ export default function DashboardPage() {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-20">
-        <div className="max-w-md mx-auto bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-800 p-8 rounded-[2.5rem] text-center">
-          <AlertCircle className="mx-auto text-red-500 mb-4" size={48} />
+        <div className="max-w-md mx-auto bg-pink-50 dark:bg-pink-900/10 border border-pink-100 dark:border-pink-800 p-8 rounded-[2.5rem] text-center">
+          <AlertCircle className="mx-auto text-pink-500 mb-4" size={48} />
           <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Oops! Something went wrong</h2>
-          <p className="text-red-600 dark:text-red-400 font-medium mb-6">{error}</p>
+          <p className="text-pink-600 dark:text-pink-400 font-medium mb-6">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="px-8 py-3 bg-red-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-red-700 transition-all shadow-xl shadow-red-600/20"
+            className="px-8 py-3 bg-pink-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-pink-700 transition-all shadow-xl shadow-pink-600/20"
           >
             Retry
           </button>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { categoriesData } from "@/components/home/data";
-import { cn, getCategoryIcon } from "@/lib/utils";
+import { cn, getCategoryIcon, getFilterUrl } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 
 interface MegamenuProps {
@@ -77,14 +77,14 @@ export function Megamenu({
           <div className="grid grid-cols-3 gap-8">
             {activeCategory.subcategories?.map((sub: any, idx: number) => (
               <div key={idx} className="flex flex-col gap-3">
-                <Link href={sub.href || "#"} className="text-[13px] font-bold text-gray-900 uppercase tracking-wide hover:text-red-600 transition-colors">
+                <Link href={getFilterUrl(sub.href || "#")} className="text-[13px] font-bold text-gray-900 uppercase tracking-wide hover:text-pink-600 transition-colors">
                   {sub.title}
                 </Link>
                 <div className="flex flex-col gap-2 mt-1">
                   {sub.items.map((item: any, itemIdx: number) => (
                     <Link
                       key={itemIdx}
-                      href={item.href}
+                      href={getFilterUrl(item.href)}
                       className={cn("text-[14px] font-medium text-gray-500 transition-colors", themeHover)}
                     >
                       {item.title}

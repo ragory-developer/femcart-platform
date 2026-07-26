@@ -28,7 +28,7 @@ export const SearchSuggestionCard = React.memo(({ product, isSelected, onSelect 
     >
       {/* Selected Indicator Line */}
       <div 
-        className={`absolute left-0 top-0 bottom-0 w-1 bg-red-500 transition-opacity duration-300 ${
+        className={`absolute left-0 top-0 bottom-0 w-1 bg-pink-500 transition-opacity duration-300 ${
           isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         }`}
       />
@@ -58,7 +58,7 @@ export const SearchSuggestionCard = React.memo(({ product, isSelected, onSelect 
       {/* Content */}
       <div className="flex-1 min-w-0 flex flex-col justify-center">
         <div className="flex items-start justify-between gap-2">
-          <h4 className="text-[13px] sm:text-[14px] font-medium text-gray-800 dark:text-gray-200 truncate leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+          <h4 className="text-[13px] sm:text-[14px] font-medium text-gray-800 dark:text-gray-200 truncate leading-tight group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
             {parse(displayName)}
           </h4>
           
@@ -101,7 +101,7 @@ export const SearchSuggestionCard = React.memo(({ product, isSelected, onSelect 
       </div>
 
       {/* Arrow Indicator */}
-      <div className={`shrink-0 ml-2 text-gray-300 dark:text-gray-600 transition-transform duration-300 ${isSelected ? 'translate-x-0 opacity-100 text-red-500' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-hover:text-red-500'}`}>
+      <div className={`shrink-0 ml-2 text-gray-300 dark:text-gray-600 transition-transform duration-300 ${isSelected ? 'translate-x-0 opacity-100 text-pink-500' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-hover:text-pink-500'}`}>
         <ChevronRight className="w-5 h-5" />
       </div>
     </Link>

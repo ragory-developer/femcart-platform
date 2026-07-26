@@ -137,7 +137,7 @@ export default function MediaTab() {
                     e.stopPropagation();
                     removeGalleryImage(idx);
                   }}
-                  className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
+                  className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-pink-500 hover:bg-pink-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
                   title="Remove image"
                 >
                   <X size={12} />

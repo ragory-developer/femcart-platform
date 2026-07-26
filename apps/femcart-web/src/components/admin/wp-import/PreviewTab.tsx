@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { CheckSquare, ChevronLeft, ChevronRight, Loader2, Square } from "lucide-react";
@@ -102,7 +102,7 @@ export default function PreviewTab() {
 
       {message && (
         <div className={`p-4 rounded-xl text-sm font-medium ${
-          message.type === "success" ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-800 border border-red-200"
+          message.type === "success" ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-pink-50 text-pink-800 border border-pink-200"
         }`}>
           {message.text}
         </div>

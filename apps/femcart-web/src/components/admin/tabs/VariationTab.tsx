@@ -245,7 +245,7 @@ function VariationSelector({
         {/* Remove button */}
         <button type="button"
           onClick={onRemove}
-          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors shrink-0"
+          className="p-1.5 text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 rounded-md transition-colors shrink-0"
         >
           <X size={14} />
         </button>
@@ -275,7 +275,7 @@ function VariantCard({ v, idx, expanded, hasError, onToggle, onUpdate, onRemove 
       expanded
         ? "border-emerald-400 dark:border-emerald-500 shadow-md ring-1 ring-emerald-400 dark:ring-emerald-500 bg-white dark:bg-gray-800 z-10 relative"
         : hasError
-          ? "border-red-400 dark:border-red-500 shadow-sm bg-red-50/20 dark:bg-red-900/10"
+          ? "border-pink-400 dark:border-pink-500 shadow-sm bg-pink-50/20 dark:bg-pink-900/10"
           : v.enabled
             ? "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
             : "border-gray-100 dark:border-gray-700/50 bg-gray-50 dark:bg-gray-800/50 opacity-60"
@@ -334,7 +334,7 @@ function VariantCard({ v, idx, expanded, hasError, onToggle, onUpdate, onRemove 
         {/* Remove — stop propagation so it doesn't toggle expand */}
         <button type="button"
           onClick={e => { e.stopPropagation(); onRemove(idx); }}
-          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+          className="p-1.5 text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 rounded-md transition-colors"
         >
           <Trash2 size={14} />
         </button>
@@ -372,7 +372,7 @@ function VariantCard({ v, idx, expanded, hasError, onToggle, onUpdate, onRemove 
                 <button
                   type="button"
                   onClick={e => { e.stopPropagation(); onUpdate(idx, "image", ""); }}
-                  className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors shrink-0"
+                  className="p-1.5 text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 rounded-md transition-colors shrink-0"
                   title="Remove image"
                 >
                   <X size={13} />
@@ -408,7 +408,7 @@ function VariantCard({ v, idx, expanded, hasError, onToggle, onUpdate, onRemove 
           {/* Prices */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Regular Price <span className="text-red-500">*</span></label>
+              <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">Regular Price <span className="text-pink-500">*</span></label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
                 <input type="text"
@@ -668,7 +668,7 @@ export default function VariationTab() {
 
       {/* ── Step 2: Variation rows (collapsible) ── */}
       {variants.length > 0 && (
-        <div className={`border ${errors.variants ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} rounded-lg overflow-hidden bg-white dark:bg-gray-800`}>
+        <div className={`border ${errors.variants ? 'border-pink-500' : 'border-gray-200 dark:border-gray-700'} rounded-lg overflow-hidden bg-white dark:bg-gray-800`}>
           <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 flex items-center justify-between">
             <div>
               <p className="text-sm font-bold text-gray-700 dark:text-gray-200">
@@ -681,8 +681,8 @@ export default function VariationTab() {
             </span>
           </div>
           {errors.variants && (
-            <div className="px-5 py-2 bg-red-50 dark:bg-red-900/20 border-b border-red-100 dark:border-red-800/50">
-              <p className="text-red-500 text-xs font-medium flex items-center gap-1">
+            <div className="px-5 py-2 bg-pink-50 dark:bg-pink-900/20 border-b border-pink-100 dark:border-pink-800/50">
+              <p className="text-pink-500 text-xs font-medium flex items-center gap-1">
                 <AlertCircle size={14}/> Please check the highlighted variations for errors. Price is required.
               </p>
             </div>
@@ -703,7 +703,7 @@ export default function VariationTab() {
                     onRemove={remove}
                   />
                   {hasError && errors.variants?.[idx]?.price && (
-                    <p className="text-red-500 text-xs mt-1.5 ml-2 font-medium flex items-center gap-1">
+                    <p className="text-pink-500 text-xs mt-1.5 ml-2 font-medium flex items-center gap-1">
                       <AlertCircle size={12}/> {errors.variants[idx]?.price?.message}
                     </p>
                   )}

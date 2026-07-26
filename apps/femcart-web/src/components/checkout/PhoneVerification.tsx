@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { useCartStore } from "@/store/cartStore";
@@ -102,7 +102,7 @@ export default function PhoneVerification({ onVerified, onCancel }: PhoneVerific
             Quick Checkout
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mt-1 text-[clamp(0.75rem,2vw,0.875rem)]">
-            {step === 'input' ? "No account needed â€” just your name & number." : `Enter the 6-digit code sent to ${phone}`}
+            {step === 'input' ? "No account needed — just your name & number." : `Enter the 6-digit code sent to ${phone}`}
           </p>
         </div>
         <button onClick={onCancel} className="text-[clamp(0.875rem,2vw,1rem)] font-semibold text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors min-h-[44px] flex items-center px-2">
@@ -111,7 +111,7 @@ export default function PhoneVerification({ onVerified, onCancel }: PhoneVerific
       </div>
 
       {error && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 text-sm font-medium">
+        <div className="mb-6 p-4 rounded-xl bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400 text-sm font-medium">
           {error}
         </div>
       )}
@@ -177,7 +177,7 @@ export default function PhoneVerification({ onVerified, onCancel }: PhoneVerific
               />
             </div>
             <p className="text-right text-[clamp(0.75rem,1.5vw,0.875rem)] text-gray-500 mt-2">
-              Sent to <span className="font-bold">{phone}</span> Â·{" "}
+              Sent to <span className="font-bold">{phone}</span> ·{" "}
               <button type="button" onClick={() => setStep('input')} className="text-blue-500 hover:underline min-h-[36px] px-2">Edit</button>
             </p>
           </div>

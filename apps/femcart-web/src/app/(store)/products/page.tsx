@@ -96,7 +96,7 @@ export default async function ProductsPage({
  
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-14">
           {/* Sidebar - Desktop */}
-          <aside className="hidden lg:block sticky top-8 h-fit w-72 shrink-0 lg:border-r lg:border-gray-100 lg:dark:border-gray-800/60 lg:pr-8">
+          <aside className="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto w-72 shrink-0 lg:border-r lg:border-gray-100 lg:dark:border-gray-800/60 lg:pr-8">
             <Suspense fallback={<div className="w-full h-[100dvh] animate-pulse bg-gray-50 dark:bg-gray-900" />}>
               <ProductFilters />
             </Suspense>

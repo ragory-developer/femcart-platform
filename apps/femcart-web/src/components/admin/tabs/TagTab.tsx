@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { showToast } from "@/lib/toast";
@@ -220,7 +220,7 @@ export default function TagTab({ formData, onChange }: TagTabProps) {
                     <button onClick={() => startEdit(tag)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-blue-500 transition-colors">
                       <Pencil size={16} />
                     </button>
-                    <button onClick={() => handleDeleteGlobal(tag.id)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-red-500 transition-colors">
+                    <button onClick={() => handleDeleteGlobal(tag.id)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-pink-500 transition-colors">
                       <Trash2 size={16} />
                     </button>
                   </div>

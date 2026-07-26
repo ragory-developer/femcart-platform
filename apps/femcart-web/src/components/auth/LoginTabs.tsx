@@ -24,8 +24,8 @@ type LoginUser = {
   [key: string]: unknown;
 };
 
-const inputCls = "block w-full rounded-xl border border-gray-200 dark:border-gray-700 py-3.5 pl-11 pr-4 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 sm:text-sm bg-gray-50/50 dark:bg-gray-900/50 transition-all duration-300";
-const btnCls = "w-full bg-gradient-to-r from-red-600 to-red-500 text-white font-bold py-3.5 rounded-xl hover:from-red-500 hover:to-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 shadow-[0_8px_20px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_25px_rgba(220,38,38,0.35)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none mt-6 text-sm flex items-center justify-center gap-2";
+const inputCls = "block w-full rounded-xl border border-gray-200 dark:border-gray-700 py-3.5 pl-11 pr-4 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-pink-500 focus:outline-none focus:ring-4 focus:ring-pink-500/10 sm:text-sm bg-gray-50/50 dark:bg-gray-900/50 transition-all duration-300";
+const btnCls = "w-full bg-gradient-to-r from-pink-600 to-pink-500 text-white font-bold py-3.5 rounded-xl hover:from-pink-500 hover:to-pink-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 shadow-[0_8px_20px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_25px_rgba(220,38,38,0.35)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none mt-6 text-sm flex items-center justify-center gap-2";
 
 function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
@@ -206,7 +206,7 @@ export default function LoginTabs() {
             onClick={() => { setTab(t.key); setPwError(''); setOtpError(''); }}
             className={`flex-1 py-2.5 text-sm font-bold transition-all duration-300 rounded-xl z-10
               ${tab === t.key
-                ? 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 shadow-sm'
+                ? 'bg-white dark:bg-gray-700 text-pink-600 dark:text-pink-400 shadow-sm'
                 : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-200'}`}
           >
             {t.label}
@@ -218,7 +218,7 @@ export default function LoginTabs() {
       {tab === 'password' && (
         <form onSubmit={handlePasswordLogin} className="space-y-4">
           {pwError && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl text-sm font-medium">
+            <div className="bg-pink-50 dark:bg-pink-900/20 border border-pink-100 dark:border-pink-800 text-pink-600 dark:text-pink-400 px-4 py-3 rounded-xl text-sm font-medium">
               {pwError}
             </div>
           )}
@@ -226,7 +226,7 @@ export default function LoginTabs() {
           <div>
             <label htmlFor="pwEmail" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200 mb-2">Email address</label>
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-red-500 transition-colors">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                 <Mail size={18} />
               </div>
               <input
@@ -246,7 +246,7 @@ export default function LoginTabs() {
               <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">Password</label>
             </div>
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-red-500 transition-colors">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                 <Lock size={18} />
               </div>
               <input
@@ -286,7 +286,7 @@ export default function LoginTabs() {
       {tab === 'otp' && (
         <div>
           {otpError && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl text-sm font-medium mb-4">
+            <div className="bg-pink-50 dark:bg-pink-900/20 border border-pink-100 dark:border-pink-800 text-pink-600 dark:text-pink-400 px-4 py-3 rounded-xl text-sm font-medium mb-4">
               {otpError}
             </div>
           )}
@@ -296,7 +296,7 @@ export default function LoginTabs() {
               <div>
                 <label htmlFor="otpEmail" className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200 mb-2">Email address</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-red-500 transition-colors">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                     <Mail size={18} />
                   </div>
                   <input
@@ -327,7 +327,7 @@ export default function LoginTabs() {
                   <span className="text-xs text-gray-500">Sent to <strong className="text-gray-900 dark:text-gray-200 font-medium">{otpEmail}</strong></span>
                 </div>
                 <div className="relative group">
-                  <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-red-500 transition-colors" size={18} />
+                  <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-pink-500 transition-colors" size={18} />
                   <input
                     id="otp-code"
                     type="text"
@@ -337,14 +337,14 @@ export default function LoginTabs() {
                     placeholder="000000"
                     value={otp}
                     onChange={e => setOtp(e.target.value.replace(/\D/g, ''))}
-                    className="block w-full rounded-lg border-0 py-2.5 pl-11 pr-4 text-center tracking-[0.7em] text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-lg sm:leading-6 bg-white dark:bg-gray-800 transition-all shadow-sm font-bold"
+                    className="block w-full rounded-lg border-0 py-2.5 pl-11 pr-4 text-center tracking-[0.7em] text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-lg sm:leading-6 bg-white dark:bg-gray-800 transition-all shadow-sm font-bold"
                   />
                 </div>
                 <div className="text-center mt-2 text-sm">
                   {countdown > 0 ? (
                     <span className="text-gray-400">Resend in <strong className="text-blue-600">{countdown}s</strong></span>
                   ) : (
-                    <button type="button" onClick={() => { setOtpStep('email'); setOtp(''); }} className="text-red-600 font-medium hover:text-red-500">
+                    <button type="button" onClick={() => { setOtpStep('email'); setOtp(''); }} className="text-pink-600 font-medium hover:text-pink-500">
                       Resend code
                     </button>
                   )}
