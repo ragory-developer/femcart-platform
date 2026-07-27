@@ -147,8 +147,8 @@ export class CartController extends BaseController {
         variantIds.length > 0 ? prisma.productVariant.findMany({ where: { id: { in: variantIds } }, select: { id: true } }) : [],
       ]);
 
-      const existingProductSet = new Set(existingProducts.map((p) => p.id));
-      const existingVariantSet = new Set(existingVariants.map((v) => v.id));
+      const existingProductSet = new Set(existingProducts.map((p: any) => p.id));
+      const existingVariantSet = new Set(existingVariants.map((v: any) => v.id));
 
       const filteredItems = validItems.filter((i: any) => {
         if (i.productId && !existingProductSet.has(i.productId)) return false;

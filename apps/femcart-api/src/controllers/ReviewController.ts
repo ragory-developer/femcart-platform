@@ -92,7 +92,7 @@ export class ReviewController extends BaseController {
         return res.status(400).json({ success: false, message: 'Feedback already submitted for this order' });
       }
 
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx: any) => {
         // Update order with delivery feedback
         const updatedOrder = await tx.order.update({
           where: { id: orderId },

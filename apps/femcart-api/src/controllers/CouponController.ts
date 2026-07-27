@@ -112,7 +112,7 @@ export class CouponController extends BaseController {
     });
 
     const totalOrders = ordersWithCoupon.length;
-    const totalDiscount = ordersWithCoupon.reduce((sum, order) => sum + order.discount, 0);
+    const totalDiscount = ordersWithCoupon.reduce((sum: any, order) => sum + order.discount, 0);
 
     res.json({
       success: true,

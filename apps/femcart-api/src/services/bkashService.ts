@@ -15,7 +15,7 @@ export class BkashService {
       const settings = await prisma.setting.findMany({
         where: { key: { in: ['bkash_app_key', 'bkash_app_secret', 'bkash_username', 'bkash_password', 'bkash_is_live'] } }
       });
-      settings.forEach(s => {
+      settings.forEach((s: any) => {
         if (s.key === 'bkash_app_key') bkash_app_key = s.value;
         if (s.key === 'bkash_app_secret') bkash_app_secret = s.value;
         if (s.key === 'bkash_username') bkash_username = s.value;

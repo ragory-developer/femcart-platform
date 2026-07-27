@@ -11,7 +11,7 @@ export const sendGlobalSms = async (phone: string, textBody: string, purpose: st
   });
 
   const configSettings: any = {};
-  settings.forEach(s => configSettings[s.key] = s.value);
+  settings.forEach((s: any) => configSettings[s.key] = s.value);
   
   // Prioritize ENV if present
   if (config.sms.apiKey) configSettings.sms_api_key = config.sms.apiKey;

@@ -21,7 +21,7 @@ const mediaCleanupJob = cron.schedule('0 3 * * *', async () => {
     // Aggregate used URLs
     const usedUrls = new Set<string>();
     
-    products.forEach(p => {
+    products.forEach((p: any) => {
       if (p.image) usedUrls.add(p.image);
       if (p.images) {
         try {
@@ -33,9 +33,9 @@ const mediaCleanupJob = cron.schedule('0 3 * * *', async () => {
       }
     });
     
-    variants.forEach(v => { if (v.image) usedUrls.add(v.image); });
-    categories.forEach(c => { if (c.image) usedUrls.add(c.image); });
-    brands.forEach(b => { if (b.logo) usedUrls.add(b.logo); });
+    variants.forEach((v: any) => { if (v.image) usedUrls.add(v.image); });
+    categories.forEach((c: any) => { if (c.image) usedUrls.add(c.image); });
+    brands.forEach((b: any) => { if (b.logo) usedUrls.add(b.logo); });
 
     let deletedCount = 0;
 

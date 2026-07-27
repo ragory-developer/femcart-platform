@@ -625,7 +625,7 @@ export class ProductController extends BaseController {
     const products = await prisma.product.findMany({
       select: { slug: true }
     });
-    res.json({ success: true, data: products.map(p => p.slug) });
+    res.json({ success: true, data: products.map((p: any) => p.slug) });
   });
 
   getBySlug = asyncHandler(async (req: Request, res: Response) => {

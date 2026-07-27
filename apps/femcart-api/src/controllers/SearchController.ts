@@ -137,7 +137,7 @@ export class SearchController extends BaseController {
     });
 
     // Sort by relevance score
-    scoredProducts.sort((a, b) => b.score - a.score);
+    scoredProducts.sort((a: any, b) => b.score - a.score);
     
     // Slice to limit
     const finalProducts = scoredProducts.slice(0, parsedLimit);
@@ -190,8 +190,8 @@ export class SearchController extends BaseController {
         const brands = await prisma.brand.findMany({ take: 3, select: { name: true } });
 
         const fallbacks = [
-          ...categories.map(c => c.name),
-          ...brands.map(b => b.name)
+          ...categories.map((c: any) => c.name),
+          ...brands.map((b: any) => b.name)
         ].filter(Boolean);
         
         // Merge without duplicates, preserving order

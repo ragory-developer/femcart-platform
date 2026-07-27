@@ -66,7 +66,7 @@ export class CategoryController extends BaseController {
     const categories = await prisma.category.findMany({
       select: { slug: true }
     });
-    res.json({ success: true, data: categories.map(c => c.slug) });
+    res.json({ success: true, data: categories.map((c: any) => c.slug) });
   });
 
   /** Get single category by slug */

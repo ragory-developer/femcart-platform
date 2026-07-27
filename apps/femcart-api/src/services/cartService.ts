@@ -43,8 +43,8 @@ export class CartService {
         : []
     ]);
 
-    const productMap = new Map(products.map(p => [p.id, p]));
-    const variantMap = new Map(variants.map(v => [v.id, v]));
+    const productMap = new Map(products.map((p: any) => [p.id, p]));
+    const variantMap = new Map(variants.map((v: any) => [v.id, v]));
 
     // Format items exactly how the frontend expects them
     const populatedItems = cart.items.map(item => {
@@ -141,7 +141,7 @@ export class CartService {
       select: { id: true, name: true, email: true, phone: true, isGuest: true }
     });
 
-    const userMap = new Map(users.map(u => [u.id, u]));
+    const userMap = new Map(users.map((u: any) => [u.id, u]));
 
     const formattedCarts = carts
       .filter(cart => userMap.has(cart.userId) && cart.items.length > 0)

@@ -72,7 +72,7 @@ export class BrandController extends BaseController {
     const brands = await prisma.brand.findMany({
       select: { slug: true }
     });
-    res.json({ success: true, data: brands.map(b => b.slug) });
+    res.json({ success: true, data: brands.map((b: any) => b.slug) });
   });
 
   /** Get single brand by slug */

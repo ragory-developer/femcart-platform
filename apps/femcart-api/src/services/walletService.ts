@@ -50,7 +50,7 @@ export class WalletService {
       if (tx) {
         return await executeOperation(tx);
       } else {
-        return await prisma.$transaction(async (newTx) => {
+        return await prisma.$transaction(async (newTx: any) => {
           return await executeOperation(newTx);
         });
       }

@@ -21,7 +21,7 @@ export class PageController extends BaseController {
     if (routed !== undefined) {
       const navItems = await prisma.navbarItem.findMany({ select: { url: true } });
       const footerLinks = await prisma.footerLink.findMany({ select: { url: true } });
-      const allUrls = [...navItems.map(n => n.url), ...footerLinks.map(f => f.url)];
+      const allUrls = [...navItems.map((n: any) => n.url), ...footerLinks.map(f => f.url)];
       const routedSlugs = allUrls.map(url => url.split('/').pop() as string).filter(Boolean);
       
       if (routed === 'true') {

@@ -11,7 +11,7 @@ export class FacebookAdsController extends BaseController {
       where: { key: { in: ['facebook_ad_account_id', 'facebook_user_access_token'] } }
     });
     const creds: any = {};
-    settings.forEach(s => creds[s.key] = s.value);
+    settings.forEach((s: any) => creds[s.key] = s.value);
     return creds;
   }
 

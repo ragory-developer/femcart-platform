@@ -159,7 +159,7 @@ export class UserController {
     const existingCount = await prisma.userAddress.count({ where: { userId: req.user!.userId } });
     const shouldBeDefault = isDefault || existingCount === 0; // first address is always default
 
-    const newAddress = await prisma.$transaction(async (tx) => {
+    const newAddress = await prisma.$transaction(async (tx: any) => {
       // If this is set as default, unset others
       if (shouldBeDefault) {
         await tx.userAddress.updateMany({
@@ -193,7 +193,7 @@ export class UserController {
     const id = req.params.id as string;
     const { label, address, city, area, state, stateId, cityId, areaId, isDefault, recipientName, recipientPhone } = req.body;
 
-    const updated = await prisma.$transaction(async (tx) => {
+    const updated = await prisma.$transaction(async (tx: any) => {
       if (isDefault) {
         await tx.userAddress.updateMany({
           where: { userId: req.user!.userId },

@@ -20,7 +20,7 @@ export class UserService {
       orderBy: { createdAt: 'desc' },
     });
 
-    const enrichedUsers = users.map(u => {
+    const enrichedUsers = users.map((u: any) => {
       const { orders, addresses, ...rest } = u;
       const bestAddress = addresses[0];
       const latestOrder = orders[0];
@@ -32,7 +32,7 @@ export class UserService {
         ...rest,
         area,
         city,
-        totalOrderAmount: orders.reduce((sum, o) => sum + o.total, 0),
+        totalOrderAmount: orders.reduce((sum: any, o: any) => sum + o.total, 0),
         totalOrderCount: orders.length
       };
     });

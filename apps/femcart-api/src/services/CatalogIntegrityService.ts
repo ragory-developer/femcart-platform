@@ -72,7 +72,7 @@ export class CatalogIntegrityService {
       duplicateSlugs.push({
         slug: item.slug,
         count: item._count.slug,
-        productIds: conflictingProducts.map((p) => p.id),
+        productIds: conflictingProducts.map((p: any) => p.id),
       });
     }
 

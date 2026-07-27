@@ -16,7 +16,7 @@ export class AdminRoleController {
       });
 
       // Transform _count to userCount for frontend convenience
-      const formattedRoles = roles.map((r) => ({
+      const formattedRoles = roles.map((r: any) => ({
         ...r,
         permissions: JSON.parse(r.permissions || '[]'),
         userCount: r._count?.users || 0,

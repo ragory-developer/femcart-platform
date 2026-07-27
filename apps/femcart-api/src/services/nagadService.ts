@@ -15,7 +15,7 @@ export class NagadService {
     let privKey = process.env.NAGAD_PRIVATE_KEY || '';
     let isLive = false;
 
-    settings.forEach(s => {
+    settings.forEach((s: any) => {
       if (s.key === 'nagad_merchant_id') merchantID = s.value;
       if (s.key === 'nagad_merchant_number') merchantNumber = s.value;
       if (s.key === 'nagad_public_key') pubKey = s.value;

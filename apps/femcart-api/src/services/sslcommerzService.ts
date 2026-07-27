@@ -13,7 +13,7 @@ export class SSLCommerzService {
     let store_passwd = process.env.STORE_PASSWORD || 'qwerty';
     let is_live = false;
 
-    settings.forEach(s => {
+    settings.forEach((s: any) => {
       if (s.key === 'sslcz_store_id') store_id = s.value;
       if (s.key === 'sslcz_store_password') store_passwd = s.value;
       if (s.key === 'sslcz_is_live') is_live = s.value === 'true';

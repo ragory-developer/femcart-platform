@@ -1,4 +1,4 @@
-﻿import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import { Response } from 'express';
 import { OrderStatus } from '@prisma/client';
 import logger from '../utils/logger';
@@ -49,8 +49,8 @@ export class OrderController extends BaseController {
         })
       ]);
 
-      const variantMap = new Map(variants.map(v => [v.id, v]));
-      const productMap = new Map(products.map(p => [p.id, p]));
+      const variantMap = new Map(variants.map((v: any) => [v.id, v]));
+      const productMap = new Map(products.map((p: any) => [p.id, p]));
 
       console.log('allVariantIds:', allVariantIds);
       console.log('variants found:', variants.length);
@@ -111,7 +111,7 @@ export class OrderController extends BaseController {
             resolvedProductId = item.variant.productId;
           }
           if (!resolvedProduct) {
-            const prod = await prisma.product.findUnique({ where: { id: resolvedProductId } });
+            const prod = await prisma.product.findUnique({ where: { id: resolvedProductId as string } });
             if (!prod) continue;
             resolvedProduct = prod;
           }
@@ -302,7 +302,7 @@ export class OrderController extends BaseController {
     }
 
     // Create order with items inside a transaction
-    const order = await prisma.$transaction(async (tx) => {
+    const order = await prisma.$transaction(async (tx: any) => {
       // If a coupon was applied, double check and increment usedCount inside transaction
       if (validCouponId) {
         const currentCoupon = await tx.coupon.findUnique({ where: { id: validCouponId } });
@@ -604,7 +604,7 @@ export class OrderController extends BaseController {
     
     if (!currentOrder) throw new NotFoundError('Order not found');
 
-    const order = await prisma.$transaction(async (tx) => {
+    const order = await prisma.$transaction(async (tx: any) => {
       // Fetch fresh order state inside transaction to prevent race conditions
       const txOrder = await tx.order.findUnique({ 
         where: { id: req.params.id as string },
@@ -800,7 +800,7 @@ export class OrderController extends BaseController {
       throw new BadRequestError('Returns can only be processed on delivered or completed orders.');
     }
 
-    const updatedOrder = await prisma.$transaction(async (tx) => {
+    const updatedOrder = await prisma.$transaction(async (tx: any) => {
       let totalRefund = 0;
       const discountRatio = order.subtotal > 0 ? (order.discount / order.subtotal) : 0;
 
@@ -848,8 +848,8 @@ export class OrderController extends BaseController {
 
       // Calculate new overall status
       const updatedItems = await tx.orderItem.findMany({ where: { orderId: id as string } });
-      const totalQuantity = updatedItems.reduce((acc, i) => acc + i.quantity, 0);
-      const totalReturned = updatedItems.reduce((acc, i) => acc + i.returnedQuantity + i.damagedQuantity, 0);
+      const totalQuantity = updatedItems.reduce((acc: any, i: any) => acc + i.quantity, 0);
+      const totalReturned = updatedItems.reduce((acc: any, i: any) => acc + i.returnedQuantity + i.damagedQuantity, 0);
       
       const newStatus = totalReturned === totalQuantity ? 'RETURNED' : 'PARTIALLY_RETURNED';
       const methodLabel = refundMethod ? ` to ${refundMethod}` : '';
@@ -1021,7 +1021,7 @@ export class OrderController extends BaseController {
     });
 
     // Filter to only items that have pending triage
-    const pendingItems = allReturned.filter(item => item.returnedQuantity > (item.restockedQuantity + item.damagedQuantity));
+    const pendingItems = allReturned.filter((item: any) => item.returnedQuantity > (item.restockedQuantity + item.damagedQuantity));
 
     const total = pendingItems.length;
     const skip = (page - 1) * limit;
@@ -1074,7 +1074,7 @@ export class OrderController extends BaseController {
       throw new BadRequestError('Cannot triage more than the pending returned quantity');
     }
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       if (action === 'RESTOCK') {
         await tx.orderItem.update({
           where: { id: orderItemId },
@@ -1121,7 +1121,7 @@ export class OrderController extends BaseController {
       throw new BadRequestError('Cannot restock more than the damaged quantity');
     }
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.orderItem.update({
         where: { id: orderItemId },
         data: {
