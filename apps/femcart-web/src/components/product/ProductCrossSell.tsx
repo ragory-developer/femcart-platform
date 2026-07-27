@@ -2,11 +2,11 @@
 
 import SectionWrapper from "../home/shared/SectionWrapper";
 import { ProductCard } from "../home-ui/shared/ProductCard";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, FreeMode, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, FreeMode, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
 import { useMemo } from "react";
 
 interface ProductCrossSellProps {
@@ -16,7 +16,7 @@ interface ProductCrossSellProps {
   title?: string;
   subtitle?: string;
   limit?: number;
-  
+
   // Chrome props
   cols?: number; // legacy
   rows?: number; // legacy
@@ -27,15 +27,22 @@ interface ProductCrossSellProps {
   rowsTablet?: number; // legacy
   rowsMobile?: number; // legacy
   gap?: "sm" | "md" | "lg"; // legacy
-  
+
   layoutType?: "grid" | "carousel"; // legacy
-  cardVariant?: "classic" | "sleek" | "minimal" | "festive" | "bordered" | "neumorphic" | "horizontal"; // legacy
+  cardVariant?:
+    | "classic"
+    | "sleek"
+    | "minimal"
+    | "festive"
+    | "bordered"
+    | "neumorphic"
+    | "horizontal"; // legacy
   cardRadius?: "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full"; // legacy
   showBadge?: boolean; // legacy
   showRating?: boolean; // legacy
   showAddToCart?: boolean; // legacy
   badgeStyle?: "pill" | "corner" | "ribbon"; // legacy
-  
+
   autoplay?: boolean; // legacy
   autoplayDelay?: number; // legacy
   loop?: boolean; // legacy
@@ -55,20 +62,27 @@ export default function ProductCrossSell({
   columnsTablet = 4,
   columnsMobile = 2,
 }: ProductCrossSellProps) {
-  
   const items = useMemo(() => {
     // 1. If resolvedDownsells exist on the product Context, use them directly
     let resolved = [];
-    if (productContext?.resolvedDownsells && Array.isArray(productContext.resolvedDownsells) && productContext.resolvedDownsells.length > 0) {
+    if (
+      productContext?.resolvedDownsells &&
+      Array.isArray(productContext.resolvedDownsells) &&
+      productContext.resolvedDownsells.length > 0
+    ) {
       resolved = productContext.resolvedDownsells;
     }
     // 2. Otherwise, if crossSellProductIds exist on the product Context, map them to real products
-    else if (productContext?.crossSellProductIds && Array.isArray(productContext.crossSellProductIds) && allProducts.length > 0) {
+    else if (
+      productContext?.crossSellProductIds &&
+      Array.isArray(productContext.crossSellProductIds) &&
+      allProducts.length > 0
+    ) {
       resolved = productContext.crossSellProductIds
-        .map((id: string) => allProducts.find(p => p.id === id))
+        .map((id: string) => allProducts.find((p) => p.id === id))
         .filter(Boolean);
     }
-    
+
     // 3. Fallback to suggest products from same category if empty
     if (resolved.length === 0) {
       if (productContext?.related && Array.isArray(productContext.related)) {
@@ -76,13 +90,13 @@ export default function ProductCrossSell({
         resolved = [...productContext.related].reverse();
       }
     }
-    
+
     return resolved.slice(0, limit);
   }, [productContext, allProducts, limit]);
 
   if (items.length === 0) {
     if (!isBuilder) return null;
-    
+
     return (
       <SectionWrapper
         title={title}
@@ -91,8 +105,13 @@ export default function ProductCrossSell({
         textAlign="center"
       >
         <div className="w-full border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-12 flex flex-col items-center justify-center text-center bg-gray-50/50 dark:bg-gray-900/50">
-          <p className="text-gray-500 font-medium">No cross-sell products selected</p>
-          <p className="text-sm text-gray-400 mt-1">Configure cross-sell (frequently bought together) products in the product settings to display them here.</p>
+          <p className="text-gray-500 font-medium">
+            No cross-sell products selected
+          </p>
+          <p className="text-sm text-gray-400 mt-1">
+            Configure cross-sell (frequently bought together) products in the
+            product settings to display them here.
+          </p>
         </div>
       </SectionWrapper>
     );
@@ -112,7 +131,11 @@ export default function ProductCrossSell({
           slidesPerView={2.1}
           freeMode={true}
           pagination={{ clickable: true, dynamicBullets: true }}
-          autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           breakpoints={{
             640: { slidesPerView: 3, spaceBetween: 12 },
             1024: { slidesPerView: 4, spaceBetween: 16 },

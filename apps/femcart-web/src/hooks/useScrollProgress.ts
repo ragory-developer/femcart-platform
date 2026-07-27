@@ -12,14 +12,16 @@ export interface UseScrollProgressOptions {
  * A highly optimized hook for tracking scroll progress using Framer Motion.
  * It avoids unnecessary re-renders while providing accurate scroll metrics.
  */
-export function useScrollProgress({ threshold = 300 }: UseScrollProgressOptions = {}) {
+export function useScrollProgress({
+  threshold = 300,
+}: UseScrollProgressOptions = {}) {
   const { scrollY, scrollYProgress } = useScroll();
-  
+
   const [isPastThreshold, setIsPastThreshold] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const [isBottom, setIsBottom] = useState(false);
   const [isScrollingUp, setIsScrollingUp] = useState(false);
-  
+
   const lastScrollY = useRef(0);
 
   // Track percentage and bottom state
@@ -33,13 +35,13 @@ export function useScrollProgress({ threshold = 300 }: UseScrollProgressOptions 
   // Track threshold and scroll direction
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsPastThreshold(latest > threshold);
-    
+
     if (latest < lastScrollY.current) {
       setIsScrollingUp(true);
     } else if (latest > lastScrollY.current) {
       setIsScrollingUp(false);
     }
-    
+
     lastScrollY.current = latest;
   });
 

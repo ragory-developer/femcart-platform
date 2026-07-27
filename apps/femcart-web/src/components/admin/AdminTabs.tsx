@@ -52,7 +52,7 @@ export default function AdminTabs({ tabs, defaultTab }: AdminTabsProps) {
             >
               {tab.content}
             </motion.div>
-          ) : null
+          ) : null,
         )}
       </div>
     </div>

@@ -31,7 +31,7 @@ export default function WishlistPage() {
   const [items, setItems] = useState<WishlistItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const addToCart = useCartStore(state => state.addToCart);
+  const addToCart = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
     if (!authLoading) {
@@ -45,9 +45,11 @@ export default function WishlistPage() {
 
   const fetchWishlist = async () => {
     try {
-      const token = localStorage.getItem("femcart_access_token") || localStorage.getItem("token");
+      const token =
+        localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/wishlist`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       if (data.success) {
@@ -68,13 +70,15 @@ export default function WishlistPage() {
 
   const removeFromWishlist = async (id: string) => {
     try {
-      const token = localStorage.getItem("femcart_access_token") || localStorage.getItem("token");
+      const token =
+        localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/wishlist/${id}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
-        setItems(items.filter(item => item.id !== id));
+        setItems(items.filter((item) => item.id !== id));
         showToast.success("Removed from wishlist");
       }
     } catch (error) {
@@ -89,13 +93,13 @@ export default function WishlistPage() {
       price: product.specialPrice || product.price,
       image: product.image,
       quantity: 1,
-      slug: product.slug
+      slug: product.slug,
     });
     showToast.success("Added to cart");
   };
 
-  const filteredItems = items.filter(item => 
-    item.product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredItems = items.filter((item) =>
+    item.product.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   if (authLoading || (loading && items.length === 0)) {
@@ -120,7 +124,8 @@ export default function WishlistPage() {
             <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
               <div>
                 <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter uppercase italic flex items-center gap-3">
-                  <Heart className="text-pink-500 fill-pink-500" size={32} /> My Wishlist
+                  <Heart className="text-pink-500 fill-pink-500" size={32} /> My
+                  Wishlist
                 </h1>
                 <p className="text-gray-500 dark:text-gray-400 font-medium mt-1">
                   Products you've saved for later ({items.length})
@@ -136,7 +141,10 @@ export default function WishlistPage() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full focus:outline-none focus:border-pink-500 dark:focus:border-pink-500 focus:ring-1 focus:ring-pink-500"
                   />
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                  <Search
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                    size={16}
+                  />
                 </div>
               )}
             </div>
@@ -146,11 +154,13 @@ export default function WishlistPage() {
                 <div className="w-20 h-20 bg-pink-50 dark:bg-pink-900/30 text-pink-500 rounded-3xl flex items-center justify-center mx-auto mb-6">
                   <Heart size={40} />
                 </div>
-                <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2 uppercase tracking-tight italic">Your wishlist is empty</h2>
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2 uppercase tracking-tight italic">
+                  Your wishlist is empty
+                </h2>
                 <p className="text-gray-500 dark:text-gray-400 max-w-xs mx-auto mb-8 font-medium">
                   Save items you love and buy them when you're ready!
                 </p>
-                <Link 
+                <Link
                   href="/products"
                   className="inline-flex items-center gap-2 px-10 py-4 bg-pink-600 hover:bg-pink-700 text-white rounded-2xl font-black uppercase tracking-widest transition-all shadow-xl shadow-pink-600/20"
                 >
@@ -160,17 +170,31 @@ export default function WishlistPage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredItems.map((item) => (
-                  <div key={item.id} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-4 flex flex-col sm:flex-row gap-4 shadow-sm hover:shadow-md transition-shadow group relative">
-                    <Link href={`/product/${item.product.slug}`} className="w-full sm:w-32 h-32 rounded-2xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center relative overflow-hidden shrink-0">
+                  <div
+                    key={item.id}
+                    className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-4 flex flex-col sm:flex-row gap-4 shadow-sm hover:shadow-md transition-shadow group relative"
+                  >
+                    <Link
+                      href={`/product/${item.product.slug}`}
+                      className="w-full sm:w-32 h-32 rounded-2xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center relative overflow-hidden shrink-0"
+                    >
                       {item.product.image ? (
-                        <Image src={item.product.image} alt={item.product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <Image
+                          src={item.product.image}
+                          alt={item.product.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
                       ) : (
                         <ShoppingBag className="text-gray-300" size={32} />
                       )}
                     </Link>
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
-                        <Link href={`/product/${item.product.slug}`} className="font-bold text-gray-900 dark:text-white line-clamp-2 hover:text-pink-600 dark:hover:text-pink-500 transition-colors">
+                        <Link
+                          href={`/product/${item.product.slug}`}
+                          className="font-bold text-gray-900 dark:text-white line-clamp-2 hover:text-pink-600 dark:hover:text-pink-500 transition-colors"
+                        >
                           {item.product.name}
                         </Link>
                         <div className="mt-2 flex items-baseline gap-2">
@@ -190,7 +214,9 @@ export default function WishlistPage() {
                           disabled={item.product.stock <= 0}
                           className="flex-1 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-black uppercase tracking-widest rounded-xl hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          {item.product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+                          {item.product.stock > 0
+                            ? "Add to Cart"
+                            : "Out of Stock"}
                         </button>
                         <button
                           onClick={() => removeFromWishlist(item.id)}

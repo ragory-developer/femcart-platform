@@ -1,4 +1,4 @@
-﻿# State Management: Femcart Frontend
+# State Management: Femcart Frontend
 
 The Femcart frontend uses **Zustand** as its primary global state management library, chosen for its simplicity and unopinionated nature.
 

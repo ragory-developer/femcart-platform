@@ -11,8 +11,8 @@ export default function PageTemplate({ page }: { page: any }) {
             <h1 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8 pb-8 border-b border-gray-100 dark:border-gray-800">
               {page.title}
             </h1>
-            
-            <div 
+
+            <div
               className="prose prose-lg dark:prose-invert max-w-none 
                          mx-auto leading-relaxed
                          [&>p]:mb-6 [&>p]:text-gray-600 dark:[&>p]:text-gray-300
@@ -23,7 +23,7 @@ export default function PageTemplate({ page }: { page: any }) {
                          [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 dark:[&>ol]:text-gray-300
                          [&>a]:text-blue-600 dark:[&>a]:text-blue-400 [&>a]:underline
                          [&>blockquote]:border-l-4 [&>blockquote]:border-gray-200 dark:[&>blockquote]:border-gray-700 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-500 dark:[&>blockquote]:text-gray-400"
-              dangerouslySetInnerHTML={{ __html: page.content || "" }} 
+              dangerouslySetInnerHTML={{ __html: page.content || "" }}
             />
           </div>
         </div>

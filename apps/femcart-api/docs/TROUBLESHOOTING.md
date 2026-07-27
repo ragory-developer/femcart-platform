@@ -1,4 +1,4 @@
-# Femcart API — Troubleshooting Guide
+# Femcart API ï¿½ Troubleshooting Guide
 
 > **Last Updated:** 2026-06-11 | **AI-Maintained**
 
@@ -27,7 +27,7 @@
 | 404 Route not found | All API calls 404 | Wrong base URL | Ensure requests use `/api/` prefix |
 | CORS errors | Frontend gets CORS blocked | `FRONTEND_URL` mismatch | Set `FRONTEND_URL` to exact frontend origin |
 | Images not loading | Broken image URLs | `API_URL` not set to public URL | Set `API_URL` to public backend domain |
-| SMS not sent (dev) | No SMS received | Normal — dev mode mocks SMS | Check console log for mock SMS output |
+| SMS not sent (dev) | No SMS received | Normal ï¿½ dev mode mocks SMS | Check console log for mock SMS output |
 | SMS not sent (prod) | OTP never arrives | Wrong API key or gateway config | Verify `SMS_API_KEY` in .env or Settings table |
 | OTP blocked | "Too many requests" error | Rate limiting after 3 attempts | Wait 10 minutes; or reset `OTPVerification` record in DB |
 | Payment redirect fails | SSLCommerz error | Missing store credentials | Set `SSL_STORE_ID`, `SSL_STORE_PASSWORD` |
@@ -62,7 +62,7 @@ npm run db:studio
 # Opens browser GUI on http://localhost:5555
 ```
 
-### Reset Development Database (DANGER — dev only)
+### Reset Development Database (DANGER ï¿½ dev only)
 
 ```bash
 npx prisma migrate reset   # Drops DB, re-runs all migrations, re-seeds
@@ -105,12 +105,12 @@ UPDATE user SET role = 'SUPER_ADMIN' WHERE email = 'admin@example.com';
 ### Slow Queries
 
 1. Check Prisma query logs (enable via `DATABASE_URL` with `?connection_limit=10`)
-2. Look for missing indexes — all FK columns should be indexed (they are in this schema)
+2. Look for missing indexes ï¿½ all FK columns should be indexed (they are in this schema)
 3. Check N+1 issues: ensure includes are used rather than loop queries
 
 ### High Memory Usage
 
-- WooCommerce import runs in-process — imports keep 500 log lines per task in memory
+- WooCommerce import runs in-process ï¿½ imports keep 500 log lines per task in memory
 - Restart PM2 after large imports: `pm2 restart femcart-api`
 
 ### Cart Cleanup Not Running
@@ -144,8 +144,8 @@ The `src/utils/logger.ts` provides `logger.info()`, `logger.error()`, `logger.wa
 | Log Pattern | Meaning |
 |-------------|---------|
 | `Database connected successfully` | Startup success |
-| `[SMS] ABORTED: Insufficient global wallet balance` | Wallet empty — top up needed |
+| `[SMS] ABORTED: Insufficient global wallet balance` | Wallet empty ï¿½ top up needed |
 | `[FB-CAPI] Missing access token or pixel ID` | Facebook settings not configured |
 | `[Task:XXXXXX] ? Failed to fetch product` | WooCommerce import error for a specific product |
 | `[Config] Order Deduction Amount: 0` | Normal startup log showing config values |
-| `Error during Abandoned Cart Cleanup:` | Cron job error — check DB connection |
+| `Error during Abandoned Cart Cleanup:` | Cron job error ï¿½ check DB connection |

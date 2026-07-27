@@ -1,4 +1,4 @@
-﻿// @ts-ignore
+// @ts-ignore
 import paypal from '@paypal/checkout-server-sdk';
 import { PrismaClient } from '@prisma/client';
 

@@ -26,7 +26,7 @@ function AdminOrdersContent() {
     currentStatus,
     statuses,
     updateOrderStatus,
-    handleStatusFilter
+    handleStatusFilter,
   } = useAdminOrders();
 
   return (
@@ -34,8 +34,12 @@ function AdminOrdersContent() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3 tracking-tight">
-            <Package size={28} className="text-emerald-600" /> 
-            {couponCode ? `Orders: ${couponCode}` : currentStatus === 'ALL' ? "All Orders" : `${currentStatus} Orders`}
+            <Package size={28} className="text-emerald-600" />
+            {couponCode
+              ? `Orders: ${couponCode}`
+              : currentStatus === "ALL"
+                ? "All Orders"
+                : `${currentStatus} Orders`}
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
             Manage and track all customer orders from one place

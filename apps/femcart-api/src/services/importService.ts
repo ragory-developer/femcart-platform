@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Core import service — maps WooCommerce data to Femcart schema and persists it.
  */
 

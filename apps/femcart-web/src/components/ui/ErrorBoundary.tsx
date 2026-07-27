@@ -32,7 +32,9 @@ export class ErrorBoundary extends Component<Props, State> {
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // In production, this would be sent to Sentry, DataDog, etc.
     // For now, we log professionally to the console with the reference ID.
-    console.error(`[Error Reference: ${this.state.errorId}] Uncaught UI exception in ${this.props.componentName || 'ErrorBoundary'}:`);
+    console.error(
+      `[Error Reference: ${this.state.errorId}] Uncaught UI exception in ${this.props.componentName || "ErrorBoundary"}:`,
+    );
     console.error(error);
     console.error(errorInfo.componentStack);
   }
@@ -57,14 +59,14 @@ export class ErrorBoundary extends Component<Props, State> {
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-pink-100 mb-4 shadow-inner">
             <AlertTriangle className="h-6 w-6 text-pink-600" />
           </div>
-          
+
           <h3 className="text-base font-black text-pink-900 mb-2 tracking-tight">
             Oops! Something went wrong.
           </h3>
-          
+
           <p className="text-xs text-pink-700/80 max-w-[280px] mb-4 font-medium leading-relaxed">
-            {isDev 
-              ? "Development Mode: See the exact error below." 
+            {isDev
+              ? "Development Mode: See the exact error below."
               : "We're having trouble loading this section. Our engineering team has been notified."}
           </p>
 

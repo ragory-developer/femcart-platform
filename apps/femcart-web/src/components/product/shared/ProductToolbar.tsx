@@ -6,13 +6,17 @@ import { useState } from "react";
 import ProductFilters from "./ProductFilters";
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function ProductToolbar({ totalProducts }: { totalProducts: number }) {
+export default function ProductToolbar({
+  totalProducts,
+}: {
+  totalProducts: number;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  
+
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  
+
   const currentSort = searchParams.get("sort") || "featured";
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -30,21 +34,23 @@ export default function ProductToolbar({ totalProducts }: { totalProducts: numbe
     <>
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center justify-between w-full sm:w-auto gap-4">
-          <button 
+          <button
             className="lg:hidden flex flex-1 justify-center items-center gap-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-4 py-2.5 rounded-xl text-sm font-bold tracking-wide border border-emerald-100 dark:border-emerald-800"
             onClick={() => setIsMobileFilterOpen(true)}
           >
             <Filter size={16} /> Filters
           </button>
-          
+
           <span className="hidden sm:inline-block text-sm font-bold text-gray-500 uppercase tracking-widest bg-gray-50 dark:bg-gray-800 px-3 py-1 rounded-lg">
             {totalProducts} Products
           </span>
         </div>
-        
+
         <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-3 p-2 sm:p-0 bg-gray-50 dark:bg-transparent rounded-xl sm:rounded-none">
-          <span className="text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest sm:ml-0 ml-2">Sort by:</span>
-          <select 
+          <span className="text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest sm:ml-0 ml-2">
+            Sort by:
+          </span>
+          <select
             value={currentSort}
             onChange={handleSortChange}
             className="bg-white dark:bg-gray-800 font-bold text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-lg outline-none cursor-pointer text-sm px-3 py-1.5 focus:border-emerald-500 transition-colors"
@@ -61,15 +67,15 @@ export default function ProductToolbar({ totalProducts }: { totalProducts: numbe
       <AnimatePresence>
         {isMobileFilterOpen && (
           <div className="fixed inset-0 z-[130] flex flex-col justify-end lg:hidden">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm" 
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
               onClick={() => setIsMobileFilterOpen(false)}
             />
-            <motion.div 
+            <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
@@ -80,8 +86,10 @@ export default function ProductToolbar({ totalProducts }: { totalProducts: numbe
                 <div className="w-12 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full" />
               </div>
               <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Filters & Sort</h2>
-                <button 
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  Filters & Sort
+                </h2>
+                <button
                   onClick={() => setIsMobileFilterOpen(false)}
                   className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 >
@@ -97,7 +105,7 @@ export default function ProductToolbar({ totalProducts }: { totalProducts: numbe
       </AnimatePresence>
 
       {/* Floating Action Button for Mobile */}
-      <button 
+      <button
         className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] flex items-center gap-2 bg-emerald-600 text-white px-6 py-3.5 rounded-full shadow-lg shadow-emerald-500/30 text-sm font-bold uppercase tracking-wider"
         onClick={() => setIsMobileFilterOpen(true)}
       >

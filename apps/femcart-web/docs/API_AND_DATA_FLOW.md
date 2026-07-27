@@ -1,4 +1,4 @@
-﻿# API and Data Flow: Femcart Frontend
+# API and Data Flow: Femcart Frontend
 
 This document outlines how the `femcart-web` frontend communicates with the backend `femcart-api`.
 

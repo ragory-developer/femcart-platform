@@ -8,17 +8,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { useShallow } from 'zustand/react/shallow';
+import { useShallow } from "zustand/react/shallow";
 
 export default function CartDrawer() {
-  const { items, isOpen, closeCart, updateQuantity, removeFromCart, getCartTotal } = useCartStore(useShallow(state => ({
-    items: state.items,
-    isOpen: state.isOpen,
-    closeCart: state.closeCart,
-    updateQuantity: state.updateQuantity,
-    removeFromCart: state.removeFromCart,
-    getCartTotal: state.getCartTotal
-  })));
+  const {
+    items,
+    isOpen,
+    closeCart,
+    updateQuantity,
+    removeFromCart,
+    getCartTotal,
+  } = useCartStore(
+    useShallow((state) => ({
+      items: state.items,
+      isOpen: state.isOpen,
+      closeCart: state.closeCart,
+      updateQuantity: state.updateQuantity,
+      removeFromCart: state.removeFromCart,
+      getCartTotal: state.getCartTotal,
+    })),
+  );
   const { settings } = useSettingsStore();
   const [mounted, setMounted] = useState(false);
 
@@ -28,15 +37,15 @@ export default function CartDrawer() {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.overscrollBehavior = 'none';
+      document.body.style.overflow = "hidden";
+      document.body.style.overscrollBehavior = "none";
     } else {
-      document.body.style.overflow = '';
-      document.body.style.overscrollBehavior = '';
+      document.body.style.overflow = "";
+      document.body.style.overscrollBehavior = "";
     }
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.overscrollBehavior = '';
+      document.body.style.overflow = "";
+      document.body.style.overscrollBehavior = "";
     };
   }, [isOpen]);
 
@@ -74,7 +83,7 @@ export default function CartDrawer() {
                   {items.length}
                 </span>
               </h2>
-              <button 
+              <button
                 onClick={closeCart}
                 className="w-[clamp(44px,10vw,48px)] h-[clamp(44px,10vw,48px)] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors active:bg-gray-200 dark:active:bg-gray-700"
               >
@@ -90,7 +99,7 @@ export default function CartDrawer() {
                     <ShoppingBag size={48} strokeWidth={1.5} />
                   </div>
                   <p className="text-lg font-medium">Your cart is empty</p>
-                  <button 
+                  <button
                     onClick={closeCart}
                     className="text-primary font-bold hover:underline"
                   >
@@ -99,61 +108,84 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 items.map((item) => (
-                  <motion.div 
+                  <motion.div
                     layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    key={item.id} 
+                    key={item.id}
                     className="flex gap-4 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-3 rounded-lg shadow-sm"
                   >
-                    <Link 
-                      href={settings.permalink_structure === 'product' ? `/product/${item.slug}` : `/${item.slug}`}
+                    <Link
+                      href={
+                        settings.permalink_structure === "product"
+                          ? `/product/${item.slug}`
+                          : `/${item.slug}`
+                      }
                       onClick={closeCart}
                       className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shrink-0"
                     >
-                      <Image src={item.image} alt={item.name} width={80} height={80} className="w-full h-full object-cover" />
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                      />
                     </Link>
-                    
+
                     <div className="flex-1 flex flex-col justify-between">
                       <div className="flex justify-between items-start">
-                        <Link 
-                          href={settings.permalink_structure === 'product' ? `/product/${item.slug}` : `/${item.slug}`}
+                        <Link
+                          href={
+                            settings.permalink_structure === "product"
+                              ? `/product/${item.slug}`
+                              : `/${item.slug}`
+                          }
                           onClick={closeCart}
                           className="font-semibold text-gray-800 dark:text-gray-200 line-clamp-1 flex-1 pr-2 hover:text-primary transition-colors"
                         >
                           {item.name}
                         </Link>
-                        <button 
+                        <button
                           onClick={() => removeFromCart(item.id)}
                           className="text-gray-400 hover:text-rose-500 transition-colors p-[clamp(0.25rem,1vw,0.5rem)] min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700"
                         >
                           <Trash2 size={16} />
                         </button>
                       </div>
-                      
+
                       <div className="flex justify-between items-center mt-2">
-                        <div className="font-black text-emerald-600 dark:text-emerald-500">৳{item.price.toFixed(2)}</div>
-                        
+                        <div className="font-black text-emerald-600 dark:text-emerald-500">
+                          Tk {item.price.toFixed(2)}
+                        </div>
+
                         <div className="flex items-center gap-2">
-                          <button 
-                            onClick={() => updateQuantity(item.id, Math.max(1, (item.quantity || 1) - 1))}
+                          <button
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                Math.max(1, (item.quantity || 1) - 1),
+                              )
+                            }
                             disabled={(item.quantity || 1) <= 1}
                             className={`min-w-[44px] h-[44px] rounded-md flex items-center justify-center transition-colors active:scale-95 ${
-                              (item.quantity || 1) <= 1 
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-500' 
-                                : 'bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200'
+                              (item.quantity || 1) <= 1
+                                ? "bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-500"
+                                : "bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
                             }`}
                           >
                             <Minus size={14} />
                           </button>
-                          
+
                           <span className="font-semibold text-[clamp(0.875rem,2vw,1rem)] text-gray-800 dark:text-gray-100 min-w-[1.5rem] text-center">
                             {item.quantity || 1}
                           </span>
-                          
-                          <button 
-                            onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
+
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, (item.quantity || 1) + 1)
+                            }
                             className="min-w-[44px] h-[44px] bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 rounded-md flex items-center justify-center transition-colors active:scale-95"
                           >
                             <Plus size={14} />
@@ -170,19 +202,23 @@ export default function CartDrawer() {
             {items.length > 0 && (
               <div className="p-6 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800">
                 <div className="flex justify-between items-center mb-6">
-                  <span className="font-semibold text-gray-800 dark:text-gray-200">Subtotal</span>
-                  <span className="font-black text-2xl text-emerald-600 dark:text-emerald-500">৳{total.toFixed(2)}</span>
+                  <span className="font-semibold text-gray-800 dark:text-gray-200">
+                    Subtotal
+                  </span>
+                  <span className="font-black text-2xl text-emerald-600 dark:text-emerald-500">
+                    Tk {total.toFixed(2)}
+                  </span>
                 </div>
-                
+
                 <div className="space-y-3">
-                  <Link 
+                  <Link
                     href="/cart"
                     onClick={closeCart}
                     className="w-full bg-white dark:bg-gray-800 border-2 border-primary text-primary hover:bg-emerald-50 dark:hover:bg-emerald-900/20 py-[clamp(0.75rem,2vh,1rem)] min-h-[44px] rounded-xl font-bold text-[clamp(1rem,4vw,1.125rem)] flex items-center justify-center transition-colors shadow-sm active:bg-emerald-100 dark:active:bg-emerald-900/40"
                   >
                     View Full Cart
                   </Link>
-                  <Link 
+                  <Link
                     href="/checkout"
                     onClick={closeCart}
                     className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-[clamp(0.75rem,2vh,1rem)] min-h-[44px] rounded-xl font-black text-[clamp(1rem,4vw,1.125rem)] flex items-center justify-center gap-2 transition-all shadow-xl shadow-emerald-500/25 hover:-translate-y-0.5 active:scale-95"

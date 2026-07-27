@@ -50,7 +50,7 @@ export default function DataTable<T extends Record<string, any>>({
         columns.some((col) => {
           const val = item[col.key];
           return val && String(val).toLowerCase().includes(q);
-        })
+        }),
       );
     }
 
@@ -59,7 +59,9 @@ export default function DataTable<T extends Record<string, any>>({
       result.sort((a, b) => {
         const aVal = a[sortKey] ?? "";
         const bVal = b[sortKey] ?? "";
-        const cmp = String(aVal).localeCompare(String(bVal), undefined, { numeric: true });
+        const cmp = String(aVal).localeCompare(String(bVal), undefined, {
+          numeric: true,
+        });
         return sortDir === "asc" ? cmp : -cmp;
       });
     }
@@ -72,7 +74,10 @@ export default function DataTable<T extends Record<string, any>>({
       {/* Search Bar */}
       <div className="p-[clamp(1rem,3vw,1.5rem)] border-b border-gray-200 dark:border-gray-700">
         <div className="relative max-w-sm">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search
+            size={18}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          />
           <input
             type="text"
             placeholder={searchPlaceholder}
@@ -96,20 +101,28 @@ export default function DataTable<T extends Record<string, any>>({
                   key={col.key}
                   onClick={() => col.sortable && handleSort(col.key)}
                   className={`px-[clamp(1rem,3vw,1.5rem)] py-[clamp(0.75rem,2vw,1rem)] text-left text-[clamp(0.65rem,1.5vw,0.75rem)] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 ${
-                    col.sortable ? "cursor-pointer hover:text-gray-900 dark:hover:text-white select-none" : ""
+                    col.sortable
+                      ? "cursor-pointer hover:text-gray-900 dark:hover:text-white select-none"
+                      : ""
                   }`}
                 >
                   <div className="flex items-center gap-1 min-h-[44px]">
                     {col.label}
-                    {col.sortable && sortKey === col.key && (
-                      sortDir === "asc" ? <ChevronUp size={14} /> : <ChevronDown size={14} />
-                    )}
+                    {col.sortable &&
+                      sortKey === col.key &&
+                      (sortDir === "asc" ? (
+                        <ChevronUp size={14} />
+                      ) : (
+                        <ChevronDown size={14} />
+                      ))}
                   </div>
                 </th>
               ))}
               {actions && (
                 <th className="px-[clamp(1rem,3vw,1.5rem)] py-[clamp(0.75rem,2vw,1rem)] text-right text-[clamp(0.65rem,1.5vw,0.75rem)] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                  <div className="min-h-[44px] flex items-center justify-end">Actions</div>
+                  <div className="min-h-[44px] flex items-center justify-end">
+                    Actions
+                  </div>
                 </th>
               )}
             </tr>
@@ -135,7 +148,7 @@ export default function DataTable<T extends Record<string, any>>({
                       key={col.key}
                       className="px-[clamp(1rem,3vw,1.5rem)] py-[clamp(0.875rem,2vw,1rem)] text-[clamp(0.875rem,2vw,1rem)] text-gray-700 dark:text-gray-300 whitespace-nowrap min-h-[44px]"
                     >
-                      {col.render ? col.render(item) : item[col.key] ?? "—"}
+                      {col.render ? col.render(item) : (item[col.key] ?? "—")}
                     </td>
                   ))}
                   {actions && (

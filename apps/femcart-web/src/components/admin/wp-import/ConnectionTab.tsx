@@ -5,14 +5,21 @@ import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
 function getToken() {
-  return typeof window !== "undefined" ? (localStorage.getItem("femcart_access_token") || localStorage.getItem("token") || "") : "";
+  return typeof window !== "undefined"
+    ? localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token") ||
+        ""
+    : "";
 }
 
 export default function ConnectionTab() {
   const [loading, setLoading] = useState(false);
   const [testing, setTesting] = useState(false);
-  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
-  
+  const [testResult, setTestResult] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
+
   const [formData, setFormData] = useState({
     siteUrl: "",
     consumerKey: "",
@@ -24,8 +31,8 @@ export default function ConnectionTab() {
     // Fetch existing settings
     fetch(`${API_URL}/api/wordpress/settings`, {
       headers: {
-        "Authorization": `Bearer ${getToken()}`
-      }
+        Authorization: `Bearer ${getToken()}`,
+      },
     })
       .then((res) => res.json())
       .then((json) => {
@@ -41,7 +48,9 @@ export default function ConnectionTab() {
       .catch((err) => console.error("Could not load settings API", err));
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setTestResult(null); // Clear previous test result on change
   };
@@ -53,9 +62,9 @@ export default function ConnectionTab() {
     try {
       const res = await fetch(`${API_URL}/api/wordpress/settings`, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getToken()}`
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(formData),
       });
@@ -73,15 +82,18 @@ export default function ConnectionTab() {
     setTesting(true);
     setTestResult(null);
     try {
-      const res = await fetch(`${API_URL}/api/wordpress/test`, { 
+      const res = await fetch(`${API_URL}/api/wordpress/test`, {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${getToken()}`
-        }
+          Authorization: `Bearer ${getToken()}`,
+        },
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Connection failed");
-      setTestResult({ success: true, message: "Connection successful! WooCommerce API is reachable." });
+      setTestResult({
+        success: true,
+        message: "Connection successful! WooCommerce API is reachable.",
+      });
     } catch (err: any) {
       setTestResult({ success: false, message: err.message });
     } finally {
@@ -92,24 +104,37 @@ export default function ConnectionTab() {
   return (
     <div className="max-w-2xl space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">WooCommerce API Credentials</h2>
+        <h2 className="text-xl font-semibold text-gray-900">
+          WooCommerce API Credentials
+        </h2>
         <p className="text-sm text-gray-500 mt-1">
-          Enter your website URL, Consumer Key, and Consumer Secret to connect with WooCommerce.
+          Enter your website URL, Consumer Key, and Consumer Secret to connect
+          with WooCommerce.
         </p>
       </div>
 
       {testResult && (
-        <div className={`p-4 rounded-xl flex items-start gap-3 ${
-          testResult.success ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-pink-50 text-pink-800 border border-pink-200"
-        }`}>
-          {testResult.success ? <CheckCircle2 className="shrink-0 text-emerald-500" /> : <XCircle className="shrink-0 text-pink-500" />}
+        <div
+          className={`p-4 rounded-xl flex items-start gap-3 ${
+            testResult.success
+              ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+              : "bg-pink-50 text-pink-800 border border-pink-200"
+          }`}
+        >
+          {testResult.success ? (
+            <CheckCircle2 className="shrink-0 text-emerald-500" />
+          ) : (
+            <XCircle className="shrink-0 text-pink-500" />
+          )}
           <div className="text-sm font-medium">{testResult.message}</div>
         </div>
       )}
 
       <form onSubmit={handleSave} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Site URL</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Site URL
+          </label>
           <input
             type="url"
             name="siteUrl"
@@ -122,7 +147,9 @@ export default function ConnectionTab() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Consumer Key</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Consumer Key
+          </label>
           <input
             type="text"
             name="consumerKey"
@@ -135,7 +162,9 @@ export default function ConnectionTab() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Consumer Secret</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Consumer Secret
+          </label>
           <input
             type="password"
             name="consumerSecret"
@@ -148,7 +177,9 @@ export default function ConnectionTab() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">API Version</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            API Version
+          </label>
           <select
             name="apiVersion"
             value={formData.apiVersion}

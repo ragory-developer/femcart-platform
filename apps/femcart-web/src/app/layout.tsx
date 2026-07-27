@@ -9,23 +9,25 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
   variable: "--font-outfit",
-  display: 'swap',
-  preload: true
+  display: "swap",
+  preload: true,
 });
 const manrope = Manrope({
   weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
   variable: "--font-manrope",
-  display: 'swap',
-  preload: true
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
-  title: "Femcart — Premium Women's Intimate Apparel & Lifestyle E-commerce Platform",
-  description: "Femcart is a premium online shopping platform dedicated to women's intimate apparel, shapewear, activewear, and essential lifestyle products.",
+  title:
+    "Femcart — Premium Women's Intimate Apparel & Lifestyle E-commerce Platform",
+  description:
+    "Femcart is a premium online shopping platform dedicated to women's intimate apparel, shapewear, activewear, and essential lifestyle products.",
   icons: {
-    icon: '/icon.png',
-  }
+    icon: "/icon.png",
+  },
 };
 
 import NavigationProvider from "@/components/providers/NavigationProvider";
@@ -48,7 +50,9 @@ export default async function RootLayout({
   let globalSettings = null;
 
   try {
-    const res = await fetchWithTimeout(`${API_URL}/api/global-settings`, { next: { revalidate: 60 } });
+    const res = await fetchWithTimeout(`${API_URL}/api/global-settings`, {
+      next: { revalidate: 60 },
+    });
     if (res.ok) {
       const json = await res.json();
       if (json.success && json.data) {
@@ -59,7 +63,7 @@ export default async function RootLayout({
       }
     }
   } catch (err: any) {
-    if (err?.cause?.code !== 'ECONNREFUSED') {
+    if (err?.cause?.code !== "ECONNREFUSED") {
       console.error("Failed to fetch global settings in layout:", err);
     }
   }
@@ -67,33 +71,45 @@ export default async function RootLayout({
   const getParseOptions = (isHead: boolean = false) => ({
     replace: (domNode: any) => {
       // Discard pure text nodes in the <head> to prevent the browser from closing it prematurely
-      if (isHead && domNode.type === 'text') {
+      if (isHead && domNode.type === "text") {
         const text = (domNode as Text).data?.trim();
         if (text) return <></>;
       }
 
-      if (domNode instanceof Element && domNode.name === 'script') {
+      if (domNode instanceof Element && domNode.name === "script") {
         const props = attributesToProps(domNode.attribs);
-        const scriptContent = domNode.children?.[0]?.type === 'text'
-          ? (domNode.children[0] as Text).data
-          : '';
+        const scriptContent =
+          domNode.children?.[0]?.type === "text"
+            ? (domNode.children[0] as Text).data
+            : "";
         if (scriptContent) {
-          return <script {...props} dangerouslySetInnerHTML={{ __html: scriptContent }} />;
+          return (
+            <script
+              {...props}
+              dangerouslySetInnerHTML={{ __html: scriptContent }}
+            />
+          );
         }
         return <script {...props} />;
       }
 
-      if (domNode instanceof Element && domNode.name === 'style') {
+      if (domNode instanceof Element && domNode.name === "style") {
         const props = attributesToProps(domNode.attribs);
-        const styleContent = domNode.children?.[0]?.type === 'text'
-          ? (domNode.children[0] as Text).data
-          : '';
+        const styleContent =
+          domNode.children?.[0]?.type === "text"
+            ? (domNode.children[0] as Text).data
+            : "";
         if (styleContent) {
-          return <style {...props} dangerouslySetInnerHTML={{ __html: styleContent }} />;
+          return (
+            <style
+              {...props}
+              dangerouslySetInnerHTML={{ __html: styleContent }}
+            />
+          );
         }
         return <style {...props} />;
       }
-    }
+    },
   });
 
   return (
@@ -101,19 +117,25 @@ export default async function RootLayout({
       <head>
         {headerCode ? parse(headerCode, getParseOptions(true)) : null}
       </head>
-      <body className={`${manrope.variable} ${outfit.variable} antialiased selection:bg-pink-500/30 min-h-[100dvh] flex flex-col font-sans overflow-x-clip pt-[env(safe-area-inset-top)]`}>
+      <body
+        className={`${manrope.variable} ${outfit.variable} antialiased selection:bg-pink-500/30 min-h-[100dvh] flex flex-col font-sans overflow-x-clip pt-[env(safe-area-inset-top)]`}
+      >
         <NextTopLoader color="#ff0798ff" showSpinner={false} />
         <ReactQueryProvider>
           <AuthProvider>
             <SettingsProvider initialSettings={globalSettings}>
               <NavigationProvider>
-                {bodyCode ? <div dangerouslySetInnerHTML={{ __html: bodyCode }} /> : null}
+                {bodyCode ? (
+                  <div dangerouslySetInnerHTML={{ __html: bodyCode }} />
+                ) : null}
                 {children}
                 <Toaster position="top-center" />
                 <Suspense fallback={null}>
                   <Tracking />
                 </Suspense>
-                {footerCode ? <div dangerouslySetInnerHTML={{ __html: footerCode }} /> : null}
+                {footerCode ? (
+                  <div dangerouslySetInnerHTML={{ __html: footerCode }} />
+                ) : null}
               </NavigationProvider>
             </SettingsProvider>
           </AuthProvider>

@@ -69,7 +69,7 @@ Products are upserted by `externalId` (WooCommerce product ID). Re-running the i
 
 - **Start:** `POST /api/wordpress/import/tasks/:id/start`
 - **Cancel/Pause:** `POST /api/wordpress/import/tasks/:id/cancel`
-  - Sets a flag in `cancelRequests` Set — checked between each product
+  - Sets a flag in `cancelRequests` Set ï¿½ checked between each product
   - Task status set to `paused` if cancelled mid-run
 - Tasks can be individually started/paused/resumed
 
@@ -90,7 +90,7 @@ Products are upserted by `externalId` (WooCommerce product ID). Re-running the i
 
 ## Limitations
 
-- Import runs **in Node.js main process** — not in a worker thread
+- Import runs **in Node.js main process** ï¿½ not in a worker thread
 - Only 1 task runs at a time (`MAX_CONCURRENT_TASKS = 1`)
 - Large imports (10,000+ products) may impact API responsiveness
 - Network timeouts: 30-second timeout per product fetch

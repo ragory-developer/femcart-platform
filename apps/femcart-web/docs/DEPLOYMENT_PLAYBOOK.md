@@ -1,4 +1,4 @@
-﻿# Deployment Playbook
+# Deployment Playbook
 
 This document details the standard deployment steps for the `femcart-web` Next.js frontend.
 

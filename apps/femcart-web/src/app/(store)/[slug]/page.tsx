@@ -1,82 +1,102 @@
-﻿import { fetchWithTimeout } from "@/lib/fetchWithTimeout";
+import { fetchWithTimeout } from "@/lib/fetchWithTimeout";
 export const dynamic = "force-dynamic";
 
 import PageTemplate from "@/components/page/PageTemplate";
-import ProductDetailPage, { generateMetadata as productGenerateMetadata } from "@/components/product/shared/ProductPageTemplate";
+import ProductDetailPage, {
+  generateMetadata as productGenerateMetadata,
+} from "@/components/product/shared/ProductPageTemplate";
 import { API_URL } from "@/lib/config";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 type Props = {
-  params: Promise<{ slug: string }>
-}
+  params: Promise<{ slug: string }>;
+};
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const resolvedParams = await props.params;
-  
+
   let settings: any = {};
   try {
-    const settingsRes = await fetchWithTimeout(`${API_URL}/api/global-settings`, { next: { revalidate: 3600 } });
+    const settingsRes = await fetchWithTimeout(
+      `${API_URL}/api/global-settings`,
+      { next: { revalidate: 3600 } },
+    );
     if (settingsRes.ok) {
       const json = await settingsRes.json();
       settings = json.data || {};
     }
-  } catch(e) {}
+  } catch (e) {}
 
-  const isFlatStructure = settings.permalink_structure === 'flat' || !settings.permalink_structure;
+  const isFlatStructure =
+    settings.permalink_structure === "flat" || !settings.permalink_structure;
 
   // We only consider returning product metadata if it's the flat structure.
   if (isFlatStructure) {
     const productMeta = await productGenerateMetadata(props);
-    if (productMeta?.title && productMeta.title !== "Product Not Found | Femcart") {
+    if (
+      productMeta?.title &&
+      productMeta.title !== "Product Not Found | Femcart"
+    ) {
       return productMeta;
     }
   }
 
   // Attempt to resolve as a Custom Page
-    try {
-      const res = await fetchWithTimeout(`${API_URL}/api/pages/${resolvedParams.slug}`, { next: { revalidate: 0 } });
-      const json = await res.json();
-      if (json.success && json.data) {
-        const page = json.data;
-        let pTitle = page.title;
-        let pDesc = "Custom page";
-        try {
-          if (page.seoData) {
-            const seo = typeof page.seoData === 'string' ? JSON.parse(page.seoData) : page.seoData;
-            if (seo.title) pTitle = seo.title;
-            if (seo.description) pDesc = seo.description;
-          }
-        } catch(e) {}
-        return { title: pTitle, description: pDesc };
-      }
-    } catch(e) {}
+  try {
+    const res = await fetchWithTimeout(
+      `${API_URL}/api/pages/${resolvedParams.slug}`,
+      { next: { revalidate: 0 } },
+    );
+    const json = await res.json();
+    if (json.success && json.data) {
+      const page = json.data;
+      let pTitle = page.title;
+      let pDesc = "Custom page";
+      try {
+        if (page.seoData) {
+          const seo =
+            typeof page.seoData === "string"
+              ? JSON.parse(page.seoData)
+              : page.seoData;
+          if (seo.title) pTitle = seo.title;
+          if (seo.description) pDesc = seo.description;
+        }
+      } catch (e) {}
+      return { title: pTitle, description: pDesc };
+    }
+  } catch (e) {}
 
   return { title: "Not Found" };
 }
 
-
-
 export default async function RootSlugPage(props: any) {
   const resolvedParams = await props.params;
-  
+
   let settings: any = {};
   try {
-    const settingsRes = await fetchWithTimeout(`${API_URL}/api/global-settings`, { next: { revalidate: 3600 } });
+    const settingsRes = await fetchWithTimeout(
+      `${API_URL}/api/global-settings`,
+      { next: { revalidate: 3600 } },
+    );
     if (settingsRes.ok) {
       const json = await settingsRes.json();
       settings = json.data || {};
     }
-  } catch(e) {}
+  } catch (e) {}
 
-  const isFlatStructure = settings.permalink_structure === 'flat' || !settings.permalink_structure;
+  const isFlatStructure =
+    settings.permalink_structure === "flat" || !settings.permalink_structure;
 
   let isProduct = false;
   let shouldRedirectToProduct = false;
-  
+
   // 1. Try fetching Product
   try {
-    const res = await fetchWithTimeout(`${API_URL}/api/products/${resolvedParams.slug}`, { next: { revalidate: 0 } });
+    const res = await fetchWithTimeout(
+      `${API_URL}/api/products/${resolvedParams.slug}`,
+      { next: { revalidate: 0 } },
+    );
     if (res.ok) {
       const json = await res.json();
       if (json.success && json.data) {
@@ -87,7 +107,7 @@ export default async function RootSlugPage(props: any) {
         }
       }
     }
-  } catch(e) {}
+  } catch (e) {}
 
   if (shouldRedirectToProduct) {
     // If structure is 'product', redirect from flat URL to product URL
@@ -101,14 +121,17 @@ export default async function RootSlugPage(props: any) {
   let pageData = null;
   // 2. Try fetching Custom Page
   try {
-    const pageRes = await fetchWithTimeout(`${API_URL}/api/pages/${resolvedParams.slug}`, { next: { revalidate: 0 } });
+    const pageRes = await fetchWithTimeout(
+      `${API_URL}/api/pages/${resolvedParams.slug}`,
+      { next: { revalidate: 0 } },
+    );
     if (pageRes.ok) {
       const pageJson = await pageRes.json();
       if (pageJson.success && pageJson.data) {
         pageData = pageJson.data;
       }
     }
-  } catch(e) {}
+  } catch (e) {}
 
   if (pageData) {
     return <PageTemplate page={pageData} />;

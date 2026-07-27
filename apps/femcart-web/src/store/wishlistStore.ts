@@ -1,5 +1,5 @@
-﻿import { API_URL } from '@/lib/config';
-import { create } from 'zustand';
+import { API_URL } from "@/lib/config";
+import { create } from "zustand";
 
 interface WishlistState {
   items: string[]; // Array of Product IDs
@@ -15,13 +15,17 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
   isLoading: false,
 
   fetchWishlist: async () => {
-    const token = typeof window !== 'undefined' ? (localStorage.getItem('femcart_access_token') || localStorage.getItem('token')) : null;
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("femcart_access_token") ||
+          localStorage.getItem("token")
+        : null;
     if (!token) return;
 
     set({ isLoading: true });
     try {
       const res = await fetch(`${API_URL}/api/wishlist`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       if (data.success && data.data) {
@@ -36,12 +40,20 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
   },
 
   toggleWishlist: async (productId: string) => {
-    const token = typeof window !== 'undefined' ? (localStorage.getItem('femcart_access_token') || localStorage.getItem('token')) : null;
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("femcart_access_token") ||
+          localStorage.getItem("token")
+        : null;
     const current = get().items;
     const exists = current.includes(productId);
 
     // Optimistic UI update
-    set({ items: exists ? current.filter(id => id !== productId) : [...current, productId] });
+    set({
+      items: exists
+        ? current.filter((id) => id !== productId)
+        : [...current, productId],
+    });
 
     if (!token) {
       return; // Can't persist without token
@@ -50,20 +62,20 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
     try {
       if (exists) {
         const res = await fetch(`${API_URL}/api/wishlist/${productId}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${token}` }
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error('Failed to remove from wishlist');
+        if (!res.ok) throw new Error("Failed to remove from wishlist");
       } else {
         const res = await fetch(`${API_URL}/api/wishlist`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ productId })
+          body: JSON.stringify({ productId }),
         });
-        if (!res.ok) throw new Error('Failed to add to wishlist');
+        if (!res.ok) throw new Error("Failed to add to wishlist");
       }
     } catch (error) {
       console.error("Wishlist toggle error:", error);
@@ -78,5 +90,5 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
 
   clearWishlist: () => {
     set({ items: [] });
-  }
+  },
 }));

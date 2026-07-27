@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import React, { useEffect, useState, useRef } from "react";
+import { usePathname } from "next/navigation";
 
-export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+export default function SmoothScrollProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [isTouchDevice, setIsTouchDevice] = useState(true);
   const pathname = usePathname();
   const lenisRef = useRef<any>(null);
@@ -19,7 +23,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
 
   useEffect(() => {
     // Check if the user is on a touch device
-    const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const touch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     setIsTouchDevice(touch);
 
     if (touch) return;
@@ -27,12 +31,12 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     let animationFrameId: number;
 
     const initLenis = async () => {
-      const { default: Lenis } = await import('lenis');
+      const { default: Lenis } = await import("lenis");
       const lenis = new Lenis({
         duration: 1.2,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
+        orientation: "vertical",
+        gestureOrientation: "vertical",
         smoothWheel: true,
         wheelMultiplier: 1,
         touchMultiplier: 2,

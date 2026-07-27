@@ -1,10 +1,10 @@
-﻿import { API_URL } from "@/lib/config";
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { API_URL } from "@/lib/config";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface SettingsState {
   settings: {
-    permalink_structure?: 'flat' | 'product';
+    permalink_structure?: "flat" | "product";
     store_name?: string;
     productCardVariant?: string;
     productCardRadius?: string;
@@ -12,9 +12,9 @@ interface SettingsState {
     productCardShowRating?: boolean;
     productCardShowAddToCart?: boolean;
     productCardBadgeStyle?: string;
-    theme_preset?: 'original' | 'clean-green' | 'custom';
+    theme_preset?: "original" | "clean-green" | "custom";
     theme_color_primary?: string;
-    layout_template?: 'original' | 'alpha' | 'beta' | 'gamma';
+    layout_template?: "original" | "alpha" | "beta" | "gamma";
     deliveryLocation?: string;
     deliveryLat?: number;
     deliveryLng?: number;
@@ -29,18 +29,18 @@ export const useSettingsStore = create<SettingsState>()(
   persist(
     (set, get) => ({
       settings: {
-        permalink_structure: 'flat', // Default
-        products_per_row: '4',
-        store_name: '',
-        productCardVariant: 'classic',
-        productCardRadius: '3xl',
+        permalink_structure: "flat", // Default
+        products_per_row: "4",
+        store_name: "",
+        productCardVariant: "classic",
+        productCardRadius: "3xl",
         productCardShowBadge: true,
         productCardShowRating: true,
         productCardShowAddToCart: true,
-        productCardBadgeStyle: 'pill',
-        theme_preset: 'original',
-        theme_color_primary: '#00B207',
-        layout_template: 'original',
+        productCardBadgeStyle: "pill",
+        theme_preset: "original",
+        theme_color_primary: "#00B207",
+        layout_template: "original",
       },
       loading: true,
       setSettings: async (settingsToUpdate) => {
@@ -49,15 +49,19 @@ export const useSettingsStore = create<SettingsState>()(
         set({ settings: newSettings });
 
         try {
-          const token = typeof window !== 'undefined' ? (localStorage.getItem("femcart_access_token") || localStorage.getItem("token")) : null;
+          const token =
+            typeof window !== "undefined"
+              ? localStorage.getItem("femcart_access_token") ||
+                localStorage.getItem("token")
+              : null;
           if (token) {
             await fetch(`${API_URL}/api/global-settings`, {
-              method: 'POST',
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
               },
-              body: JSON.stringify({ settings: settingsToUpdate })
+              body: JSON.stringify({ settings: settingsToUpdate }),
             });
           }
         } catch (e) {
@@ -67,15 +71,23 @@ export const useSettingsStore = create<SettingsState>()(
       fetchSettings: async () => {
         set({ loading: true });
         try {
-          const res = await fetch(`${API_URL}/api/global-settings`, { cache: 'no-store' });
+          const res = await fetch(`${API_URL}/api/global-settings`, {
+            cache: "no-store",
+          });
           const json = await res.json();
           if (json.success) {
             // Convert string booleans to actual booleans for specific keys
             const parsedSettings = { ...json.data };
-            const booleanKeys = ['productCardShowBadge', 'productCardShowRating', 'productCardShowAddToCart'];
-            booleanKeys.forEach(key => {
+            const booleanKeys = [
+              "productCardShowBadge",
+              "productCardShowRating",
+              "productCardShowAddToCart",
+            ];
+            booleanKeys.forEach((key) => {
               if (parsedSettings[key] !== undefined) {
-                parsedSettings[key] = parsedSettings[key] === 'true' || parsedSettings[key] === true;
+                parsedSettings[key] =
+                  parsedSettings[key] === "true" ||
+                  parsedSettings[key] === true;
               }
             });
             set({ settings: { ...get().settings, ...parsedSettings } });
@@ -85,11 +97,11 @@ export const useSettingsStore = create<SettingsState>()(
         } finally {
           set({ loading: false });
         }
-      }
+      },
     }),
     {
-      name: 'femcart-settings',
+      name: "femcart-settings",
       partialize: (state) => ({ settings: state.settings }),
-    }
-  )
+    },
+  ),
 );

@@ -1,4 +1,4 @@
-# Femcart API — Documentation Index
+# Femcart API ï¿½ Documentation Index
 
 > **Last Updated:** 2026-06-11 | **AI-Maintained Living Documentation**
 
@@ -62,5 +62,5 @@ This is the root index for the Femcart API documentation knowledge base.
 
 | Document | Status |
 |----------|--------|
-| [builder-api.md](./builder-api.md) | ? Accurate — superseded by BUILDER_SYSTEM.md |
-| [builder-authoring.md](./builder-authoring.md) | ?? Partially accurate — references "block" scope which is partially implemented |
+| [builder-api.md](./builder-api.md) | ? Accurate ï¿½ superseded by BUILDER_SYSTEM.md |
+| [builder-authoring.md](./builder-authoring.md) | ?? Partially accurate ï¿½ references "block" scope which is partially implemented |

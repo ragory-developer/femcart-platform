@@ -1,4 +1,4 @@
-# Femcart API — Authentication & Security
+# Femcart API ï¿½ Authentication & Security
 
 > **Last Updated:** 2026-06-11 | **Source:** `src/services/authService.ts`, `src/middleware/auth.ts` | **AI-Maintained**
 
@@ -63,7 +63,7 @@ Step 2b (Registration flow): POST /api/auth/verify-otp  { phone, code }
 ### 3. Super Admin Setup (First-Run Only)
 
 `POST /api/auth/setup-super-admin`
-- Works **only once** — blocked if any SUPER_ADMIN exists
+- Works **only once** ï¿½ blocked if any SUPER_ADMIN exists
 - Requires `adminAccessKey: "ADMIN"` (hardcoded secret, change in production)
 - Creates the first SUPER_ADMIN account
 
@@ -81,7 +81,7 @@ Step 2b (Registration flow): POST /api/auth/verify-otp  { phone, code }
 - **Algorithm:** HS256
 - **Payload:** `{ userId, role }`
 - **Expiry:** `JWT_REFRESH_EXPIRES_IN` (default: `7d`)
-- **Storage:** Persisted in `user.refreshToken` column (single token per user — rotation on each refresh)
+- **Storage:** Persisted in `user.refreshToken` column (single token per user ï¿½ rotation on each refresh)
 - **Validation:** Token in DB must match the token presented ? revoked on logout
 
 **Refresh:** `POST /api/auth/refresh` `{ refreshToken }`
@@ -139,19 +139,19 @@ Example permissions array:
 
 ### Helmet
 - Sets secure HTTP headers
-- `crossOriginResourcePolicy: { policy: "cross-origin" }` — allows images to load cross-origin
+- `crossOriginResourcePolicy: { policy: "cross-origin" }` ï¿½ allows images to load cross-origin
 
 ### CORS
 - Origin controlled by `FRONTEND_URL` env var
 - Set `ALLOW_ALL_ORIGINS=true` to bypass (development only)
-- `credentials: true` — allows cookies in cross-origin requests
+- `credentials: true` ï¿½ allows cookies in cross-origin requests
 
 ---
 
 ## Password Security
 
 - All passwords hashed with **bcryptjs** at cost factor **12** (registration) or **10** (guest account auto-created passwords)
-- Guest accounts get a random 20-character password (they never need it — they use OTP)
+- Guest accounts get a random 20-character password (they never need it ï¿½ they use OTP)
 - No plain-text passwords are ever stored or returned in API responses
 
 ---
@@ -162,4 +162,4 @@ Example permissions array:
 > The `setupSuperAdmin` endpoint uses a hardcoded access key `"ADMIN"`. In a real production deployment, this should be changed to a strong environment-variable-based secret.
 
 > [!WARNING]
-> The `ForbiddenError` message in `authorize()` middleware contains `"DEBUG: Insufficient permissions (AUTH MOD)"` — this is a developer debug string that should be cleaned up before production.
+> The `ForbiddenError` message in `authorize()` middleware contains `"DEBUG: Insufficient permissions (AUTH MOD)"` ï¿½ this is a developer debug string that should be cleaned up before production.

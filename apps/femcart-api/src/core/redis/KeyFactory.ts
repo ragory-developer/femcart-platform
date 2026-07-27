@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Centralized utility for generating Redis cache keys.
  * Using a factory ensures a strict taxonomy and avoids collisions.
  */

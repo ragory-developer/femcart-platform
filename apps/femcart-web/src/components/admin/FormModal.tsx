@@ -60,7 +60,9 @@ export default function FormModal({
           >
             {/* Header */}
             <div className="flex items-center justify-between p-[clamp(1.25rem,3vw,1.5rem)] border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-[clamp(1.125rem,3vw,1.25rem)] font-bold text-gray-900 dark:text-white">{title}</h2>
+              <h2 className="text-[clamp(1.125rem,3vw,1.25rem)] font-bold text-gray-900 dark:text-white">
+                {title}
+              </h2>
               <button
                 type="button"
                 onClick={onClose}

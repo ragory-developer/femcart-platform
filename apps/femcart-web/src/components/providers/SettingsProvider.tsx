@@ -3,13 +3,22 @@
 import { useSettingsStore } from "@/store/settingsStore";
 import { useEffect, useRef } from "react";
 
-export default function SettingsProvider({ children, initialSettings }: { children: React.ReactNode, initialSettings?: any }) {
+export default function SettingsProvider({
+  children,
+  initialSettings,
+}: {
+  children: React.ReactNode;
+  initialSettings?: any;
+}) {
   const initialized = useRef(false);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
 
   if (!initialized.current && initialSettings) {
     const currentSettings = useSettingsStore.getState().settings;
-    useSettingsStore.setState({ settings: { ...currentSettings, ...initialSettings }, loading: false });
+    useSettingsStore.setState({
+      settings: { ...currentSettings, ...initialSettings },
+      loading: false,
+    });
     initialized.current = true;
   }
 
@@ -38,7 +47,10 @@ export default function SettingsProvider({ children, initialSettings }: { childr
         --color-apple: var(--color-brand-green);
       }
     `;
-  } else if (settings.theme_preset === "custom" && settings.theme_color_primary) {
+  } else if (
+    settings.theme_preset === "custom" &&
+    settings.theme_color_primary
+  ) {
     const primary = settings.theme_color_primary;
     themeStyles = `
       :root {

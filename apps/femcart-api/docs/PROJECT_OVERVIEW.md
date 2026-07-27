@@ -1,4 +1,4 @@
-# Femcart API — Project Overview
+# Femcart API ï¿½ Project Overview
 
 > **Last Updated:** 2026-06-21 | **Version:** 1.0.0 | **AI-Maintained**
 
@@ -6,7 +6,7 @@
 
 ## What Is This Project?
 
-**Femcart** (internal project name: Femcart) is a full-featured grocery & e-commerce backend API built with **Node.js**, **TypeScript**, **Express**, and **Prisma ORM** on a **MySQL** database. It powers an online storefront where customers can browse products, manage carts, place orders, and track deliveries — and where admins can manage the entire catalog, inventory, orders, and even the visual layout of the storefront.
+**Femcart** (internal project name: Femcart) is a full-featured grocery & e-commerce backend API built with **Node.js**, **TypeScript**, **Express**, and **Prisma ORM** on a **MySQL** database. It powers an online storefront where customers can browse products, manage carts, place orders, and track deliveries ï¿½ and where admins can manage the entire catalog, inventory, orders, and even the visual layout of the storefront.
 
 The project name in `package.json` is `femcart-backend`.
 
@@ -16,13 +16,13 @@ The project name in `package.json` is `femcart-backend`.
 
 Femcart enables small-to-medium grocery and lifestyle e-commerce businesses in Bangladesh to:
 
-1. **Sell online** — product catalog, categories, brands, promotions, and variant-based pricing.
-2. **Accept orders** — COD, card, bKash, Nagad payment methods.
-3. **Manage deliveries** — hierarchical location system (State ? City ? Area) with configurable delivery charges per zone.
-4. **Retain customers** — OTP-based phone authentication, reward points, wallet credits, wishlists.
-5. **Run marketing campaigns** — Facebook Conversions API integration, coupons, bulk promotions.
-6. **Control storefront layout** — a builder system that lets admins visually compose page layouts by section without writing code.
-7. **Import products from WooCommerce** — migrate an existing WooCommerce store's catalog into Femcart automatically.
+1. **Sell online** ï¿½ product catalog, categories, brands, promotions, and variant-based pricing.
+2. **Accept orders** ï¿½ COD, card, bKash, Nagad payment methods.
+3. **Manage deliveries** ï¿½ hierarchical location system (State ? City ? Area) with configurable delivery charges per zone.
+4. **Retain customers** ï¿½ OTP-based phone authentication, reward points, wallet credits, wishlists.
+5. **Run marketing campaigns** ï¿½ Facebook Conversions API integration, coupons, bulk promotions.
+6. **Control storefront layout** ï¿½ a builder system that lets admins visually compose page layouts by section without writing code.
+7. **Import products from WooCommerce** ï¿½ migrate an existing WooCommerce store's catalog into Femcart automatically.
 
 ---
 
@@ -100,9 +100,9 @@ src/
 +-- server.ts        ? Application bootstrap (DB connect + HTTP server + jobs)
 +-- app.ts           ? Express app setup (middleware + routes registration)
 +-- config/
-¦   +-- index.ts     ? Centralized environment configuration
+ï¿½   +-- index.ts     ? Centralized environment configuration
 +-- routes/
-¦   +-- index.ts     ? Root router aggregating all route modules
+ï¿½   +-- index.ts     ? Root router aggregating all route modules
 +-- ...
 ```
 
@@ -110,12 +110,12 @@ src/
 
 ## Key Design Patterns
 
-1. **Controller-Service separation** — controllers handle HTTP, services handle business logic
-2. **`asyncHandler` wrapper** — all async controllers are wrapped to avoid boilerplate try/catch
-3. **Custom `ApiError` hierarchy** — typed error classes propagate to a centralized `errorHandler` middleware
-4. **Zod validators** — input schemas validated by middleware before controllers run
-5. **Prisma transactions** — complex multi-table writes use `prisma.$transaction()` to ensure atomicity
-6. **Builder versioning** — every save creates a new immutable `BuilderPageVersion`; publish promotes a draft
+1. **Controller-Service separation** ï¿½ controllers handle HTTP, services handle business logic
+2. **`asyncHandler` wrapper** ï¿½ all async controllers are wrapped to avoid boilerplate try/catch
+3. **Custom `ApiError` hierarchy** ï¿½ typed error classes propagate to a centralized `errorHandler` middleware
+4. **Zod validators** ï¿½ input schemas validated by middleware before controllers run
+5. **Prisma transactions** ï¿½ complex multi-table writes use `prisma.$transaction()` to ensure atomicity
+6. **Builder versioning** ï¿½ every save creates a new immutable `BuilderPageVersion`; publish promotes a draft
 
 ---
 
@@ -125,22 +125,22 @@ src/
 femcart-api/
 +-- docs/                    ? All documentation (this folder)
 +-- prisma/
-¦   +-- schema.prisma        ? Prisma data model (single source of truth for DB)
-¦   +-- schema_clean.prisma  ? Clean version (reference)
-¦   +-- seed.ts              ? Database seeder
-¦   +-- migrations/          ? Auto-generated SQL migrations
+ï¿½   +-- schema.prisma        ? Prisma data model (single source of truth for DB)
+ï¿½   +-- schema_clean.prisma  ? Clean version (reference)
+ï¿½   +-- seed.ts              ? Database seeder
+ï¿½   +-- migrations/          ? Auto-generated SQL migrations
 +-- scripts/                 ? One-off admin & seed scripts
 +-- src/
-¦   +-- app.ts               ? Express app creation & middleware
-¦   +-- server.ts            ? Server startup
-¦   +-- config/              ? Environment config & DB client
-¦   +-- controllers/         ? Request handlers (29 controllers)
-¦   +-- routes/              ? Route definitions (30 route files)
-¦   +-- services/            ? Business logic services (10 files)
-¦   +-- middleware/          ? Auth, validation, rate limit, error handler
-¦   +-- jobs/                ? Background cron jobs
-¦   +-- utils/               ? Shared utilities (errors, SMS, FB-CAPI, etc.)
-¦   +-- validators/          ? Zod schema definitions
+ï¿½   +-- app.ts               ? Express app creation & middleware
+ï¿½   +-- server.ts            ? Server startup
+ï¿½   +-- config/              ? Environment config & DB client
+ï¿½   +-- controllers/         ? Request handlers (29 controllers)
+ï¿½   +-- routes/              ? Route definitions (30 route files)
+ï¿½   +-- services/            ? Business logic services (10 files)
+ï¿½   +-- middleware/          ? Auth, validation, rate limit, error handler
+ï¿½   +-- jobs/                ? Background cron jobs
+ï¿½   +-- utils/               ? Shared utilities (errors, SMS, FB-CAPI, etc.)
+ï¿½   +-- validators/          ? Zod schema definitions
 +-- .env.example             ? Required environment variable template
 +-- package.json             ? npm scripts & dependencies
 +-- tsconfig.json            ? TypeScript configuration

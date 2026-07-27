@@ -27,8 +27,10 @@ export default function ReviewCard({
   className = "",
 }: ReviewCardProps) {
   const quoteColor = styles.quoteColor || "text-rose-200 dark:text-rose-800/40";
-  const productColor = styles.productColor || "text-rose-500 dark:text-rose-400";
-  const accentStarColor = styles.accentStarColor || "text-amber-400 fill-amber-400";
+  const productColor =
+    styles.productColor || "text-rose-500 dark:text-rose-400";
+  const accentStarColor =
+    styles.accentStarColor || "text-amber-400 fill-amber-400";
   const [imgError, setImgError] = useState(false);
 
   return (
@@ -37,13 +39,15 @@ export default function ReviewCard({
     >
       <div className="flex-1 flex flex-col">
         <Quote size={24} className={`${quoteColor} mb-3 shrink-0`} />
-        
+
         <p className="text-gray-600 dark:text-gray-300 text-[clamp(0.875rem,2vw,1rem)] leading-relaxed mb-4 flex-1 line-clamp-4">
           &ldquo;{content}&rdquo;
         </p>
 
         {product && (
-          <p className={`text-[clamp(0.75rem,1.5vw,0.875rem)] font-bold uppercase tracking-wider mb-4 ${productColor}`}>
+          <p
+            className={`text-[clamp(0.75rem,1.5vw,0.875rem)] font-bold uppercase tracking-wider mb-4 ${productColor}`}
+          >
             {product}
           </p>
         )}
@@ -66,11 +70,11 @@ export default function ReviewCard({
       <div className="flex items-center gap-3 pt-4 border-t border-gray-100 dark:border-gray-700 shrink-0">
         <div className="w-[clamp(40px,8vw,48px)] h-[clamp(40px,8vw,48px)] rounded-full overflow-hidden relative border border-gray-100 dark:border-gray-750 shrink-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center shadow-sm">
           {avatar && !imgError ? (
-            <img 
-              src={avatar} 
-              alt={name} 
-              onError={() => setImgError(true)} 
-              className="absolute inset-0 w-full h-full object-cover" 
+            <img
+              src={avatar}
+              alt={name}
+              onError={() => setImgError(true)}
+              className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
             <span className="font-black text-[clamp(0.875rem,2vw,1.125rem)] uppercase text-gray-500">
@@ -80,17 +84,24 @@ export default function ReviewCard({
         </div>
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
-            <span className="font-bold text-[clamp(0.875rem,2vw,1rem)] text-gray-900 dark:text-white truncate block">{name}</span>
+            <span className="font-bold text-[clamp(0.875rem,2vw,1rem)] text-gray-900 dark:text-white truncate block">
+              {name}
+            </span>
             <span title="Verified Buyer" className="shrink-0 flex">
-              <BadgeCheck size={14} className="text-emerald-500 fill-emerald-50" />
+              <BadgeCheck
+                size={14}
+                className="text-emerald-500 fill-emerald-50"
+              />
             </span>
           </div>
           <span className="text-[clamp(0.625rem,1.5vw,0.75rem)] text-gray-400 font-bold uppercase tracking-wider mt-0.5 flex items-center gap-1.5">
-            {createdAt ? new Date(createdAt).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            }) : "Verified Purchase"}
+            {createdAt
+              ? new Date(createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              : "Verified Purchase"}
           </span>
         </div>
       </div>

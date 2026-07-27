@@ -20,10 +20,10 @@ export default function StoreInitializer({
 
   if (!initialized.current) {
     if (navbarItems) {
-      useNavigationStore.setState({ 
-        navbarItems, 
-        topNavbarItems, 
-        bottomNavbarItems 
+      useNavigationStore.setState({
+        navbarItems,
+        topNavbarItems,
+        bottomNavbarItems,
       });
     }
     if (footerSections) {

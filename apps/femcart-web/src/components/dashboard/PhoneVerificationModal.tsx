@@ -14,7 +14,12 @@ interface PhoneVerificationModalProps {
   onSuccess: () => void;
 }
 
-export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSuccess }: PhoneVerificationModalProps) {
+export default function PhoneVerificationModal({
+  isOpen,
+  onClose,
+  newPhone,
+  onSuccess,
+}: PhoneVerificationModalProps) {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +29,7 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
   useEffect(() => {
     let interval: any;
     if (isOpen && resendTimer > 0) {
-      interval = setInterval(() => setResendTimer(prev => prev - 1), 1000);
+      interval = setInterval(() => setResendTimer((prev) => prev - 1), 1000);
     }
     return () => clearInterval(interval);
   }, [isOpen, resendTimer]);
@@ -40,14 +45,16 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
     setError(null);
 
     try {
-      const token = localStorage.getItem("femcart_access_token") || localStorage.getItem("token");
+      const token =
+        localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/users/verify-phone-change`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ newPhone, code })
+        body: JSON.stringify({ newPhone, code }),
       });
 
       const json = await res.json();
@@ -59,7 +66,11 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
         const msg = json.message || "Invalid verification code";
         setError(msg);
         toast.error(msg);
-        Logger.warn("Phone verification failed", json, "PhoneVerificationModal");
+        Logger.warn(
+          "Phone verification failed",
+          json,
+          "PhoneVerificationModal",
+        );
       }
     } catch (err) {
       setError("An unexpected network error occurred");
@@ -75,16 +86,18 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
     setIsResending(true);
     setError(null);
     try {
-      const token = localStorage.getItem("femcart_access_token") || localStorage.getItem("token");
+      const token =
+        localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/users/request-phone-change`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ newPhone })
+        body: JSON.stringify({ newPhone }),
       });
-      
+
       const json = await res.json();
       if (json.success) {
         toast.success("Verification code resent");
@@ -118,7 +131,7 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
               <div className="w-[clamp(2.5rem,6vw,3rem)] h-[clamp(2.5rem,6vw,3rem)] bg-blue-50 dark:bg-blue-900/30 rounded-[clamp(0.75rem,2vw,1rem)] flex items-center justify-center text-blue-600">
                 <Smartphone size={24} />
               </div>
-              <button 
+              <button
                 onClick={onClose}
                 className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors text-gray-400"
               >
@@ -130,7 +143,9 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
               Verify New Number
             </h2>
             <p className="text-gray-500 dark:text-gray-400 text-[clamp(0.875rem,2vw,1rem)] font-medium mb-[clamp(1.5rem,4vw,2rem)]">
-              We've sent a 6-digit code to <span className="text-blue-600 font-bold">{newPhone}</span>. Please enter it below to confirm the change.
+              We've sent a 6-digit code to{" "}
+              <span className="text-blue-600 font-bold">{newPhone}</span>.
+              Please enter it below to confirm the change.
             </p>
 
             <form onSubmit={handleVerify} className="space-y-6">
@@ -158,7 +173,11 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
                 disabled={loading || code.length < 6}
                 className="w-full py-[clamp(0.875rem,2vw,1rem)] min-h-[48px] bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-[clamp(1rem,3vw,1.5rem)] font-black uppercase tracking-widest text-[clamp(0.75rem,1.5vw,0.875rem)] transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2"
               >
-                {loading ? <Loader2 className="animate-spin" size={18} /> : "Verify & Save"}
+                {loading ? (
+                  <Loader2 className="animate-spin" size={18} />
+                ) : (
+                  "Verify & Save"
+                )}
               </button>
             </form>
 
@@ -168,10 +187,11 @@ export default function PhoneVerificationModal({ isOpen, onClose, newPhone, onSu
                 disabled={resendTimer > 0 || isResending}
                 className="min-h-[44px] px-2 flex items-center justify-center mx-auto text-[clamp(0.65rem,1.5vw,0.75rem)] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 disabled:opacity-50 transition-colors"
               >
-                {resendTimer > 0 
-                  ? `Resend Code in ${resendTimer}s` 
-                  : isResending ? "Resending..." : "Resend Code"
-                }
+                {resendTimer > 0
+                  ? `Resend Code in ${resendTimer}s`
+                  : isResending
+                    ? "Resending..."
+                    : "Resend Code"}
               </button>
             </div>
           </div>

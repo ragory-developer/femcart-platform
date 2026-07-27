@@ -1,4 +1,4 @@
-# Femcart API — Environment Setup Guide
+# Femcart API ï¿½ Environment Setup Guide
 
 > **Last Updated:** 2026-06-11 | **AI-Maintained**
 
@@ -297,7 +297,7 @@ EXIT;
 4. Generate access keys
 5. Configure via environment or `~/.aws/credentials`
 
-The application uses the AWS SDK v3 default credential chain — no hardcoded keys needed if running on EC2 with an IAM role.
+The application uses the AWS SDK v3 default credential chain ï¿½ no hardcoded keys needed if running on EC2 with an IAM role.
 
 ---
 
@@ -311,5 +311,5 @@ The application uses the AWS SDK v3 default credential chain — no hardcoded keys
 | Prisma client not generated | Import error on `@prisma/client` | Run `npx prisma generate` |
 | JWT invalid errors | 401 on all requests | Ensure `JWT_ACCESS_SECRET` matches between token generation and verification |
 | CORS errors | Frontend requests blocked | Verify `FRONTEND_URL` matches frontend origin exactly |
-| SMS not sending | OTP not received | Check `NODE_ENV` — SMS mocked in dev; verify API key in production |
+| SMS not sending | OTP not received | Check `NODE_ENV` ï¿½ SMS mocked in dev; verify API key in production |
 | Images not loading | Broken image URLs | Set `API_URL` to the public URL of the backend server |

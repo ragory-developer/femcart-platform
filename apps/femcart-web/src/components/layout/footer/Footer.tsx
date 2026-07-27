@@ -20,13 +20,13 @@ export default function Footer() {
   }
 
   switch (settings.layout_template) {
-    case 'alpha':
+    case "alpha":
       return <FooterAlpha />;
-    case 'beta':
-    case 'gamma':
+    case "beta":
+    case "gamma":
       // Fallback for now
       return <FooterOriginal />;
-    case 'original':
+    case "original":
     default:
       return <FooterOriginal />;
   }

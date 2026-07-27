@@ -8,11 +8,19 @@ export function ProductCardSkeleton({
   variant: propVariant,
   radius: propRadius,
 }: {
-  variant?: "classic" | "sleek" | "minimal" | "festive" | "bordered" | "neumorphic" | "horizontal";
+  variant?:
+    | "classic"
+    | "sleek"
+    | "minimal"
+    | "festive"
+    | "bordered"
+    | "neumorphic"
+    | "horizontal";
   radius?: "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
 }) {
   const { settings } = useSettingsStore();
-  const variant = propVariant ?? (settings.productCardVariant as any) ?? "classic";
+  const variant =
+    propVariant ?? (settings.productCardVariant as any) ?? "classic";
   const radius = propRadius ?? (settings.productCardRadius as any) ?? "3xl";
   const showAddToCart = settings.productCardShowAddToCart ?? true;
 
@@ -50,8 +58,8 @@ export function ProductCardSkeleton({
         variant === "classic" || isHorizontal
           ? "bg-white dark:bg-gray-900 border border-gray-100/70 dark:border-gray-800 shadow-[0_4px_24px_-6px_rgba(0,0,0,0.05)]"
           : variant === "bordered"
-          ? "bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700"
-          : "bg-gray-50 dark:bg-gray-800"
+            ? "bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700"
+            : "bg-gray-50 dark:bg-gray-800"
       }`}
     >
       {/* Image Area */}

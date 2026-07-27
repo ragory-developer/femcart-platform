@@ -29,7 +29,9 @@ export default function MobileBottomNav({
 }: MobileBottomNavProps = {}) {
   const pathname = usePathname();
   const { user } = useAuth();
-  const cartCountRaw = useCartStore((state) => state.items.reduce((acc, item) => acc + item.quantity, 0));
+  const cartCountRaw = useCartStore((state) =>
+    state.items.reduce((acc, item) => acc + item.quantity, 0),
+  );
   const openCart = useCartStore((state) => state.openCart);
   const [mounted, setMounted] = useState(false);
 
@@ -59,35 +61,52 @@ export default function MobileBottomNav({
       label: "Cart",
       icon: ShoppingCart,
       onClick: openCart,
-      isActive: false, 
+      isActive: false,
     },
     {
       id: "account",
       label: user ? "Account" : "Login",
       icon: User,
-      href: user ? (user.role === "ADMIN" || user.role === "SUPER_ADMIN" ? "/admin" : "/dashboard") : "/login",
-      isActive: pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname === "/login",
+      href: user
+        ? user.role === "ADMIN" || user.role === "SUPER_ADMIN"
+          ? "/admin"
+          : "/dashboard"
+        : "/login",
+      isActive:
+        pathname?.startsWith("/dashboard") ||
+        pathname?.startsWith("/admin") ||
+        pathname === "/login",
     },
   ];
 
   return (
-    <div className={`${hideOnDesktop ? 'lg:hidden' : ''} sticky bottom-0 z-[120] pb-[env(safe-area-inset-bottom)] ${bgColor} backdrop-blur-md ${borderClass} shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.3)] w-full`}>
+    <div
+      className={`${hideOnDesktop ? "lg:hidden" : ""} sticky bottom-0 z-[120] pb-[env(safe-area-inset-bottom)] ${bgColor} backdrop-blur-md ${borderClass} shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.3)] w-full`}
+    >
       <nav className="flex justify-between items-center h-[56px] px-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = item.isActive;
-          
+
           const content = (
             <div className="flex flex-col items-center justify-center w-full h-full gap-1 pt-1">
-              <div className={`relative flex items-center justify-center transition-colors duration-200 ${isActive ? activeColor : inactiveColor}`}>
-                <Icon className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'stroke-[2.5px] scale-110' : 'stroke-[1.5px]'}`} />
+              <div
+                className={`relative flex items-center justify-center transition-colors duration-200 ${isActive ? activeColor : inactiveColor}`}
+              >
+                <Icon
+                  className={`w-5 h-5 transition-transform duration-200 ${isActive ? "stroke-[2.5px] scale-110" : "stroke-[1.5px]"}`}
+                />
                 {item.id === "cart" && cartCount > 0 && (
-                  <span className={`absolute -top-1 -right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full ${badgeBgColor} text-[8px] font-bold ${badgeTextColor} border-2 border-white dark:border-gray-950 shadow-sm`}>
+                  <span
+                    className={`absolute -top-1 -right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full ${badgeBgColor} text-[8px] font-bold ${badgeTextColor} border-2 border-white dark:border-gray-950 shadow-sm`}
+                  >
                     {cartCount > 9 ? "9+" : cartCount}
                   </span>
                 )}
               </div>
-              <span className={`text-[9px] font-medium transition-colors duration-200 ${isActive ? activeColor : inactiveColor}`}>
+              <span
+                className={`text-[9px] font-medium transition-colors duration-200 ${isActive ? activeColor : inactiveColor}`}
+              >
                 {item.label}
               </span>
             </div>

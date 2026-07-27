@@ -24,12 +24,15 @@ export function Megamenu({
   themeBgActive = "bg-white",
   data = categoriesData,
 }: MegamenuProps = {}) {
-  const [activeCategoryId, setActiveCategoryId] = useState<string>(data?.[0]?.id || "");
-  const activeCategory = data?.find(c => c.id === activeCategoryId) || data?.[0] || { title: "", subcategories: [] };
+  const [activeCategoryId, setActiveCategoryId] = useState<string>(
+    data?.[0]?.id || "",
+  );
+  const activeCategory = data?.find((c) => c.id === activeCategoryId) ||
+    data?.[0] || { title: "", subcategories: [] };
 
   return (
     <div className="absolute top-full left-0 w-full pt-1 z-50">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
@@ -47,22 +50,44 @@ export function Megamenu({
                 onMouseEnter={() => setActiveCategoryId(category.id)}
                 className={cn(
                   "flex items-center justify-between w-full px-6 py-3 transition-colors text-left group",
-                  isActive 
-                    ? `${themeBgActive} ${themeColor} font-bold border-l-4 ${themeBorder}` 
-                    : `text-gray-700 hover:bg-white ${themeHover} font-medium border-l-4 border-transparent`
+                  isActive
+                    ? `${themeBgActive} ${themeColor} font-bold border-l-4 ${themeBorder}`
+                    : `text-gray-700 hover:bg-white ${themeHover} font-medium border-l-4 border-transparent`,
                 )}
               >
                 <div className="flex items-center gap-3">
                   {category.image ? (
-                    <Image src={category.image} alt={category.title} width={20} height={20} className="w-5 h-5 object-cover rounded shadow-sm" />
+                    <Image
+                      src={category.image}
+                      alt={category.title}
+                      width={20}
+                      height={20}
+                      className="w-5 h-5 object-cover rounded shadow-sm"
+                    />
                   ) : Icon ? (
-                    <Icon size={18} className={cn("transition-colors", isActive ? themeColor : `text-gray-400 group-hover:${themeColor.replace('text-', '')}`)} />
+                    <Icon
+                      size={18}
+                      className={cn(
+                        "transition-colors",
+                        isActive
+                          ? themeColor
+                          : `text-gray-400 group-hover:${themeColor.replace("text-", "")}`,
+                      )}
+                    />
                   ) : (
                     <div className="w-5 h-5 bg-gray-100 rounded" />
                   )}
                   <span className="text-[14px]">{category.title}</span>
                 </div>
-                <ChevronRight size={16} className={cn("transition-colors", isActive ? themeColor : `text-gray-300 group-hover:${themeColor.replace('text-', '')}`)} />
+                <ChevronRight
+                  size={16}
+                  className={cn(
+                    "transition-colors",
+                    isActive
+                      ? themeColor
+                      : `text-gray-300 group-hover:${themeColor.replace("text-", "")}`,
+                  )}
+                />
               </button>
             );
           })}
@@ -73,11 +98,14 @@ export function Megamenu({
           <h3 className="text-xl font-black text-gray-900 mb-6 flex items-center gap-2 border-b border-gray-100 pb-4">
             {activeCategory.title}
           </h3>
-          
+
           <div className="grid grid-cols-3 gap-8">
             {activeCategory.subcategories?.map((sub: any, idx: number) => (
               <div key={idx} className="flex flex-col gap-3">
-                <Link href={getFilterUrl(sub.href || "#")} className="text-[13px] font-bold text-gray-900 uppercase tracking-wide hover:text-pink-600 transition-colors">
+                <Link
+                  href={getFilterUrl(sub.href || "#")}
+                  className="text-[13px] font-bold text-gray-900 uppercase tracking-wide hover:text-pink-600 transition-colors"
+                >
                   {sub.title}
                 </Link>
                 <div className="flex flex-col gap-2 mt-1">
@@ -85,7 +113,10 @@ export function Megamenu({
                     <Link
                       key={itemIdx}
                       href={getFilterUrl(item.href)}
-                      className={cn("text-[14px] font-medium text-gray-500 transition-colors", themeHover)}
+                      className={cn(
+                        "text-[14px] font-medium text-gray-500 transition-colors",
+                        themeHover,
+                      )}
                     >
                       {item.title}
                     </Link>

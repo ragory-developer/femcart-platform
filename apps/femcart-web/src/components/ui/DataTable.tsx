@@ -22,7 +22,11 @@ interface DataTableProps<T> {
   onSelectChange?: (selectedIds: string[]) => void;
   // Responsive / Interaction
   onRowClick?: (item: T) => void;
-  renderMobileCard?: (item: T, isSelected: boolean, onToggleSelect: () => void) => ReactNode;
+  renderMobileCard?: (
+    item: T,
+    isSelected: boolean,
+    onToggleSelect: () => void,
+  ) => ReactNode;
   emptyState?: ReactNode;
   tableWrapperClassName?: string;
 }
@@ -40,7 +44,6 @@ export default function DataTable<T>({
   emptyState,
   tableWrapperClassName = "hidden md:block overflow-x-auto overflow-hidden w-full rounded-xl border border-gray-200 dark:border-gray-750 shadow-sm bg-white dark:bg-gray-800",
 }: DataTableProps<T>) {
-  
   const handleSelectAll = (checked: boolean) => {
     if (!onSelectChange) return;
     if (checked) {
@@ -72,18 +75,33 @@ export default function DataTable<T>({
               <div className="w-5 h-5 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
             )}
             {columns.map((col, idx) => (
-              <div key={idx} className={`h-3 bg-gray-200 dark:bg-gray-700 rounded uppercase tracking-widest ${col.thClassName || "w-20"}`} />
+              <div
+                key={idx}
+                className={`h-3 bg-gray-200 dark:bg-gray-700 rounded uppercase tracking-widest ${col.thClassName || "w-20"}`}
+              />
             ))}
           </div>
           {/* Table Rows Skeleton */}
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="flex gap-6 items-center px-6 py-4 border-b border-gray-100 dark:border-gray-750/30">
+            <div
+              key={i}
+              className="flex gap-6 items-center px-6 py-4 border-b border-gray-100 dark:border-gray-750/30"
+            >
               {enableSelection && (
                 <div className="w-5 h-5 bg-gray-200 dark:bg-gray-700 rounded shrink-0" />
               )}
               {columns.map((col, idx) => {
-                if (col.key === "image" || col.key === "selection" || col.key === "checkbox") {
-                  return <div key={idx} className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-lg shrink-0" />;
+                if (
+                  col.key === "image" ||
+                  col.key === "selection" ||
+                  col.key === "checkbox"
+                ) {
+                  return (
+                    <div
+                      key={idx}
+                      className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-lg shrink-0"
+                    />
+                  );
                 }
                 if (col.key === "actions") {
                   return (
@@ -94,7 +112,13 @@ export default function DataTable<T>({
                   );
                 }
                 return (
-                  <div key={idx} className={`space-y-2 ${col.tdClassName || ""}`} style={{ width: col.thClassName?.match(/\[(.*?)\]/)?.[1] || "15%" }}>
+                  <div
+                    key={idx}
+                    className={`space-y-2 ${col.tdClassName || ""}`}
+                    style={{
+                      width: col.thClassName?.match(/\[(.*?)\]/)?.[1] || "15%",
+                    }}
+                  >
                     <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/5" />
                     <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-1/2" />
                   </div>
@@ -103,11 +127,14 @@ export default function DataTable<T>({
             </div>
           ))}
         </div>
-        
+
         {/* Mobile Skeleton */}
         <div className="md:hidden grid grid-cols-1 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 border border-gray-150 dark:border-gray-750 rounded-lg p-4 space-y-3 animate-pulse shadow-sm">
+            <div
+              key={i}
+              className="bg-white dark:bg-gray-800 border border-gray-150 dark:border-gray-750 rounded-lg p-4 space-y-3 animate-pulse shadow-sm"
+            >
               <div className="flex gap-3">
                 <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-xl shrink-0" />
                 <div className="flex-1 space-y-2">
@@ -132,7 +159,9 @@ export default function DataTable<T>({
       emptyState || (
         <div className="flex flex-col items-center justify-center py-16 text-gray-400 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-800 rounded-lg">
           <ImageIcon size={48} className="mb-3 opacity-20" />
-          <p className="font-semibold text-gray-700 dark:text-gray-300">No records found</p>
+          <p className="font-semibold text-gray-700 dark:text-gray-300">
+            No records found
+          </p>
         </div>
       )
     );
@@ -180,15 +209,17 @@ export default function DataTable<T>({
                   } ${isSelected ? "bg-emerald-50/40 dark:bg-emerald-500/5" : ""}`}
                 >
                   {enableSelection && (
-                    <td 
-                      className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750" 
+                    <td
+                      className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <input
                         type="checkbox"
                         className="rounded border-gray-300 dark:border-gray-650 text-emerald-600 focus:ring-emerald-500 bg-white dark:bg-gray-700 w-4 h-4 cursor-pointer transition-colors"
                         checked={isSelected}
-                        onChange={(e) => handleSelectOne(itemId, e.target.checked)}
+                        onChange={(e) =>
+                          handleSelectOne(itemId, e.target.checked)
+                        }
                       />
                     </td>
                   )}
@@ -251,14 +282,24 @@ export default function DataTable<T>({
                 <div className="flex-1 space-y-2.5">
                   {columns.map((col) => {
                     // Skip render columns that are pure action buttons or selections
-                    if (col.key === "actions" || col.key === "selection" || col.key === "checkbox") return null;
+                    if (
+                      col.key === "actions" ||
+                      col.key === "selection" ||
+                      col.key === "checkbox"
+                    )
+                      return null;
                     return (
-                      <div key={col.key} className="flex justify-between items-start gap-3">
+                      <div
+                        key={col.key}
+                        className="flex justify-between items-start gap-3"
+                      >
                         <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
                           {col.header}
                         </span>
                         <div className="text-sm font-semibold text-gray-800 dark:text-gray-200 text-right">
-                          {col.render ? col.render(item) : (item as any)[col.key]}
+                          {col.render
+                            ? col.render(item)
+                            : (item as any)[col.key]}
                         </div>
                       </div>
                     );

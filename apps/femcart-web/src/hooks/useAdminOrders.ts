@@ -1,4 +1,4 @@
-﻿import { API_URL } from "@/lib/config";
+import { API_URL } from "@/lib/config";
 import { Order } from "@/types/order";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ export function useAdminOrders() {
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [updatingStatus, setUpdatingStatus] = useState(false);
-  
+
   // DataTable States
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -18,24 +18,24 @@ export function useAdminOrders() {
   const [limit, setLimit] = useState(25);
   const [pagination, setPagination] = useState({
     total: 0,
-    totalPages: 1
+    totalPages: 1,
   });
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  
-  const couponCode = searchParams.get('couponCode');
-  const currentStatus = searchParams.get('status') || 'ALL';
+
+  const couponCode = searchParams.get("couponCode");
+  const currentStatus = searchParams.get("status") || "ALL";
 
   const statuses = [
-    { label: 'All Orders', value: 'ALL' },
-    { label: 'Pending', value: 'PENDING' },
-    { label: 'Processing', value: 'PROCESSING' },
-    { label: 'Shipped', value: 'SHIPPED' },
-    { label: 'Delivered', value: 'DELIVERED' },
-    { label: 'Completed', value: 'COMPLETED' },
-    { label: 'Returned', value: 'RETURNED' },
-    { label: 'Cancelled', value: 'CANCELLED' },
+    { label: "All Orders", value: "ALL" },
+    { label: "Pending", value: "PENDING" },
+    { label: "Processing", value: "PROCESSING" },
+    { label: "Shipped", value: "SHIPPED" },
+    { label: "Delivered", value: "DELIVERED" },
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Returned", value: "RETURNED" },
+    { label: "Cancelled", value: "CANCELLED" },
   ];
 
   // Debounce search input
@@ -51,26 +51,29 @@ export function useAdminOrders() {
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem('femcart_access_token') || localStorage.getItem('token');
+        const token =
+          localStorage.getItem("femcart_access_token") ||
+          localStorage.getItem("token");
         const url = new URL(`${API_URL}/api/orders`);
-        url.searchParams.append('page', page.toString());
-        url.searchParams.append('limit', limit.toString());
-        
-        if (couponCode) url.searchParams.append('couponCode', couponCode);
-        if (currentStatus !== 'ALL') url.searchParams.append('status', currentStatus);
-        if (debouncedSearch) url.searchParams.append('search', debouncedSearch);
-        
+        url.searchParams.append("page", page.toString());
+        url.searchParams.append("limit", limit.toString());
+
+        if (couponCode) url.searchParams.append("couponCode", couponCode);
+        if (currentStatus !== "ALL")
+          url.searchParams.append("status", currentStatus);
+        if (debouncedSearch) url.searchParams.append("search", debouncedSearch);
+
         const res = await fetch(url.toString(), {
-          headers: { "Authorization": `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
         const json = await res.json();
-        
+
         if (json.success) {
           setOrders(json.data);
           if (json.pagination) {
             setPagination({
               total: json.pagination.total,
-              totalPages: json.pagination.totalPages
+              totalPages: json.pagination.totalPages,
             });
           }
         } else {
@@ -84,27 +87,33 @@ export function useAdminOrders() {
         setLoading(false);
       }
     };
-    
+
     fetchOrders();
   }, [couponCode, currentStatus, debouncedSearch, page, limit]);
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     setUpdatingStatus(true);
     try {
-      const token = localStorage.getItem('femcart_access_token') || localStorage.getItem('token');
+      const token =
+        localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/orders/${orderId}/status`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify({ status: newStatus }),
       });
       const data = await res.json();
       if (data.success) {
-        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+        setOrders((prev) =>
+          prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)),
+        );
         if (selectedOrder?.id === orderId) {
-          setSelectedOrder(prev => prev ? { ...prev, status: newStatus } : null);
+          setSelectedOrder((prev) =>
+            prev ? { ...prev, status: newStatus } : null,
+          );
         }
         toast.success(`Order status updated to ${newStatus}`);
       } else {
@@ -120,8 +129,8 @@ export function useAdminOrders() {
 
   const handleStatusFilter = (status: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (status === 'ALL') params.delete('status');
-    else params.set('status', status);
+    if (status === "ALL") params.delete("status");
+    else params.set("status", status);
     router.push(`/admin/orders?${params.toString()}`);
   };
 
@@ -143,6 +152,6 @@ export function useAdminOrders() {
     currentStatus,
     statuses,
     updateOrderStatus,
-    handleStatusFilter
+    handleStatusFilter,
   };
 }

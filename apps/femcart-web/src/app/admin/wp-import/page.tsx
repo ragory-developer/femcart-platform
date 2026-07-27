@@ -20,7 +20,9 @@ export default function WpImportPage() {
         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500">
           WordPress Import
         </h1>
-        <p className="text-gray-500 mt-1">Connect your WooCommerce store and import products directly.</p>
+        <p className="text-gray-500 mt-1">
+          Connect your WooCommerce store and import products directly.
+        </p>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">

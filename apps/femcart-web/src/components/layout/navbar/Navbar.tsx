@@ -20,13 +20,13 @@ export default function Navbar() {
   }
 
   switch (settings.layout_template) {
-    case 'alpha':
+    case "alpha":
       return <NavbarAlpha />;
-    case 'beta':
-    case 'gamma':
+    case "beta":
+    case "gamma":
       // Fallback for now until Beta/Gamma variants are created
       return <NavbarOriginal />;
-    case 'original':
+    case "original":
     default:
       return <NavbarOriginal />;
   }

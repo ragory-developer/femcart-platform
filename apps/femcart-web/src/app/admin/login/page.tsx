@@ -1,29 +1,29 @@
 "use client";
 
-import { useAuth } from '@/context/AuthContext';
-import { API_URL } from '@/lib/config';
-import { getDefaultRouteForUser } from '@/lib/admin-permissions';
-import { Eye, EyeOff, Lock, Mail, ShieldCheck, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useAuth } from "@/context/AuthContext";
+import { API_URL } from "@/lib/config";
+import { getDefaultRouteForUser } from "@/lib/admin-permissions";
+import { Eye, EyeOff, Lock, Mail, ShieldCheck, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
 }
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
   const { user, login } = useAuth();
   const router = useRouter();
 
   // Redirect if already logged in as admin
   useEffect(() => {
-    if (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') {
+    if (user?.role === "ADMIN" || user?.role === "SUPER_ADMIN") {
       router.replace(getDefaultRouteForUser(user));
     }
   }, [user, router]);
@@ -31,27 +31,27 @@ export default function AdminLoginPage() {
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const res = await fetch(`${API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
       const payload = await res.json();
-      if (!res.ok) throw new Error(payload.message || 'Invalid credentials');
-      
+      if (!res.ok) throw new Error(payload.message || "Invalid credentials");
+
       const { user, accessToken, refreshToken } = payload.data;
 
-      if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN')) {
-        throw new Error('Unauthorized. Admin access only.');
+      if (!user || (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN")) {
+        throw new Error("Unauthorized. Admin access only.");
       }
 
       login(accessToken, refreshToken, user);
       // Determine the best route based on permissions (not everyone has dashboard access)
       router.push(getDefaultRouteForUser(user));
     } catch (err: unknown) {
-      setError(getErrorMessage(err, 'Login failed'));
+      setError(getErrorMessage(err, "Login failed"));
     } finally {
       setLoading(false);
     }
@@ -88,7 +88,9 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleAdminLogin} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200 mb-2">Email address</label>
+              <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200 mb-2">
+                Email address
+              </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                   <Mail size={18} />
@@ -104,13 +106,15 @@ export default function AdminLoginPage() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200 mb-2">Password</label>
+              <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200 mb-2">
+                Password
+              </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pink-500 transition-colors">
                   <Lock size={18} />
                 </div>
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   className="block w-full rounded-xl border border-gray-200 dark:border-gray-700 py-3.5 pl-11 pr-12 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-pink-500 focus:outline-none focus:ring-4 focus:ring-pink-500/10 sm:text-sm bg-gray-50/50 dark:bg-gray-900/50 transition-all duration-300"
                   value={password}
@@ -119,7 +123,7 @@ export default function AdminLoginPage() {
                 />
                 <button
                   type="button"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   aria-pressed={showPassword}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => setShowPassword((visible) => !visible)}
@@ -139,11 +143,13 @@ export default function AdminLoginPage() {
                   <Loader2 className="animate-spin" size={18} />
                   Verifying...
                 </span>
-              ) : 'Secure Login'}
+              ) : (
+                "Secure Login"
+              )}
             </button>
           </form>
         </div>
-        
+
         <div className="text-center mt-8 relative z-10">
           <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">
             &copy; 2026 Femcart Infrastructure.

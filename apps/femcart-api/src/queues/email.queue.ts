@@ -1,4 +1,4 @@
-﻿import { Job } from 'bullmq';
+import { Job } from 'bullmq';
 import { QueueManager } from '../core/queue/QueueManager';
 import nodemailer from 'nodemailer';
 import { config } from '../config';

@@ -3,7 +3,14 @@
 import UserSidebar from "@/components/dashboard/UserSidebar";
 import { useAuth } from "@/context/AuthContext";
 import { API_URL } from "@/lib/config";
-import { Loader2, Wallet, ArrowUpRight, ArrowDownRight, CreditCard, ShieldCheck } from "lucide-react";
+import {
+  Loader2,
+  Wallet,
+  ArrowUpRight,
+  ArrowDownRight,
+  CreditCard,
+  ShieldCheck,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -38,9 +45,11 @@ export default function WalletPage() {
 
   const fetchWallet = async () => {
     try {
-      const token = localStorage.getItem("femcart_access_token") || localStorage.getItem("token");
+      const token =
+        localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/users/wallet`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const json = await res.json();
       if (json.success) {
@@ -92,18 +101,22 @@ export default function WalletPage() {
               <div className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-blue-900 dark:to-gray-900 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-2xl">
                 <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-white/5 rounded-full blur-2xl"></div>
                 <div className="absolute bottom-0 left-0 -ml-8 -mb-8 w-32 h-32 bg-blue-500/20 rounded-full blur-xl"></div>
-                
+
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div className="flex justify-between items-start mb-8">
                     <div>
-                      <p className="text-gray-300 font-bold uppercase tracking-widest text-xs mb-1">Available Balance</p>
-                      <h2 className="text-4xl sm:text-5xl font-black tracking-tighter">?{data.balance.toLocaleString()}</h2>
+                      <p className="text-gray-300 font-bold uppercase tracking-widest text-xs mb-1">
+                        Available Balance
+                      </p>
+                      <h2 className="text-4xl sm:text-5xl font-black tracking-tighter">
+                        ?{data.balance.toLocaleString()}
+                      </h2>
                     </div>
                     <div className="p-3 bg-white/10 backdrop-blur-md rounded-2xl">
                       <CreditCard size={24} className="text-white" />
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-4">
                     <button className="flex-1 bg-white text-gray-900 py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-gray-100 transition-colors shadow-lg">
                       Top Up
@@ -118,23 +131,28 @@ export default function WalletPage() {
               {/* Reward Points Card */}
               <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-xl shadow-orange-500/20">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-                
+
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div className="flex justify-between items-start mb-8">
                     <div>
-                      <p className="text-orange-100 font-bold uppercase tracking-widest text-xs mb-1">Reward Points</p>
-                      <h2 className="text-4xl sm:text-5xl font-black tracking-tighter">{data.rewardPoints.toLocaleString()} <span className="text-xl">PTS</span></h2>
+                      <p className="text-orange-100 font-bold uppercase tracking-widest text-xs mb-1">
+                        Reward Points
+                      </p>
+                      <h2 className="text-4xl sm:text-5xl font-black tracking-tighter">
+                        {data.rewardPoints.toLocaleString()}{" "}
+                        <span className="text-xl">PTS</span>
+                      </h2>
                     </div>
                     <div className="p-3 bg-white/20 backdrop-blur-md rounded-2xl">
                       <ShieldCheck size={24} className="text-white" />
                     </div>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-orange-50 mb-3 bg-black/20 p-3 rounded-xl inline-block">
                       100 Points = ?1 Store Credit
                     </p>
-                    <button 
+                    <button
                       disabled={data.rewardPoints < 100}
                       className="w-full bg-white text-orange-600 py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-gray-50 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
@@ -148,43 +166,80 @@ export default function WalletPage() {
             {/* Transactions History */}
             <div className="bg-white dark:bg-gray-900 rounded-[2rem] border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
               <div className="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50">
-                <h3 className="text-xl font-black uppercase italic tracking-tighter">Transaction History</h3>
+                <h3 className="text-xl font-black uppercase italic tracking-tighter">
+                  Transaction History
+                </h3>
               </div>
-              
+
               {data.transactions.length === 0 ? (
                 <div className="p-12 text-center">
                   <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Wallet className="text-gray-400" size={24} />
                   </div>
-                  <p className="text-gray-500 font-medium">No transactions found.</p>
+                  <p className="text-gray-500 font-medium">
+                    No transactions found.
+                  </p>
                 </div>
               ) : (
                 <div className="divide-y divide-gray-50 dark:divide-gray-800/50">
                   {data.transactions.map((tx) => {
                     const isCredit = tx.amount > 0;
                     return (
-                      <div key={tx.id} className="p-4 sm:p-6 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors flex items-center justify-between gap-4">
+                      <div
+                        key={tx.id}
+                        className="p-4 sm:p-6 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors flex items-center justify-between gap-4"
+                      >
                         <div className="flex items-center gap-4">
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
-                            isCredit ? 'bg-green-50 text-green-600 dark:bg-green-900/20' : 'bg-pink-50 text-pink-600 dark:bg-pink-900/20'
-                          }`}>
-                            {isCredit ? <ArrowDownRight size={20} /> : <ArrowUpRight size={20} />}
+                          <div
+                            className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${
+                              isCredit
+                                ? "bg-green-50 text-green-600 dark:bg-green-900/20"
+                                : "bg-pink-50 text-pink-600 dark:bg-pink-900/20"
+                            }`}
+                          >
+                            {isCredit ? (
+                              <ArrowDownRight size={20} />
+                            ) : (
+                              <ArrowUpRight size={20} />
+                            )}
                           </div>
                           <div>
-                            <p className="font-bold text-gray-900 dark:text-white">{tx.type}</p>
-                            <p className="text-xs text-gray-500">
-                              {new Date(tx.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                            <p className="font-bold text-gray-900 dark:text-white">
+                              {tx.type}
                             </p>
-                            {tx.note && <p className="text-sm text-gray-500 mt-0.5">{tx.note}</p>}
+                            <p className="text-xs text-gray-500">
+                              {new Date(tx.createdAt).toLocaleDateString(
+                                "en-GB",
+                                {
+                                  day: "numeric",
+                                  month: "short",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                },
+                              )}
+                            </p>
+                            {tx.note && (
+                              <p className="text-sm text-gray-500 mt-0.5">
+                                {tx.note}
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className={`font-black text-lg ${isCredit ? 'text-green-600' : 'text-gray-900 dark:text-white'}`}>
-                            {isCredit ? '+' : ''}?{Math.abs(tx.amount).toLocaleString()}
+                          <p
+                            className={`font-black text-lg ${isCredit ? "text-green-600" : "text-gray-900 dark:text-white"}`}
+                          >
+                            {isCredit ? "+" : ""}?
+                            {Math.abs(tx.amount).toLocaleString()}
                           </p>
-                          <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md ${
-                            tx.status === 'COMPLETED' ? 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400' : 'bg-yellow-100 text-yellow-700'
-                          }`}>
+                          <span
+                            className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md ${
+                              tx.status === "COMPLETED"
+                                ? "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"
+                                : "bg-yellow-100 text-yellow-700"
+                            }`}
+                          >
                             {tx.status}
                           </span>
                         </div>

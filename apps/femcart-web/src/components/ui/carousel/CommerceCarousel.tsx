@@ -3,9 +3,18 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
-import { A11y, Autoplay, Keyboard, Navigation, Pagination } from "swiper/modules";
+import {
+  A11y,
+  Autoplay,
+  Keyboard,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ResponsiveConfig, useResponsiveChunking } from "./useResponsiveChunking";
+import {
+  ResponsiveConfig,
+  useResponsiveChunking,
+} from "./useResponsiveChunking";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -56,14 +65,15 @@ export default function CommerceCarousel<T>({
   config,
   isLoading,
 }: CommerceCarouselProps<T>) {
-  const { chunks, slidesPerView, cols, rows, isMounted } = useResponsiveChunking(items, config);
+  const { chunks, slidesPerView, cols, rows, isMounted } =
+    useResponsiveChunking(items, config);
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   if (isLoading || !isMounted) {
     return (
       <div className="w-full min-h-[300px] flex items-center justify-center bg-gray-50 rounded-lg animate-pulse">
-         <span className="text-gray-400 font-medium">Loading...</span>
+        <span className="text-gray-400 font-medium">Loading...</span>
       </div>
     );
   }
@@ -81,9 +91,11 @@ export default function CommerceCarousel<T>({
     // For grid layout, we slice to exactly the first chunk size to prevent unlimited scrolling
     const limit = Math.floor(cols) * Math.floor(rows);
     const displayItems = items.slice(0, limit);
-    
+
     return (
-      <div className={`grid ${gridColsClass[Math.floor(cols)] || "grid-cols-2 md:grid-cols-4"} ${gapClasses[config.gap]} pb-4`}>
+      <div
+        className={`grid ${gridColsClass[Math.floor(cols)] || "grid-cols-2 md:grid-cols-4"} ${gapClasses[config.gap]} pb-4`}
+      >
         {displayItems.map((item, idx) => (
           <React.Fragment key={idx}>{renderItem(item)}</React.Fragment>
         ))}
@@ -93,7 +105,8 @@ export default function CommerceCarousel<T>({
 
   // Carousel Layout
   const isSingleRow = rows === 1;
-  const colClass = gridColsClass[Math.floor(cols)] || "grid-cols-2 lg:grid-cols-4";
+  const colClass =
+    gridColsClass[Math.floor(cols)] || "grid-cols-2 lg:grid-cols-4";
   const gapClass = gapClasses[config.gap];
   const spaceBetween = gapValues[config.gap] || 16;
 
@@ -104,7 +117,15 @@ export default function CommerceCarousel<T>({
         slidesPerView={slidesPerView}
         spaceBetween={isSingleRow ? spaceBetween : 0}
         loop={config.loop && chunks.length > slidesPerView}
-        autoplay={config.autoplay ? { delay: config.autoplayDelay, disableOnInteraction: true, pauseOnMouseEnter: true } : false}
+        autoplay={
+          config.autoplay
+            ? {
+                delay: config.autoplayDelay,
+                disableOnInteraction: true,
+                pauseOnMouseEnter: true,
+              }
+            : false
+        }
         keyboard={{ enabled: true }}
         watchOverflow={true}
         grabCursor={true}

@@ -1,7 +1,7 @@
 "use client";
 
-import { Undo, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Undo, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface UndoToastProps {
   isOpen: boolean;
@@ -67,7 +67,9 @@ export function UndoToast({
               className="stroke-blue-600 dark:stroke-blue-500 transition-all duration-1000 ease-linear"
               strokeWidth="3"
               strokeDasharray={circumference}
-              strokeDashoffset={circumference - (progress / 100) * circumference}
+              strokeDashoffset={
+                circumference - (progress / 100) * circumference
+              }
               strokeLinecap="round"
             />
           </svg>

@@ -1,4 +1,4 @@
-# Femcart API — Commands & Operations Reference
+# Femcart API ï¿½ Commands & Operations Reference
 
 > **Last Updated:** 2026-06-11 | **AI-Maintained**
 
@@ -9,11 +9,11 @@
 | Command | Purpose | When To Use | Environment | Expected Result | Notes |
 |---------|---------|-------------|-------------|-----------------|-------|
 | `npm install` | Install all dependencies | Initial setup, after `package.json` changes | Any | `node_modules/` populated | Run from project root |
-| `npm run dev` | Start development server with hot-reload | Local development | Local only | Server starts on configured port | Uses `tsx watch` — restarts on file changes |
+| `npm run dev` | Start development server with hot-reload | Local development | Local only | Server starts on configured port | Uses `tsx watch` ï¿½ restarts on file changes |
 | `npm run build` | Compile TypeScript to JavaScript | Before production deployment | Server/CI | `dist/` folder generated | Required before `npm start` |
 | `npm start` | Start production server | Production runtime | Server | Application starts from `dist/server.js` | Requires `npm run build` first |
 | `npm run db:migrate` | Run Prisma migrations (interactive) | After schema changes | Local/Server | DB schema updated | Creates migration files; NOT for auto-deploy |
-| `npm run db:push` | Push schema to DB without migration files | Prototyping / dev | Local | DB schema synced | **Dangerous in production** — does not create migration history |
+| `npm run db:push` | Push schema to DB without migration files | Prototyping / dev | Local | DB schema synced | **Dangerous in production** ï¿½ does not create migration history |
 | `npm run db:seed` | Run database seeder | Fresh database setup | Local/Server | Default data inserted (categories, settings, etc.) |  Review `prisma/seed.ts` before running |
 | `npm run db:studio` | Open Prisma Studio GUI | DB inspection | Local | Browser GUI opens on port 5555 | Useful for debugging data |
 | `npm test` | Run Vitest test suite | Before commits / CI | Any | Test results shown | Currently uses `vitest run` (non-interactive) |
@@ -39,13 +39,13 @@
 
 | Command | Purpose | When To Use | Risk |
 |---------|---------|-------------|------|
-| `npx prisma migrate dev --name <name>` | Create + apply a migration | After schema changes in dev | Low — local only |
-| `npx prisma migrate deploy` | Apply pending migrations | Production deployment | Medium — irreversible |
-| `npx prisma migrate status` | Show pending migrations | Before deployment | None — read only |
+| `npx prisma migrate dev --name <name>` | Create + apply a migration | After schema changes in dev | Low ï¿½ local only |
+| `npx prisma migrate deploy` | Apply pending migrations | Production deployment | Medium ï¿½ irreversible |
+| `npx prisma migrate status` | Show pending migrations | Before deployment | None ï¿½ read only |
 | `npx prisma generate` | Regenerate Prisma Client | After schema changes | None |
-| `npx prisma db push` | Sync schema without migration | Dev prototyping | High — bypasses migration history |
-| `npx prisma studio` | Open GUI | DB debugging | None — read/write GUI |
-| `npx prisma db seed` | Run seed file | Fresh DB setup | Medium — inserts/modifies data |
+| `npx prisma db push` | Sync schema without migration | Dev prototyping | High ï¿½ bypasses migration history |
+| `npx prisma studio` | Open GUI | DB debugging | None ï¿½ read/write GUI |
+| `npx prisma db seed` | Run seed file | Fresh DB setup | Medium ï¿½ inserts/modifies data |
 
 ---
 
@@ -90,7 +90,7 @@ All variables must be set in `.env` file (copy from `.env.example`):
 |----------|----------|---------|-------------|
 | `PORT` | No | `5000` | HTTP server port |
 | `NODE_ENV` | No | `development` | `development` or `production` |
-| `DATABASE_URL` | **Yes** | — | MySQL connection string: `mysql://user:pass@host:3306/db` |
+| `DATABASE_URL` | **Yes** | ï¿½ | MySQL connection string: `mysql://user:pass@host:3306/db` |
 | `JWT_ACCESS_SECRET` | **Yes** | `access-secret` | JWT signing secret for access tokens |
 | `JWT_REFRESH_SECRET` | **Yes** | `refresh-secret` | JWT signing secret for refresh tokens |
 | `JWT_ACCESS_EXPIRES_IN` | No | `8h` | Access token expiry (e.g., `15m`, `8h`) |
@@ -99,16 +99,16 @@ All variables must be set in `.env` file (copy from `.env.example`):
 | `ALLOW_ALL_ORIGINS` | No | `false` | Set `true` to allow all CORS origins (dev only) |
 | `API_URL` | No | `http://localhost:5000` | Self-reference URL for media/webhook URLs |
 | `SMS_GATEWAY_URL` | No | MassData URL | SMS gateway endpoint |
-| `SMS_API_KEY` | No | — | SMS gateway API key |
+| `SMS_API_KEY` | No | ï¿½ | SMS gateway API key |
 | `SMS_COST_PER_SMS` | No | `0.40` | Per-SMS cost for wallet deduction |
-| `SMS_SENDER_ID` | No | — | Sender ID for SMS |
-| `SSL_STORE_ID` | No | — | SSLCommerz store ID |
-| `SSL_STORE_PASSWORD` | No | — | SSLCommerz store password |
+| `SMS_SENDER_ID` | No | ï¿½ | Sender ID for SMS |
+| `SSL_STORE_ID` | No | ï¿½ | SSLCommerz store ID |
+| `SSL_STORE_PASSWORD` | No | ï¿½ | SSLCommerz store password |
 | `ORDER_DEDUCTION_AMOUNT` | No | `0` | Amount to deduct from global wallet per order |
-| AWS credentials | No | — | For S3 media storage (configured via AWS SDK default chain) |
+| AWS credentials | No | ï¿½ | For S3 media storage (configured via AWS SDK default chain) |
 
 > [!NOTE]
-> SMS is automatically mocked in `NODE_ENV=development` — messages are logged to console instead of sent.
+> SMS is automatically mocked in `NODE_ENV=development` ï¿½ messages are logged to console instead of sent.
 
 ---
 

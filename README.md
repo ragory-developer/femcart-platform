@@ -1,4 +1,4 @@
-﻿# Femcart — Premium Women's Intimate Apparel & Lifestyle E-commerce Platform
+# Femcart — Premium Women's Intimate Apparel & Lifestyle E-commerce Platform
 
 ## Project Overview
 

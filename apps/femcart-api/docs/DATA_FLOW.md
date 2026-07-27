@@ -1,4 +1,4 @@
-# Femcart API — Data Flow Documentation
+# Femcart API ï¿½ Data Flow Documentation
 
 > **Last Updated:** 2026-06-11 | **AI-Maintained**
 
@@ -8,33 +8,33 @@
 
 ```
 Customer POSTs to /api/orders
-           ¦
+           ï¿½
            ?
 optionalAuthenticate middleware
   +-- Authenticated: req.user = { userId, role }
   +-- Anonymous: req.user = undefined
-           ¦
+           ï¿½
            ?
 OrderController.create()
-           ¦
+           ï¿½
            +-[No auth]-? Create/find guest user by phone
-           ¦               +-- Auto-create with isGuest=true
-           ¦
+           ï¿½               +-- Auto-create with isGuest=true
+           ï¿½
            +-[Auth]---? Load user from DB
-           ¦
+           ï¿½
            ?
 calculateOrderTotals()
   +-- Resolve items from payload OR user's DB cart
   +-- Check stock limits (unless ignore_stock_limits=true)
-  +-- Calculate subtotal = S(price × quantity)
+  +-- Calculate subtotal = S(price ï¿½ quantity)
   +-- Resolve deliveryFee from Area ? City (cascade)
   +-- Validate coupon (check active, not expired, minOrder, maxUses)
   +-- Calculate discount + total
-           ¦
+           ï¿½
            ?
 Calculate rewardPoints (for non-guest users)
   +-- Read reward_points_amount and reward_points_earned settings
-           ¦
+           ï¿½
            ?
 prisma.$transaction()
   +-- Lock+increment coupon.usedCount
@@ -43,12 +43,12 @@ prisma.$transaction()
   +-- Decrement product/variant stock
   +-- Clear cart (if DB cart was used)
   +-- Deduct from global wallet (if ORDER_DEDUCTION_AMOUNT > 0)
-           ¦
+           ï¿½
            ?
-[After transaction — non-blocking, async]
-  +-- sendFacebookEvent("Purchase") — FB CAPI
-  +-- (SMS notification not sent on creation — only on status changes)
-           ¦
+[After transaction ï¿½ non-blocking, async]
+  +-- sendFacebookEvent("Purchase") ï¿½ FB CAPI
+  +-- (SMS notification not sent on creation ï¿½ only on status changes)
+           ï¿½
            ?
 Return 201 with order data
 ```
@@ -60,30 +60,30 @@ Return 201 with order data
 ```
 Admin PUTs to /api/orders/:id/status
   { "status": "SHIPPED" }
-           ¦
+           ï¿½
            ?
 authenticate + authorize(ADMIN, SUPER_ADMIN)
-           ¦
+           ï¿½
            ?
 OrderController.updateStatus()
-           ¦
+           ï¿½
            ?
 Load current order
-           ¦
+           ï¿½
            ?
 prisma.$transaction()
   +-- Update order.status
   +-- Set paymentStatus=PAID if status=COMPLETED
   +-- Create OrderNote "Status updated to X by Admin"
-  ¦
+  ï¿½
   +-[COMPLETED]-? Add reward points to user.rewardPoints
   +-[Was COMPLETED, now other]-? Deduct reward points
-  ¦
+  ï¿½
   +-[? CANCELLED]-? Restock all items (increment stock)
   +-[CANCELLED ? other]-? Deduct stock again (with validation)
-           ¦
+           ï¿½
            ?
-[After transaction — non-blocking]
+[After transaction ï¿½ non-blocking]
   +-- sendGlobalSms() for SHIPPED / DELIVERED / CANCELLED statuses
 ```
 
@@ -93,55 +93,55 @@ prisma.$transaction()
 
 ```
 POST /api/auth/send-otp { phone }
-           ¦
+           ï¿½
            ?
 Check existing OTPVerification record
   +-[Blocked]-? Throw TooManyRequestsError
   +-[Not blocked]-? Proceed
-           ¦
+           ï¿½
            ?
 Check if user exists for this phone
   +-- exists: true/false
   +-- isRegistered: true if user exists and NOT isGuest
-           ¦
+           ï¿½
            ?
 Manage attempt counter + set blockedUntil if attempts >= 3
-           ¦
+           ï¿½
            ?
 Generate 6-digit code, 5-min expiry
-           ¦
+           ï¿½
            ?
 Upsert OTPVerification record
-           ¦
+           ï¿½
            ?
 sendGlobalSms(phone, "Your code is: XXXXXX", "OTP")
   +-- OTP SMS is NOT wallet-deducted (purpose="OTP")
-           ¦
+           ï¿½
            ?
 Return { exists, isRegistered }
 
 ---------------------------------------------
 
 POST /api/auth/verify-otp { phone, code, name? }
-           ¦
+           ï¿½
            ?
 Load OTPVerification record
   +-[Not found]-? 401
   +-[Blocked]-? 429
   +-[Code mismatch OR expired]-? Increment attempts, maybe block
-           ¦
+           ï¿½
            ?
 Mark OTP as verified, reset attempts
-           ¦
+           ï¿½
            ?
 Find user by phone
   +-[Not found]-? Create guest account (isGuest=true, random password)
-  ¦                +-- Create empty cart for guest
+  ï¿½                +-- Create empty cart for guest
   +-[Found + isGuest + name is default]-? Update name
-           ¦
+           ï¿½
            ?
 Generate JWT tokens
-           ¦
+           ï¿½
            ?
 Return { user, accessToken, refreshToken }
 ```
@@ -152,38 +152,38 @@ Return { user, accessToken, refreshToken }
 
 ```
 Admin edits content in frontend builder UI
-           ¦
+           ï¿½
            ?
 PUT /api/builder/pages/home/draft
   { document: BuilderDocument }
-           ¦
+           ï¿½
            ?
 validateBuilderDocument(document)
   +-- Zod schema validation (structure, field lengths, enum values)
   +-- Check no duplicate section IDs
   +-- Validate each section's props against section-specific schema
-  +-- assertNoUnsafeStrings() — XSS prevention
-           ¦
+  +-- assertNoUnsafeStrings() ï¿½ XSS prevention
+           ï¿½
            ?
 prisma.$transaction()
   +-- Upsert BuilderPage (create if first save)
   +-- Find latest version number
   +-- Create new BuilderPageVersion (version+1, status: "draft")
   +-- Update BuilderPage.draftVersionId
-           ¦
+           ï¿½
            ?
 Return { page, draft }
 
 ---------------------------------------------
 
 POST /api/builder/pages/home/publish
-           ¦
+           ï¿½
            ?
 Find current draft (from page.draftVersionId or body.draftVersionId)
-           ¦
+           ï¿½
            ?
 Validate draft document again
-           ¦
+           ï¿½
            ?
 prisma.$transaction()
   +-- Update all existing "published" versions ? "archived"
@@ -192,21 +192,21 @@ prisma.$transaction()
   +-- Update page.title, page.slug from document
   +-- Update page.draftVersionId = published.id
   +-- Update page.publishedVersionId = published.id
-           ¦
+           ï¿½
            ?
 Return { page, published }
 
 ---------------------------------------------
 
 Frontend: GET /api/builder/public/home
-           ¦
+           ï¿½
            ?
 Find BuilderPage by key
-           ¦
+           ï¿½
            ?
 Try: find version with status=published + activeFrom<=now + activeTo>=now
   +-[No campaign active]-? findUnique(page.publishedVersionId)
-           ¦
+           ï¿½
            ?
 Return { page, version: { id, version, publishedAt, document } }
 ```
@@ -218,30 +218,30 @@ Return { page, version: { id, version, publishedAt, document } }
 ```
 POST /api/media/upload (multipart/form-data)
   field: images[]
-           ¦
+           ï¿½
            ?
 Multer middleware handles file buffering
-           ¦
+           ï¿½
            ?
 For each uploaded file:
   +-- Validate file type (images only)
   +-- Generate unique filename (UUID)
-  ¦
+  ï¿½
   +-[S3 configured]--?
-  ¦   +-- Sharp: resize to thumbnail (300px), medium (800px), full (1920px)
-  ¦   +-- Convert to WebP
-  ¦   +-- Upload all 3 sizes to S3 bucket
-  ¦
+  ï¿½   +-- Sharp: resize to thumbnail (300px), medium (800px), full (1920px)
+  ï¿½   +-- Convert to WebP
+  ï¿½   +-- Upload all 3 sizes to S3 bucket
+  ï¿½
   +-[Local storage]--?
       +-- Sharp: resize to 3 sizes
       +-- Convert to WebP
       +-- Save to ./uploads/ folder
-           ¦
+           ï¿½
            ?
 Create Media record in DB
   { fileName, originalName, fileType, fileSize,
     urlThumbnail, urlMedium, urlFull, width, height }
-           ¦
+           ï¿½
            ?
 Return Media records array
 ```
@@ -252,20 +252,20 @@ Return Media records array
 
 ```
 POST /api/wordpress/import/start
-           ¦
+           ï¿½
            ?
 Load WooCommerce settings from DB (WordPressSetting)
-           ¦
+           ï¿½
            ?
 Fetch total product count from WooCommerce API
-           ¦
+           ï¿½
            ?
 Create ImportLog (session record)
-           ¦
+           ï¿½
            ?
 Create ImportTask records (one per page batch)
   e.g., page 1 (products 1-20), page 2 (21-40), etc.
-           ¦
+           ï¿½
            ?
 For each task: call startImportTask()
 
@@ -273,20 +273,20 @@ For each task: call startImportTask()
 
 importQueue.ts (in-process task manager):
   MAX_CONCURRENT_TASKS = 1
-           ¦
+           ï¿½
            ?
 For each task execution:
   +-- Fetch categories from WooCommerce ? build catMap
   +-- Fetch page of products from WooCommerce
-  ¦
+  ï¿½
   +-- For each product:
-  ¦   +-- Map WC fields to Femcart Product fields
-  ¦   +-- Handle externalId for deduplication (upsert)
-  ¦   +-- Map categories (create if missing)
-  ¦   +-- Import images (download + re-upload to storage)
-  ¦   +-- Handle SIMPLE vs VARIABLE products
-  ¦   +-- Create/update ProductVariants if variable
-  ¦
+  ï¿½   +-- Map WC fields to Femcart Product fields
+  ï¿½   +-- Handle externalId for deduplication (upsert)
+  ï¿½   +-- Map categories (create if missing)
+  ï¿½   +-- Import images (download + re-upload to storage)
+  ï¿½   +-- Handle SIMPLE vs VARIABLE products
+  ï¿½   +-- Create/update ProductVariants if variable
+  ï¿½
   +-- Update task.imported / task.failed
   +-- Check for cancel request between products
   +-- Write final status (done/paused/failed)
@@ -298,30 +298,30 @@ For each task execution:
 
 ```
 Any code calls: sendGlobalSms(phone, text, purpose)
-           ¦
+           ï¿½
            ?
 Fetch SMS settings from DB (sms_gateway_url, sms_api_key, sms_sender_id)
 Override with ENV if ENV values are set
-           ¦
+           ï¿½
            ?
 [purpose !== "OTP"]--?
   WalletService.adjustGlobalBalance(-cost, "DEDUCTION", reason)
     +-[Insufficient balance]-? Throw, ABORT SMS
     +-[Success]-? Continue
-           ¦
+           ï¿½
            ?
 [NODE_ENV === "development"]--?
   Log mock SMS to console, return true
-           ¦
+           ï¿½
 [production]--?
   Build gateway URL with params
   HTTP GET to gateway endpoint
-           ¦
+           ï¿½
            ?
 Parse response:
   +-[Success codes]-? SMS delivered, return true
   +-[Error codes 5201-5209]-? Refund pre-deducted cost, return false
-               ¦
+               ï¿½
                ?
     WalletService.adjustGlobalBalance(+cost, "REFUND", reason)
 ```

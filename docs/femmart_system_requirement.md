@@ -1,4 +1,4 @@
-﻿```
+```
 Femcart | Website Development Master Document | Confidential
 ```
 # CITY HALAL MARKET

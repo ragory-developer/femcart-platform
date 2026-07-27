@@ -1,4 +1,4 @@
-﻿# Femcart — Design System Documentation v2.0
+# Femcart — Design System Documentation v2.0
 
 ## Overview
 

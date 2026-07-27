@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useSettingsStore } from "@/store/settingsStore";
 import { ArrowRight, Heart, Sparkles, Star } from "lucide-react";
@@ -20,11 +20,12 @@ export default function AboutPage() {
             <h1 className="text-5xl md:text-7xl font-black text-[#0F3A44] dark:text-white tracking-tight leading-[1.1] mb-8">
               Welcome to <span className="text-[#A05E5E]">Femcart</span>
             </h1>
-            <p 
-              suppressHydrationWarning 
+            <p
+              suppressHydrationWarning
               className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium mx-auto max-w-2xl"
             >
-              {settings.footer_about_text || "A premium online shopping platform dedicated to women's intimate apparel, shapewear, activewear, and essential lifestyle products."}
+              {settings.footer_about_text ||
+                "A premium online shopping platform dedicated to women's intimate apparel, shapewear, activewear, and essential lifestyle products."}
             </p>
           </div>
         </div>
@@ -34,24 +35,32 @@ export default function AboutPage() {
       <div className="py-16 md:py-24 bg-white dark:bg-[#0a0a0a]">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            
             {/* Image Block with Rounded Corners */}
             <div className="relative">
               <div className="aspect-[4/5] bg-gray-50 dark:bg-gray-900 rounded-[2.5rem] relative overflow-hidden border border-gray-100 dark:border-gray-800 shadow-xl shadow-[#0F3A44]/5">
                 {/* Fallback pattern */}
-                <div className="absolute inset-0 opacity-20 bg-[url('/assets/pattern-dots.svg')] bg-repeat" aria-hidden="true" />
+                <div
+                  className="absolute inset-0 opacity-20 bg-[url('/assets/pattern-dots.svg')] bg-repeat"
+                  aria-hidden="true"
+                />
                 <div className="absolute inset-0 flex items-center justify-center text-[#0F3A44] dark:text-gray-600 text-3xl font-black uppercase opacity-20">
-                  <span suppressHydrationWarning>{settings.store_name || "Femcart"}</span>
+                  <span suppressHydrationWarning>
+                    {settings.store_name || "Femcart"}
+                  </span>
                 </div>
               </div>
-              
+
               {/* Floating Badge */}
               <div className="absolute -bottom-8 -right-8 bg-white dark:bg-gray-900 rounded-[2rem] p-6 shadow-2xl border border-gray-100 dark:border-gray-800 flex flex-col items-center justify-center w-40 h-40">
                 <div className="w-16 h-16 bg-[#A05E5E] text-white rounded-full flex items-center justify-center mb-2">
                   <Star size={28} />
                 </div>
-                <span className="font-bold text-[#0F3A44] dark:text-white text-lg tracking-tight">Premium</span>
-                <span className="font-bold text-[#A05E5E] text-xs uppercase tracking-widest">Quality</span>
+                <span className="font-bold text-[#0F3A44] dark:text-white text-lg tracking-tight">
+                  Premium
+                </span>
+                <span className="font-bold text-[#A05E5E] text-xs uppercase tracking-widest">
+                  Quality
+                </span>
               </div>
             </div>
 
@@ -60,16 +69,31 @@ export default function AboutPage() {
               <h2 className="text-4xl md:text-5xl font-black text-[#0F3A44] dark:text-white tracking-tight leading-[1.1]">
                 Comfort. <br /> Elegance. Confidence.
               </h2>
-              
+
               <div className="space-y-6 text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
                 <p>
-                  At <strong suppressHydrationWarning className="text-[#0F3A44] dark:text-white">{settings.store_name || "Femcart"}</strong>, we believe every woman deserves to feel comfortable, elegant, and confident every single day.
+                  At{" "}
+                  <strong
+                    suppressHydrationWarning
+                    className="text-[#0F3A44] dark:text-white"
+                  >
+                    {settings.store_name || "Femcart"}
+                  </strong>
+                  , we believe every woman deserves to feel comfortable,
+                  elegant, and confident every single day.
                 </p>
                 <p>
-                  Our platform is meticulously designed to provide a comfortable, confidence-inspiring shopping experience by combining sophisticated visual design with intelligent product discovery, personalized recommendations, and a seamless purchasing journey.
+                  Our platform is meticulously designed to provide a
+                  comfortable, confidence-inspiring shopping experience by
+                  combining sophisticated visual design with intelligent product
+                  discovery, personalized recommendations, and a seamless
+                  purchasing journey.
                 </p>
                 <p>
-                  We are your ultimate destination to discover products that genuinely support your comfort, confidence, and everyday lifestyle. From intimate apparel to activewear, we curate only the best.
+                  We are your ultimate destination to discover products that
+                  genuinely support your comfort, confidence, and everyday
+                  lifestyle. From intimate apparel to activewear, we curate only
+                  the best.
                 </p>
               </div>
 
@@ -82,7 +106,6 @@ export default function AboutPage() {
                 </Link>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -91,15 +114,17 @@ export default function AboutPage() {
       <div className="py-24 bg-[#fcfaf8] dark:bg-[#0a0a0a]">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
             {/* Value 1 */}
             <div className="bg-white dark:bg-gray-900 p-10 rounded-[2rem] border border-gray-100 dark:border-gray-800 shadow-lg shadow-[#0F3A44]/5 hover:-translate-y-2 hover:border-[#A05E5E] hover:shadow-xl hover:shadow-[#A05E5E]/10 transition-all duration-300">
               <div className="w-14 h-14 bg-[#E5B5B5]/20 rounded-2xl flex items-center justify-center text-[#A05E5E] mb-8">
                 <Sparkles size={28} />
               </div>
-              <h3 className="text-2xl font-bold text-[#0F3A44] dark:text-white mb-4">Sophisticated Design</h3>
+              <h3 className="text-2xl font-bold text-[#0F3A44] dark:text-white mb-4">
+                Sophisticated Design
+              </h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                Enjoy an elegant and intuitive shopping experience tailored to showcase the finest intimate and lifestyle apparel.
+                Enjoy an elegant and intuitive shopping experience tailored to
+                showcase the finest intimate and lifestyle apparel.
               </p>
             </div>
 
@@ -108,9 +133,12 @@ export default function AboutPage() {
               <div className="w-14 h-14 bg-[#E5B5B5]/20 rounded-2xl flex items-center justify-center text-[#A05E5E] mb-8">
                 <Heart size={28} />
               </div>
-              <h3 className="text-2xl font-bold text-[#0F3A44] dark:text-white mb-4">Confidence Inspiring</h3>
+              <h3 className="text-2xl font-bold text-[#0F3A44] dark:text-white mb-4">
+                Confidence Inspiring
+              </h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                Discover pieces that empower you, curated specifically to support your everyday comfort and natural beauty.
+                Discover pieces that empower you, curated specifically to
+                support your everyday comfort and natural beauty.
               </p>
             </div>
 
@@ -119,12 +147,14 @@ export default function AboutPage() {
               <div className="w-14 h-14 bg-[#E5B5B5]/20 rounded-2xl flex items-center justify-center text-[#A05E5E] mb-8">
                 <Star size={28} />
               </div>
-              <h3 className="text-2xl font-bold text-[#0F3A44] dark:text-white mb-4">Premium Selection</h3>
+              <h3 className="text-2xl font-bold text-[#0F3A44] dark:text-white mb-4">
+                Premium Selection
+              </h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                We offer intelligent product discovery and personalized recommendations to find exactly what suits your lifestyle.
+                We offer intelligent product discovery and personalized
+                recommendations to find exactly what suits your lifestyle.
               </p>
             </div>
-
           </div>
         </div>
       </div>

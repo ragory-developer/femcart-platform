@@ -16,7 +16,12 @@ interface DashboardData {
   rewardPoints: number;
   userGroup: string;
   recentOrders: any[];
-  groups: Array<{ name: string; threshold: number; icon: string; color: string }>;
+  groups: Array<{
+    name: string;
+    threshold: number;
+    icon: string;
+    color: string;
+  }>;
 }
 
 export default function DashboardPage() {
@@ -35,9 +40,11 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       if (!user) return;
-      
+
       try {
-        const token = localStorage.getItem("femcart_access_token") || localStorage.getItem("token");
+        const token =
+          localStorage.getItem("femcart_access_token") ||
+          localStorage.getItem("token");
         const res = await fetch(`${API_URL}/api/user-stats-service/stats`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,9 +87,13 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4 py-20">
         <div className="max-w-md mx-auto bg-pink-50 dark:bg-pink-900/10 border border-pink-100 dark:border-pink-800 p-8 rounded-[2.5rem] text-center">
           <AlertCircle className="mx-auto text-pink-500 mb-4" size={48} />
-          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Oops! Something went wrong</h2>
-          <p className="text-pink-600 dark:text-pink-400 font-medium mb-6">{error}</p>
-          <button 
+          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">
+            Oops! Something went wrong
+          </h2>
+          <p className="text-pink-600 dark:text-pink-400 font-medium mb-6">
+            {error}
+          </p>
+          <button
             onClick={() => window.location.reload()}
             className="px-8 py-3 bg-pink-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-pink-700 transition-all shadow-xl shadow-pink-600/20"
           >
@@ -117,13 +128,13 @@ export default function DashboardPage() {
 
             {data && (
               <>
-                <DashboardStats 
+                <DashboardStats
                   rewardPoints={data.rewardPoints}
                   wishlistCount={data.wishlistCount}
                   orderCount={data.orderCount}
                 />
-                
-                <UserGroupBadges 
+
+                <UserGroupBadges
                   currentGroup={data.userGroup}
                   purchaseCount={data.orderCount}
                   groups={data.groups}

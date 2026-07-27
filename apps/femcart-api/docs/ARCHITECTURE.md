@@ -1,4 +1,4 @@
-# Femcart API — Architecture Documentation
+# Femcart API ï¿½ Architecture Documentation
 
 > **Last Updated:** 2026-06-11 | **AI-Maintained**
 
@@ -8,54 +8,54 @@
 
 ```
 +-----------------------------------------------------------+
-¦                    Client Applications                     ¦
-¦         (Next.js Frontend / Admin Panel / Mobile)          ¦
+ï¿½                    Client Applications                     ï¿½
+ï¿½         (Next.js Frontend / Admin Panel / Mobile)          ï¿½
 +-----------------------------------------------------------+
-                             ¦ HTTPS
+                             ï¿½ HTTPS
                              ?
 +-----------------------------------------------------------+
-¦                   Express.js HTTP Server                   ¦
-¦                    (Port: 5000 default)                    ¦
-¦  +-----------------------------------------------------+  ¦
-¦  ¦                  Middleware Stack                    ¦  ¦
-¦  ¦  Helmet ? CORS ? RateLimit ? JSON ? Cookie ? Morgan ¦  ¦
-¦  +-----------------------------------------------------+  ¦
-¦  +-----------------------------------------------------+  ¦
-¦  ¦                  API Router /api/*                   ¦  ¦
-¦  ¦  /auth  /products  /orders  /cart  /builder  /users  ¦  ¦
-¦  ¦  /media  /wallet  /locations  /navigation  /wordpress ¦  ¦
-¦  +-----------------------------------------------------+  ¦
+ï¿½                   Express.js HTTP Server                   ï¿½
+ï¿½                    (Port: 5000 default)                    ï¿½
+ï¿½  +-----------------------------------------------------+  ï¿½
+ï¿½  ï¿½                  Middleware Stack                    ï¿½  ï¿½
+ï¿½  ï¿½  Helmet ? CORS ? RateLimit ? JSON ? Cookie ? Morgan ï¿½  ï¿½
+ï¿½  +-----------------------------------------------------+  ï¿½
+ï¿½  +-----------------------------------------------------+  ï¿½
+ï¿½  ï¿½                  API Router /api/*                   ï¿½  ï¿½
+ï¿½  ï¿½  /auth  /products  /orders  /cart  /builder  /users  ï¿½  ï¿½
+ï¿½  ï¿½  /media  /wallet  /locations  /navigation  /wordpress ï¿½  ï¿½
+ï¿½  +-----------------------------------------------------+  ï¿½
 +-----------------------+-----------------------------------+
-                        ¦
+                        ï¿½
           +-------------+-------------+
           ?             ?             ?
    +----------+  +----------+  +----------+
-   ¦Controllers¦  ¦Services  ¦  ¦  Utils   ¦
-   ¦(29 files) ¦  ¦(10 files) ¦  ¦ (errors, ¦
-   ¦           ¦  ¦           ¦  ¦ SMS, FB  ¦
-   ¦           ¦  ¦           ¦  ¦  CAPI)   ¦
+   ï¿½Controllersï¿½  ï¿½Services  ï¿½  ï¿½  Utils   ï¿½
+   ï¿½(29 files) ï¿½  ï¿½(10 files) ï¿½  ï¿½ (errors, ï¿½
+   ï¿½           ï¿½  ï¿½           ï¿½  ï¿½ SMS, FB  ï¿½
+   ï¿½           ï¿½  ï¿½           ï¿½  ï¿½  CAPI)   ï¿½
    +-----------+  +----------+  +----------+
-          ¦
+          ï¿½
           ?
    +--------------+
-   ¦  Prisma ORM  ¦
-   ¦  (schema.    ¦
-   ¦  prisma)     ¦
+   ï¿½  Prisma ORM  ï¿½
+   ï¿½  (schema.    ï¿½
+   ï¿½  prisma)     ï¿½
    +--------------+
-          ¦
+          ï¿½
           ?
    +--------------+
-   ¦   MySQL DB   ¦
+   ï¿½   MySQL DB   ï¿½
    +--------------+
 
 External Integrations:
  +-------------+  +-------------+  +-------------+
- ¦  AWS S3     ¦  ¦ Facebook    ¦  ¦ SMS Gateway ¦
- ¦ (Media Stor)¦  ¦ Conversions ¦  ¦ (MassData)  ¦
+ ï¿½  AWS S3     ï¿½  ï¿½ Facebook    ï¿½  ï¿½ SMS Gateway ï¿½
+ ï¿½ (Media Stor)ï¿½  ï¿½ Conversions ï¿½  ï¿½ (MassData)  ï¿½
  +-------------+  +-------------+  +-------------+
  +-------------+  +-------------+
- ¦ SSLCommerz  ¦  ¦ WooCommerce ¦
- ¦ (Payments)  ¦  ¦ (Import)    ¦
+ ï¿½ SSLCommerz  ï¿½  ï¿½ WooCommerce ï¿½
+ ï¿½ (Payments)  ï¿½  ï¿½ (Import)    ï¿½
  +-------------+  +-------------+
 ```
 
@@ -65,7 +65,7 @@ External Integrations:
 
 ```
 server.ts
-   ¦
+   ï¿½
    +-- 1. Import app (Express instance + middleware)
    +-- 2. prisma.$connect()  ? verify DB connection
    +-- 3. app.listen(port)   ? start HTTP server
@@ -73,7 +73,7 @@ server.ts
    +-- 5. Register SIGTERM handler for graceful shutdown
 
 app.ts
-   ¦
+   ï¿½
    +-- setupSwagger(app)              ? /api-docs
    +-- helmet()                       ? security headers
    +-- apiLimiter on /api/*           ? rate limiting
@@ -95,37 +95,37 @@ app.ts
 
 ```
 HTTP Request
-    ¦
+    ï¿½
     ?
 Express Router (/api/*)
-    ¦
+    ï¿½
     ?
 Rate Limiter (apiLimiter)
-    ¦
+    ï¿½
     ?
 Route Handler (e.g., PUT /api/builder/pages/:key/draft)
-    ¦
+    ï¿½
     ?
 authenticate middleware
   +-- Read Authorization: Bearer <token>
   +-- jwt.verify(token, accessSecret)
   +-- Attach req.user = { userId, role }
-    ¦
+    ï¿½
     ?
 authorize('ADMIN', 'SUPER_ADMIN') middleware
   +-- Check req.user.role ? allowed roles
-    ¦
+    ï¿½
     ?
 validate(schema) middleware (if present)
   +-- Zod schema parse on req.body
-    ¦
+    ï¿½
     ?
 Controller method (asyncHandler wrapper)
   +-- Extract params/body/query
   +-- Call service or direct Prisma queries
   +-- Prisma transaction (if multi-step)
   +-- res.json({ success: true, data: ... })
-    ¦
+    ï¿½
     ?
 errorHandler middleware (catches ApiError + unexpected errors)
   +-- res.status(error.statusCode).json({ success: false, message })

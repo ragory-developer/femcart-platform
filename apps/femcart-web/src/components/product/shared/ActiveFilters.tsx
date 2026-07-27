@@ -3,7 +3,15 @@ import { useProductFilters } from "@/hooks/useProductFilters";
 import { X, RotateCcw } from "lucide-react";
 
 export default function ActiveFilters() {
-  const { filters, applyFilters, clearAll, toggleBrand, toggleCategory, toggleAttribute, setMinRating } = useProductFilters();
+  const {
+    filters,
+    applyFilters,
+    clearAll,
+    toggleBrand,
+    toggleCategory,
+    toggleAttribute,
+    setMinRating,
+  } = useProductFilters();
 
   const activeChips: { id: string; label: string; onRemove: () => void }[] = [];
 
@@ -16,7 +24,7 @@ export default function ActiveFilters() {
   }
 
   if (filters.category && filters.category.length > 0) {
-    filters.category.forEach(c => {
+    filters.category.forEach((c) => {
       if (c) {
         activeChips.push({
           id: `cat-${c}`,
@@ -38,7 +46,7 @@ export default function ActiveFilters() {
   if (filters.minPrice || filters.maxPrice) {
     activeChips.push({
       id: "price",
-      label: `৳${filters.minPrice || 0} - ৳${filters.maxPrice || "Any"}`,
+      label: `Tk ${filters.minPrice || 0} - Tk ${filters.maxPrice || "Any"}`,
       onRemove: () => applyFilters({ minPrice: "", maxPrice: "" }),
     });
   }
@@ -65,7 +73,9 @@ export default function ActiveFilters() {
 
   return (
     <div className="flex flex-wrap items-center gap-3 mb-10 pb-4 border-b border-gray-100 dark:border-gray-800">
-      <span className="text-xs font-semibold text-gray-500 mr-2">Active Filters:</span>
+      <span className="text-xs font-semibold text-gray-500 mr-2">
+        Active Filters:
+      </span>
       {activeChips.map((chip) => (
         <span
           key={chip.id}

@@ -1,16 +1,9 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from "@/lib/config";
 import { Logger } from "@/lib/logger";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  Loader2,
-  Save,
-  Search,
-  Trash2,
-  Upload,
-  X,
-} from "lucide-react";
+import { Loader2, Save, Search, Trash2, Upload, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useDropzone } from "react-dropzone";
@@ -22,7 +15,9 @@ const API = `${API_URL}/api/media`;
 
 function getToken() {
   return typeof window !== "undefined"
-    ? localStorage.getItem("femcart_access_token") || localStorage.getItem("token") || ""
+    ? localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token") ||
+        ""
     : "";
 }
 
@@ -71,14 +66,16 @@ export default function MediaLibraryModal({
       if (searchQuery) params.set("search", searchQuery);
       const res = await fetch(`${API}?${params}`, {
         headers: {
-          "Authorization": `Bearer ${getToken()}`,
+          Authorization: `Bearer ${getToken()}`,
         },
         cache: "no-store",
       });
       const json = await res.json();
       if (json.success) {
         const rawData = json.data || [];
-        const uniqueItems = Array.from(new Map(rawData.map((item: MediaItem) => [item.id, item])).values());
+        const uniqueItems = Array.from(
+          new Map(rawData.map((item: MediaItem) => [item.id, item])).values(),
+        );
         setItems(uniqueItems as MediaItem[]);
       } else {
         toast.error(json.message || "Failed to fetch media");
@@ -119,7 +116,7 @@ export default function MediaLibraryModal({
         const newItems = isSelected
           ? prev.filter((i) => i.id !== item.id)
           : [...prev, item];
-        
+
         if (newItems.length === 1) {
           setEditAlt(newItems[0].altText || "");
           setEditTitle(newItems[0].title || "");
@@ -155,7 +152,7 @@ export default function MediaLibraryModal({
         const res = await fetch(`${API}/upload`, {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${getToken()}`,
+            Authorization: `Bearer ${getToken()}`,
           },
           body: formData,
         });
@@ -179,17 +176,17 @@ export default function MediaLibraryModal({
 
     setUploading(false);
     setUploadProgress(0);
-    
+
     if (completed > 0) {
       toast.success(`Successfully uploaded ${completed} file(s)`);
     }
-    
+
     setTab("library");
     await fetchMedia();
 
     if (newlyUploaded.length > 0) {
       if (multiple) {
-        setSelectedItems(prev => [...prev, ...newlyUploaded]);
+        setSelectedItems((prev) => [...prev, ...newlyUploaded]);
       } else {
         const lastItem = newlyUploaded[newlyUploaded.length - 1];
         setSelectedItems([lastItem]);
@@ -215,9 +212,9 @@ export default function MediaLibraryModal({
     try {
       const res = await fetch(`${API}/${selected.id}`, {
         method: "PUT",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getToken()}`,
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
           altText: editAlt,
@@ -229,7 +226,7 @@ export default function MediaLibraryModal({
         const json = await res.json();
         setSelectedItems([json.data]);
         setItems((prev) =>
-          prev.map((i) => (i.id === json.data.id ? json.data : i))
+          prev.map((i) => (i.id === json.data.id ? json.data : i)),
         );
         toast.success("Attributes saved");
       } else {
@@ -251,7 +248,8 @@ export default function MediaLibraryModal({
 
     const isDark = document.documentElement.classList.contains("dark");
     const result = await Swal.fire({
-      title: '<span class="text-pink-600 dark:text-pink-500 font-bold text-2xl flex items-center gap-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Critical Action</span>',
+      title:
+        '<span class="text-pink-600 dark:text-pink-500 font-bold text-2xl flex items-center gap-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Critical Action</span>',
       html: `
         <div class="text-left space-y-4 mt-2">
           <p class="text-gray-700 dark:text-gray-300 text-base">
@@ -269,21 +267,25 @@ export default function MediaLibraryModal({
         </div>
       `,
       showCancelButton: true,
-      confirmButtonColor: '#dc2626',
-      cancelButtonColor: '#6b7280',
-      confirmButtonText: '<div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> Yes, delete permanently</div>',
-      cancelButtonText: 'Cancel',
-      background: isDark ? '#1f2937' : '#ffffff',
-      color: isDark ? '#f9fafb' : '#111827',
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText:
+        '<div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> Yes, delete permanently</div>',
+      cancelButtonText: "Cancel",
+      background: isDark ? "#1f2937" : "#ffffff",
+      color: isDark ? "#f9fafb" : "#111827",
       customClass: {
-        popup: 'rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-pink-500/10 border border-gray-100 dark:border-gray-800',
-        confirmButton: 'rounded-xl font-bold px-6 py-3 shadow-lg shadow-pink-600/20 hover:scale-105 transition-transform',
-        cancelButton: 'rounded-xl font-bold px-6 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
+        popup:
+          "rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] shadow-pink-500/10 border border-gray-100 dark:border-gray-800",
+        confirmButton:
+          "rounded-xl font-bold px-6 py-3 shadow-lg shadow-pink-600/20 hover:scale-105 transition-transform",
+        cancelButton:
+          "rounded-xl font-bold px-6 py-3 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors",
       },
       didOpen: () => {
         const container = Swal.getContainer();
-        if (container) container.style.zIndex = '99999';
-      }
+        if (container) container.style.zIndex = "99999";
+      },
     });
 
     if (!result.isConfirmed) return;
@@ -291,19 +293,19 @@ export default function MediaLibraryModal({
     try {
       let deletedCount = 0;
       for (const item of selectedItems) {
-        const res = await fetch(`${API}/${item.id}`, { 
+        const res = await fetch(`${API}/${item.id}`, {
           method: "DELETE",
           headers: {
-            "Authorization": `Bearer ${getToken()}`,
+            Authorization: `Bearer ${getToken()}`,
           },
         });
         if (res.ok) deletedCount++;
       }
-      
+
       if (deletedCount > 0) {
         toast.success(`Deleted ${deletedCount} file(s)`);
       }
-      
+
       setSelectedItems([]);
       fetchMedia();
     } catch (e) {
@@ -470,10 +472,7 @@ export default function MediaLibraryModal({
                       ) : (
                         <div className="space-y-4">
                           <div className="w-20 h-20 mx-auto rounded-2xl bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center">
-                            <Upload
-                              size={32}
-                              className="text-pink-500"
-                            />
+                            <Upload size={32} className="text-pink-500" />
                           </div>
                           <div>
                             <p className="text-lg font-bold text-gray-700 dark:text-gray-300">
@@ -494,21 +493,23 @@ export default function MediaLibraryModal({
               </div>
 
               {/* Detail Sidebar */}
-              {selectedItems.length === 1 && tab === "library" && (() => {
-                const selected = selectedItems[0];
-                return (
-                  <div className="w-[320px] border-l border-gray-200 dark:border-gray-700 flex flex-col shrink-0 bg-gray-50 dark:bg-gray-900/50">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                      <h3 className="font-bold text-sm text-gray-900 dark:text-white uppercase tracking-wide">
-                        Attachment Details
-                      </h3>
-                    </div>
+              {selectedItems.length === 1 &&
+                tab === "library" &&
+                (() => {
+                  const selected = selectedItems[0];
+                  return (
+                    <div className="w-[320px] border-l border-gray-200 dark:border-gray-700 flex flex-col shrink-0 bg-gray-50 dark:bg-gray-900/50">
+                      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                        <h3 className="font-bold text-sm text-gray-900 dark:text-white uppercase tracking-wide">
+                          Attachment Details
+                        </h3>
+                      </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                      <>
+                      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                        <>
                           {/* Preview */}
                           <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                            { }
+                            {}
                             <img
                               src={selected.urlMedium || ""}
                               alt={selected.altText || ""}
@@ -547,7 +548,9 @@ export default function MediaLibraryModal({
                             <p className="flex justify-between">
                               <span className="font-medium">Uploaded:</span>
                               <span className="text-gray-700 dark:text-gray-300">
-                                {new Date(selected.createdAt).toLocaleDateString()}
+                                {new Date(
+                                  selected.createdAt,
+                                ).toLocaleDateString()}
                               </span>
                             </p>
                           </div>
@@ -567,7 +570,10 @@ export default function MediaLibraryModal({
                             </div>
                             <div>
                               <label className="block text-xs font-bold text-gray-600 dark:text-gray-400 mb-1">
-                                Alt Text <span className="text-gray-400 font-normal">(SEO)</span>
+                                Alt Text{" "}
+                                <span className="text-gray-400 font-normal">
+                                  (SEO)
+                                </span>
                               </label>
                               <input
                                 type="text"
@@ -595,70 +601,78 @@ export default function MediaLibraryModal({
                             <p className="font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-2">
                               Insert Image
                             </p>
-                            {(["thumbnail", "medium", "full"] as const).map((size) => {
-                              const urlMap = {
-                                thumbnail: selected.urlThumbnail,
-                                medium: selected.urlMedium,
-                                full: selected.urlFull,
-                              };
-                              const labels: Record<string, string> = {
-                                thumbnail: "150px",
-                                medium: "300px",
-                                full: "Original",
-                              };
-                              const isPreferred = size === preferredSize;
-                              return (
-                                <button
-                                  key={size}
-                                  onClick={() => {
-                                    const rawUrl = urlMap[size as keyof typeof urlMap] || selected.urlFull;
-                                    onSelect(selected, rawUrl);
-                                    onClose();
-                                  }}
-                                  className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl border transition-colors ${
-                                    isPreferred
-                                      ? "border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-300 font-semibold"
-                                      : "border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
-                                  }`}
-                                >
-                                  <span className="capitalize font-medium">{size}</span>
-                                  <span className="text-gray-400 dark:text-gray-500 text-[11px]">{labels[size]}</span>
-                                </button>
-                              );
-                            })}
+                            {(["thumbnail", "medium", "full"] as const).map(
+                              (size) => {
+                                const urlMap = {
+                                  thumbnail: selected.urlThumbnail,
+                                  medium: selected.urlMedium,
+                                  full: selected.urlFull,
+                                };
+                                const labels: Record<string, string> = {
+                                  thumbnail: "150px",
+                                  medium: "300px",
+                                  full: "Original",
+                                };
+                                const isPreferred = size === preferredSize;
+                                return (
+                                  <button
+                                    key={size}
+                                    onClick={() => {
+                                      const rawUrl =
+                                        urlMap[size as keyof typeof urlMap] ||
+                                        selected.urlFull;
+                                      onSelect(selected, rawUrl);
+                                      onClose();
+                                    }}
+                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-2xl border transition-colors ${
+                                      isPreferred
+                                        ? "border-pink-500 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-300 font-semibold"
+                                        : "border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+                                    }`}
+                                  >
+                                    <span className="capitalize font-medium">
+                                      {size}
+                                    </span>
+                                    <span className="text-gray-400 dark:text-gray-500 text-[11px]">
+                                      {labels[size]}
+                                    </span>
+                                  </button>
+                                );
+                              },
+                            )}
                           </div>
                         </>
 
-                      {/* Common Actions (Save & Delete) */}
-                      <div className="flex gap-2 mt-4">
+                        {/* Common Actions (Save & Delete) */}
+                        <div className="flex gap-2 mt-4">
+                          <button
+                            onClick={handleSaveAttributes}
+                            disabled={saving}
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 bg-pink-600 hover:bg-pink-600 text-white px-3 py-2 rounded-2xl text-sm font-bold transition-colors disabled:opacity-50"
+                          >
+                            <Save size={14} /> {saving ? "Saving..." : "Save"}
+                          </button>
+                          <button
+                            onClick={handleDelete}
+                            className="px-3 py-2 rounded-2xl text-sm font-medium text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Footer: Insert */}
+                      <div className="p-4 border-t border-gray-200 dark:border-gray-700 shrink-0">
                         <button
-                          onClick={handleSaveAttributes}
-                          disabled={saving}
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 bg-pink-600 hover:bg-pink-600 text-white px-3 py-2 rounded-2xl text-sm font-bold transition-colors disabled:opacity-50"
+                          onClick={handleInsert}
+                          className="w-full bg-pink-600 hover:bg-pink-600 text-white py-2.5 rounded-xl text-sm font-bold transition-colors shadow-sm"
                         >
-                          <Save size={14} /> {saving ? "Saving..." : "Save"}
-                        </button>
-                        <button
-                          onClick={handleDelete}
-                          className="px-3 py-2 rounded-2xl text-sm font-medium text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
-                        >
-                          <Trash2 size={16} />
+                          Insert Image
                         </button>
                       </div>
                     </div>
-
-                    {/* Footer: Insert */}
-                    <div className="p-4 border-t border-gray-200 dark:border-gray-700 shrink-0">
-                      <button
-                        onClick={handleInsert}
-                        className="w-full bg-pink-600 hover:bg-pink-600 text-white py-2.5 rounded-xl text-sm font-bold transition-colors shadow-sm"
-                      >
-                        Insert Image
-                      </button>
-                    </div>
-                  </div>
-                );
-              })()}
+                  );
+                })()}
             </div>
           </motion.div>
 
@@ -675,11 +689,13 @@ export default function MediaLibraryModal({
                 <div className="bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 w-8 h-8 rounded-full flex items-center justify-center font-bold">
                   {selectedItems.length}
                 </div>
-                <span className="font-semibold text-gray-700 dark:text-gray-300">Selected</span>
+                <span className="font-semibold text-gray-700 dark:text-gray-300">
+                  Selected
+                </span>
               </div>
-              
+
               <div className="w-px h-6 bg-gray-200 dark:bg-gray-700" />
-              
+
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleDelete}
@@ -707,6 +723,6 @@ export default function MediaLibraryModal({
         </>
       )}
     </AnimatePresence>,
-    document.body
+    document.body,
   );
 }

@@ -16,7 +16,6 @@ export function useResponsiveChunking<T>(items: T[], config: ResponsiveConfig) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-     
     setIsMounted(true);
     const handleResize = () => setWidth(window.innerWidth);
     handleResize(); // Set initial width
@@ -67,7 +66,7 @@ export function useResponsiveChunking<T>(items: T[], config: ResponsiveConfig) {
     // Multi Row Logic: Chunk the items into grid pages
     const pageSize = Math.floor(cols) * Math.floor(rows);
     const chunks: T[][] = [];
-    
+
     if (pageSize > 0) {
       for (let i = 0; i < items.length; i += pageSize) {
         chunks.push(items.slice(i, i + pageSize));

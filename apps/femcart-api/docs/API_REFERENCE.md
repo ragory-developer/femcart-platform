@@ -1,4 +1,4 @@
-# Femcart API — Complete API Reference
+# Femcart API ï¿½ Complete API Reference
 
 > **Last Updated:** 2026-06-11 | **Base URL:** `http://localhost:5000/api` | **AI-Maintained**
 
@@ -292,20 +292,20 @@ Protected endpoints require: `Authorization: Bearer <accessToken>`
 
 ## 6. Brands
 
-### `GET /api/brands` — List all brands
-### `GET /api/brands/:slug` — Get brand by slug
-### `POST /api/brands` — Create (ADMIN+)
-### `PUT /api/brands/:id` — Update (ADMIN+)
-### `DELETE /api/brands/:id` — Delete (ADMIN+)
+### `GET /api/brands` ï¿½ List all brands
+### `GET /api/brands/:slug` ï¿½ Get brand by slug
+### `POST /api/brands` ï¿½ Create (ADMIN+)
+### `PUT /api/brands/:id` ï¿½ Update (ADMIN+)
+### `DELETE /api/brands/:id` ï¿½ Delete (ADMIN+)
 
 ---
 
 ## 7. Tags
 
-### `GET /api/tags` — List all tags
-### `POST /api/tags` — Create (ADMIN+)
-### `PUT /api/tags/:id` — Update (ADMIN+)
-### `DELETE /api/tags/:id` — Delete (ADMIN+)
+### `GET /api/tags` ï¿½ List all tags
+### `POST /api/tags` ï¿½ Create (ADMIN+)
+### `PUT /api/tags/:id` ï¿½ Update (ADMIN+)
+### `DELETE /api/tags/:id` ï¿½ Delete (ADMIN+)
 
 ---
 
@@ -478,7 +478,7 @@ Protected endpoints require: `Authorization: Bearer <accessToken>`
 
 **Content-Type:** `multipart/form-data` | Field: `images` (up to multiple files)
 
-Automatically processes images to 3 sizes: thumbnail, medium, full — stored to S3 or local.
+Automatically processes images to 3 sizes: thumbnail, medium, full ï¿½ stored to S3 or local.
 
 ### `PUT /api/media/:id`
 **Auth:** ADMIN+ | **Purpose:** Update media metadata (altText, title, caption, description)

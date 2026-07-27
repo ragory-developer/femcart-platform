@@ -1,4 +1,4 @@
-# Femcart API — Database Architecture
+# Femcart API ï¿½ Database Architecture
 
 > **Last Updated:** 2026-06-11 | **Source:** `prisma/schema.prisma` | **AI-Maintained**
 
@@ -17,9 +17,9 @@
 ```
 User ------------------+
  +-- Cart --- CartItem -+--- Product --- ProductVariant --- VariantAttribute
- +-- Order -- OrderItem-+    ¦               ¦
- ¦   +-- OrderNote           ¦               +-- CartItem / OrderItem
- +-- Wishlist --- Product     ¦
+ +-- Order -- OrderItem-+    ï¿½               ï¿½
+ ï¿½   +-- OrderNote           ï¿½               +-- CartItem / OrderItem
+ +-- Wishlist --- Product     ï¿½
  +-- UserAddress               +-- Category (self-referential tree)
  +-- WalletTransaction         +-- Brand
  +-- AdminRole                 +-- Tag
@@ -31,7 +31,7 @@ BuilderTemplatePack --- BuilderTemplate
 BuilderComponent --- BuilderComponentContent
 
 State --- City --- Area
-  ¦          ¦        +-- UserAddress / Order
+  ï¿½          ï¿½        +-- UserAddress / Order
   +-- Order
 
 Setting (key-value store)
@@ -64,7 +64,7 @@ Variation --- VariationValue
 | password | String? | bcrypt hashed |
 | name | String | Required |
 | phone | String? | Unique, indexed |
-| isGuest | Boolean | Default false — guest accounts created during OTP checkout |
+| isGuest | Boolean | Default false ï¿½ guest accounts created during OTP checkout |
 | role | Enum (Role) | USER / ADMIN / SUPER_ADMIN |
 | permissions | String? (Text) | JSON-encoded array of permission strings |
 | rewardPoints | Int | Running total |
@@ -84,7 +84,7 @@ Saved delivery addresses per user. Linked to the location hierarchy (State/City/
 ### `OTPVerification`
 | Field | Notes |
 |-------|-------|
-| phone | Unique — one OTP record per phone |
+| phone | Unique ï¿½ one OTP record per phone |
 | code | 6-digit numeric code |
 | verified | Becomes true after successful verification |
 | attempts | Incremented on each send/verify attempt |
@@ -117,8 +117,8 @@ Saved delivery addresses per user. Linked to the location hierarchy (State/City/
 ### `ProductVariant`
 Represents a single variation (e.g., "Size: XL, Color: Red") of a VARIABLE product.
 - Each variant has its own `price`, `stock`, `specialPrice`, `sku`, `image`
-- `isDefault` — the variant pre-selected on the product page
-- `enabled` — soft-disabled variants not shown to customers
+- `isDefault` ï¿½ the variant pre-selected on the product page
+- `enabled` ï¿½ soft-disabled variants not shown to customers
 - Has many `VariantAttribute` records (name/value pairs)
 
 ---
@@ -196,7 +196,7 @@ Pre-built page layouts that can be applied to builder pages.
 
 ### `BuilderTemplatePack`
 Groups related templates (e.g., "Eid 2026 Pack").
-- `status`: `locked` or `unlocked` — SUPER_ADMIN sees all; others see only unlocked
+- `status`: `locked` or `unlocked` ï¿½ SUPER_ADMIN sees all; others see only unlocked
 
 ---
 
@@ -255,14 +255,14 @@ Footer content management with sortable sections and links.
 
 ### `AdminRole`
 Defines a named role with a JSON-encoded permissions array. Assigned to admin users.
-- `isSystem` — system roles cannot be deleted
+- `isSystem` ï¿½ system roles cannot be deleted
 
 ---
 
 ### `ImportLog` & `ImportTask`
 Track WooCommerce import progress.
-- `ImportLog` — overall import session summary
-- `ImportTask` — individual page-batch of products (status: `pending/queued/running/paused/done/failed`)
+- `ImportLog` ï¿½ overall import session summary
+- `ImportTask` ï¿½ individual page-batch of products (status: `pending/queued/running/paused/done/failed`)
 
 ---
 

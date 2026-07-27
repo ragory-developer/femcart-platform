@@ -29,7 +29,7 @@ const ComponentRegistry: Record<string, any> = {
   PreOrder,
   Social,
   Newsletter,
-  SeoBlock
+  SeoBlock,
 };
 
 export default ComponentRegistry;

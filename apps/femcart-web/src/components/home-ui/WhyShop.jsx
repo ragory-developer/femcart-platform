@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React from 'react';
 import { Shield, Package, Truck, Headset } from 'lucide-react';
 

@@ -1,22 +1,39 @@
 "use client";
-import React from 'react';
-import * as LucideIcons from 'lucide-react';
+import React from "react";
+import * as LucideIcons from "lucide-react";
 
 export default function WhyShop({
   title = "Why Femecart?",
-  features = []
+  features = [],
 }: {
   title?: string;
   features?: { icon: string; title: string; desc: string }[];
 }) {
   const defaultFeatures = [
-    { icon: 'Shield', title: 'Premium Quality', desc: 'Tested for perfect fit and durability.' },
-    { icon: 'Package', title: 'Discreet Packaging', desc: 'Your privacy is fully protected with us.' },
-    { icon: 'Truck', title: 'Fast Delivery', desc: 'Get your products quickly and securely.' },
-    { icon: 'Headset', title: 'Customer Support', desc: 'We are here to help you anytime.' }
+    {
+      icon: "Shield",
+      title: "Premium Quality",
+      desc: "Tested for perfect fit and durability.",
+    },
+    {
+      icon: "Package",
+      title: "Discreet Packaging",
+      desc: "Your privacy is fully protected with us.",
+    },
+    {
+      icon: "Truck",
+      title: "Fast Delivery",
+      desc: "Get your products quickly and securely.",
+    },
+    {
+      icon: "Headset",
+      title: "Customer Support",
+      desc: "We are here to help you anytime.",
+    },
   ];
 
-  const displayFeatures = features && features.length > 0 ? features : defaultFeatures;
+  const displayFeatures =
+    features && features.length > 0 ? features : defaultFeatures;
 
   return (
     <section className="max-w-[1440px] mx-auto px-4 md:px-6 mb-4 md:mb-16 py-8 md:py-16 border-y border-orange-200">
@@ -33,7 +50,9 @@ export default function WhyShop({
               </div>
               <div>
                 <h4 className="font-serif text-[16px] mb-1">{f.title}</h4>
-                <p className="text-[13px] md:text-[14px] leading-snug md:leading-normal text-text-amber-700">{f.desc}</p>
+                <p className="text-[13px] md:text-[14px] leading-snug md:leading-normal text-text-amber-700">
+                  {f.desc}
+                </p>
               </div>
             </div>
           );

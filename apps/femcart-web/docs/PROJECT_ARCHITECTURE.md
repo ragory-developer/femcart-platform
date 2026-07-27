@@ -1,4 +1,4 @@
-﻿# Project Architecture: Femcart Frontend
+# Project Architecture: Femcart Frontend
 
 This document outlines the architecture for the `femcart-web` frontend (Femcart).
 

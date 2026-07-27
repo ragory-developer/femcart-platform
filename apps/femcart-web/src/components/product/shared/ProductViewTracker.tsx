@@ -12,7 +12,9 @@ interface ProductViewTrackerProps {
   };
 }
 
-export default function ProductViewTracker({ product }: ProductViewTrackerProps) {
+export default function ProductViewTracker({
+  product,
+}: ProductViewTrackerProps) {
   useEffect(() => {
     event("ViewContent", {
       content_name: product.name,

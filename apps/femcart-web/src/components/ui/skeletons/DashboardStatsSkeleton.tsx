@@ -104,14 +104,14 @@ export function DashboardStatsSkeleton() {
               <SkeletonBase className="w-40 h-6 rounded" />
               <SkeletonBase className="w-16 h-4 rounded" />
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex justify-between border-b border-gray-100 dark:border-gray-800 pb-2">
                 <SkeletonBase className="w-16 h-3 rounded" />
                 <SkeletonBase className="w-16 h-3 rounded" />
                 <SkeletonBase className="w-16 h-3 rounded" />
               </div>
-              
+
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="flex justify-between py-2">
                   <SkeletonBase className="w-24 h-4 rounded" />

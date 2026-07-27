@@ -2,7 +2,12 @@
 
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { clsx, type ClassValue } from "clsx";
-import { AnimatePresence, motion, useSpring, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ArrowUp, Check } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { memo } from "react";
@@ -12,7 +17,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export type ScrollToTopVariant = "light" | "dark" | "glass" | "brand" | "minimal";
+export type ScrollToTopVariant =
+  "light" | "dark" | "glass" | "brand" | "minimal";
 
 export interface ScrollToTopProps {
   /** The visual style variant of the button */
@@ -80,20 +86,29 @@ export const ScrollToTop = memo(function ScrollToTop({
   // ViewBox is 100x100, r=46 ensures stroke width of 4 fits perfectly inside.
   const radius = 46;
   const circumference = 2 * Math.PI * radius; // ~289.026
-  
+
   // Transform scroll progress to SVG stroke-dashoffset
-  const strokeDashoffset = useTransform(springProgress, [0, 1], [circumference, 0]);
+  const strokeDashoffset = useTransform(
+    springProgress,
+    [0, 1],
+    [circumference, 0],
+  );
 
   // Determine actual visibility based on logic configs (always show in admin builder)
-  const isVisible = isAdminBuilder || (isPastThreshold && (!autoHideOnScrollDown || isScrollingUp || isBottom));
+  const isVisible =
+    isAdminBuilder ||
+    (isPastThreshold && (!autoHideOnScrollDown || isScrollingUp || isBottom));
 
   // Variant Styles System
   const variantStyles = {
-    light: "bg-white text-gray-800 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 hover:bg-gray-50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)]",
+    light:
+      "bg-white text-gray-800 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 hover:bg-gray-50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)]",
     dark: "bg-gray-900 text-white shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-gray-800 hover:bg-gray-800 hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)]",
-    glass: "bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-800 dark:text-white shadow-[0_8px_30px_rgb(0,0,0,0.1)] border border-white/40 dark:border-white/10 hover:bg-white/90 dark:hover:bg-gray-900/90",
+    glass:
+      "bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-800 dark:text-white shadow-[0_8px_30px_rgb(0,0,0,0.1)] border border-white/40 dark:border-white/10 hover:bg-white/90 dark:hover:bg-gray-900/90",
     brand: `${themeColor} shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] brightness-100 hover:brightness-110`,
-    minimal: "bg-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800",
+    minimal:
+      "bg-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800",
   };
 
   // SVGs Ring Color Context
@@ -130,9 +145,12 @@ export const ScrollToTop = memo(function ScrollToTop({
 
   // Responsive Positioning System (avoids mobile bottom-nav overlaps)
   const positionStyles = {
-    "bottom-right": "bottom-[calc(56px+env(safe-area-inset-bottom)+5.5rem)] right-4 md:bottom-5 md:right-5 lg:bottom-6 lg:right-6 xl:bottom-8 xl:right-8",
-    "bottom-left": "bottom-[calc(56px+env(safe-area-inset-bottom)+5.5rem)] left-4 md:bottom-5 md:left-5 lg:bottom-6 lg:left-6 xl:bottom-8 xl:left-8",
-    "bottom-center": "bottom-[calc(56px+env(safe-area-inset-bottom)+5.5rem)] md:bottom-5 lg:bottom-6 xl:bottom-8 left-1/2 -translate-x-1/2",
+    "bottom-right":
+      "bottom-[calc(56px+env(safe-area-inset-bottom)+5.5rem)] right-4 md:bottom-5 md:right-5 lg:bottom-6 lg:right-6 xl:bottom-8 xl:right-8",
+    "bottom-left":
+      "bottom-[calc(56px+env(safe-area-inset-bottom)+5.5rem)] left-4 md:bottom-5 md:left-5 lg:bottom-6 lg:left-6 xl:bottom-8 xl:left-8",
+    "bottom-center":
+      "bottom-[calc(56px+env(safe-area-inset-bottom)+5.5rem)] md:bottom-5 lg:bottom-6 xl:bottom-8 left-1/2 -translate-x-1/2",
   };
 
   return (
@@ -159,7 +177,7 @@ export const ScrollToTop = memo(function ScrollToTop({
             variantStyles[variant],
             sizeStyles[size],
             positionStyles[position],
-            className
+            className,
           )}
         >
           {showProgressRing && (
@@ -174,7 +192,10 @@ export const ScrollToTop = memo(function ScrollToTop({
                 cx="50"
                 cy="50"
                 r={radius}
-                className={cn("stroke-current transition-colors duration-300", trackColors[variant])}
+                className={cn(
+                  "stroke-current transition-colors duration-300",
+                  trackColors[variant],
+                )}
                 strokeWidth="4"
                 fill="none"
               />
@@ -183,7 +204,10 @@ export const ScrollToTop = memo(function ScrollToTop({
                 cx="50"
                 cy="50"
                 r={radius}
-                className={cn("stroke-current transition-colors duration-300", ringColors[variant])}
+                className={cn(
+                  "stroke-current transition-colors duration-300",
+                  ringColors[variant],
+                )}
                 strokeWidth="4"
                 strokeLinecap="round"
                 fill="none"
@@ -206,7 +230,13 @@ export const ScrollToTop = memo(function ScrollToTop({
                   exit={{ scale: 0.5, opacity: 0, rotate: 45 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <Check className={cn("animate-pulse duration-1000", iconSizeStyles[size])} strokeWidth={2.5} />
+                  <Check
+                    className={cn(
+                      "animate-pulse duration-1000",
+                      iconSizeStyles[size],
+                    )}
+                    strokeWidth={2.5}
+                  />
                 </motion.div>
               ) : (
                 <motion.div
@@ -216,7 +246,12 @@ export const ScrollToTop = memo(function ScrollToTop({
                   exit={{ scale: 0.5, opacity: 0, y: -10 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  {icon || <ArrowUp className={cn(iconSizeStyles[size])} strokeWidth={2.5} />}
+                  {icon || (
+                    <ArrowUp
+                      className={cn(iconSizeStyles[size])}
+                      strokeWidth={2.5}
+                    />
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -228,7 +263,7 @@ export const ScrollToTop = memo(function ScrollToTop({
               className={cn(
                 "absolute -top-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[11px] font-bold px-2 py-1 rounded shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75",
                 "after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent after:border-t-gray-900 dark:after:border-t-white",
-                "whitespace-nowrap tabular-nums"
+                "whitespace-nowrap tabular-nums",
               )}
             >
               {percentage}%

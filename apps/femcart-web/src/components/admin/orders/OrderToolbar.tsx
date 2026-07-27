@@ -17,7 +17,7 @@ export function OrderToolbar({
   setLimit,
   statuses,
   currentStatus,
-  handleStatusFilter
+  handleStatusFilter,
 }: OrderToolbarProps) {
   return (
     <>
@@ -25,8 +25,11 @@ export function OrderToolbar({
       <div className="flex flex-col lg:flex-row gap-4 items-center">
         {/* Live Search */}
         <div className="relative w-full lg:max-w-md">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input 
+          <Search
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+            size={18}
+          />
+          <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -37,8 +40,10 @@ export function OrderToolbar({
 
         {/* Results Per Page Dropdown */}
         <div className="flex items-center gap-3 ml-auto">
-          <span className="text-xs font-bold text-gray-500 uppercase tracking-widest hidden md:block">Records:</span>
-          <select 
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-widest hidden md:block">
+            Records:
+          </span>
+          <select
             value={limit}
             onChange={(e) => setLimit(Number(e.target.value))}
             className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none cursor-pointer transition-all shadow-sm"
@@ -59,8 +64,8 @@ export function OrderToolbar({
             onClick={() => handleStatusFilter(s.value)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
               currentStatus === s.value
-                ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-500/20'
-                : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-100 dark:border-gray-800 hover:border-emerald-300'
+                ? "bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-500/20"
+                : "bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-100 dark:border-gray-800 hover:border-emerald-300"
             }`}
           >
             {s.label}

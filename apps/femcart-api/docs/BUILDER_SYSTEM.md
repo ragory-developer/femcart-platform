@@ -1,4 +1,4 @@
-# Femcart API — Builder System
+# Femcart API ï¿½ Builder System
 
 > **Last Updated:** 2026-06-11 | **Source:** `src/controllers/BuilderController.ts`, `src/validators/builder.schema.ts`, `src/routes/builderRoutes.ts` | **AI-Maintained**
 
@@ -91,7 +91,7 @@ While the database uses distinct tables (`BuilderSection`, `BuilderSectionStyle`
 | `ProductTabsSection` | PDP | (any key-value) |
 | `ProductUpsellSection` | PDP | (any key-value) |
 | `ProductDownsellSection` | PDP | (any key-value) |
-| `CustomCodeSection` | Custom | (any key-value — unrestricted) |
+| `CustomCodeSection` | Custom | (any key-value ï¿½ unrestricted) |
 
 ---
 
@@ -110,33 +110,33 @@ Any violation throws a 400 Bad Request.
 
 ```
 +-------------------------------------------------------------+
-¦                    Admin Panel                               ¦
+ï¿½                    Admin Panel                               ï¿½
 +-------------------------------------------------------------+
-                           ¦
+                           ï¿½
          +-----------------+--------------------+
          ?                 ?                    ?
    Apply Template      Edit Draft           Get Published
    POST /pages/:key/   PUT /pages/:key/     GET /public/:key
    apply-template      draft               (frontend render)
-         ¦                 ¦
+         ï¿½                 ï¿½
          ?                 ?
    Clone template      Validate document
    doc, update         (Zod + XSS check)
-   page.key metadata        ¦
-         ¦                  ?
+   page.key metadata        ï¿½
+         ï¿½                  ?
          +------? Create new BuilderPageVersion (status: draft)
                   Increment version number
                   Update page.draftVersionId
-                           ¦
+                           ï¿½
                            ?
               POST /pages/:key/publish
-                           ¦
+                           ï¿½
                            ?
               Archive old published version
               Promote draft ? status: published
               Update page.publishedVersionId
               Update page.draftVersionId = published.id
-                           ¦
+                           ï¿½
                            ?
               GET /public/:key
               (frontend fetches published version)
@@ -223,7 +223,7 @@ POST /api/builder/pages/:key/apply-template
 ```
 Admin saves draft:
   POST body { document: BuilderDocument }
-       ¦
+       ï¿½
        +-- validateBuilderDocument(document)   ? Zod + XSS check
        +-- prisma.builderPage.upsert(key)       ? ensure page exists
        +-- prisma.builderPageVersion.findFirst  ? get latest version #
@@ -232,7 +232,7 @@ Admin saves draft:
        
 Frontend reads page:
   GET /api/builder/public/home
-       ¦
+       ï¿½
        +-- prisma.builderPage.findUnique(key)
        +-- Try: findFirst version with activeFrom/activeTo (campaign)
        +-- Fallback: findUnique(publishedVersionId)

@@ -1,4 +1,4 @@
-# Femcart API — Deployment Playbook
+# Femcart API ï¿½ Deployment Playbook
 
 > **Last Updated:** 2026-06-11 | **AI-Maintained**
 
@@ -173,7 +173,7 @@ npm install
 npm run build
 
 # 4. If migration rollback needed (CAUTION)
-# Prisma does not natively support rollback — you must manually revert SQL
+# Prisma does not natively support rollback ï¿½ you must manually revert SQL
 # or restore from database backup
 # DO NOT use prisma migrate dev in production
 
@@ -301,4 +301,4 @@ No file deployments required for builder content changes.
 4. Monitor progress via task list
 5. Tasks can be paused/resumed individually
 
-The import runs **in-process** (no separate workers) — do not run large imports during peak hours.
+The import runs **in-process** (no separate workers) ï¿½ do not run large imports during peak hours.

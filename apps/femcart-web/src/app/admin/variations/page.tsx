@@ -2,7 +2,16 @@
 import { API_URL } from "@/lib/config";
 
 import { showToast } from "@/lib/toast";
-import { Check, Edit2, List, Plus, Search, Settings, Trash2, X } from "lucide-react";
+import {
+  Check,
+  Edit2,
+  List,
+  Plus,
+  Search,
+  Settings,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface VariationValue {
@@ -20,13 +29,19 @@ interface Variation {
 const API = `${API_URL}/api/variations`;
 
 function getToken() {
-  return typeof window !== "undefined" ? (localStorage.getItem("femcart_access_token") || localStorage.getItem("token") || "") : "";
+  return typeof window !== "undefined"
+    ? localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token") ||
+        ""
+    : "";
 }
 
 export default function VariationsPage() {
   const [variations, setVariations] = useState<Variation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeVariation, setActiveVariation] = useState<Variation | null>(null);
+  const [activeVariation, setActiveVariation] = useState<Variation | null>(
+    null,
+  );
 
   const [newVariationName, setNewVariationName] = useState("");
   const [newValueName, setNewValueName] = useState("");
@@ -38,7 +53,9 @@ export default function VariationsPage() {
   const [searchValue, setSearchValue] = useState("");
 
   // Edit states
-  const [editingVariationId, setEditingVariationId] = useState<string | null>(null);
+  const [editingVariationId, setEditingVariationId] = useState<string | null>(
+    null,
+  );
   const [editingVariationName, setEditingVariationName] = useState("");
   const [editingValueId, setEditingValueId] = useState<string | null>(null);
   const [editingValueName, setEditingValueName] = useState("");
@@ -51,7 +68,9 @@ export default function VariationsPage() {
         setVariations(json.data || []);
         // Update activeVariation reference if it exists
         if (activeVariation) {
-          const updated = json.data.find((a: Variation) => a.id === activeVariation.id);
+          const updated = json.data.find(
+            (a: Variation) => a.id === activeVariation.id,
+          );
           setActiveVariation(updated || null);
         }
       }
@@ -75,9 +94,9 @@ export default function VariationsPage() {
     try {
       const res = await fetch(API, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getToken()}`
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({ name: newVariationName.trim() }),
       });
@@ -100,11 +119,11 @@ export default function VariationsPage() {
     e.stopPropagation();
     if (!confirm("Delete this variation and all its values forever?")) return;
     try {
-      const res = await fetch(`${API}/${id}`, { 
+      const res = await fetch(`${API}/${id}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${getToken()}`
-        }
+          Authorization: `Bearer ${getToken()}`,
+        },
       });
       if (res.ok) {
         if (activeVariation?.id === id) setActiveVariation(null);
@@ -123,9 +142,9 @@ export default function VariationsPage() {
     try {
       const res = await fetch(`${API}/${id}`, {
         method: "PUT",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getToken()}`
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({ name: editingVariationName.trim() }),
       });
@@ -149,9 +168,9 @@ export default function VariationsPage() {
     try {
       const res = await fetch(`${API}/${activeVariation.id}/values`, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getToken()}`
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({ value: newValueName.trim() }),
       });
@@ -173,11 +192,11 @@ export default function VariationsPage() {
     if (!activeVariation) return;
     if (!confirm("Remove this value?")) return;
     try {
-      const res = await fetch(`${API}/${activeVariation.id}/values/${valId}`, { 
+      const res = await fetch(`${API}/${activeVariation.id}/values/${valId}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${getToken()}`
-        }
+          Authorization: `Bearer ${getToken()}`,
+        },
       });
       if (res.ok) {
         fetchVariations();
@@ -195,9 +214,9 @@ export default function VariationsPage() {
     try {
       const res = await fetch(`${API}/${activeVariation.id}/values/${valId}`, {
         method: "PUT",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getToken()}`
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({ value: editingValueName.trim() }),
       });
@@ -214,18 +233,28 @@ export default function VariationsPage() {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-gray-500">Loading variations...</div>;
+    return (
+      <div className="p-8 text-center text-gray-500">Loading variations...</div>
+    );
   }
 
-  const filteredVariations = variations.filter(a => a.name.toLowerCase().includes(searchVariation.toLowerCase()));
-  const filteredValues = activeVariation?.values.filter(v => v.value.toLowerCase().includes(searchValue.toLowerCase())) || [];
+  const filteredVariations = variations.filter((a) =>
+    a.name.toLowerCase().includes(searchVariation.toLowerCase()),
+  );
+  const filteredValues =
+    activeVariation?.values.filter((v) =>
+      v.value.toLowerCase().includes(searchValue.toLowerCase()),
+    ) || [];
 
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-gray-900 dark:text-white">Product Variations</h1>
+        <h1 className="text-3xl font-black text-gray-900 dark:text-white">
+          Product Variations
+        </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Manage variable product variations like Color, Size, Style, Size, or Color.
+          Manage variable product variations like Color, Size, Style, Size, or
+          Color.
         </p>
       </div>
 
@@ -237,9 +266,12 @@ export default function VariationsPage() {
               <h3 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                 <List size={18} className="text-emerald-600" /> All Variations
               </h3>
-              
+
               <div className="relative mb-4">
-                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search
+                  size={16}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                />
                 <input
                   type="text"
                   placeholder="Search variations..."
@@ -269,7 +301,9 @@ export default function VariationsPage() {
 
             <div className="flex-1 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700">
               {filteredVariations.length === 0 ? (
-                <div className="p-6 text-center text-sm text-gray-400 italic">No variations found.</div>
+                <div className="p-6 text-center text-sm text-gray-400 italic">
+                  No variations found.
+                </div>
               ) : (
                 filteredVariations.map((variation) => (
                   <div
@@ -284,13 +318,17 @@ export default function VariationsPage() {
                     <div>
                       {editingVariationId === variation.id ? (
                         <form
-                          onSubmit={(e) => handleUpdateVariation(variation.id, e)}
+                          onSubmit={(e) =>
+                            handleUpdateVariation(variation.id, e)
+                          }
                           className="flex items-center gap-2"
                         >
                           <input
                             type="text"
                             value={editingVariationName}
-                            onChange={(e) => setEditingVariationName(e.target.value)}
+                            onChange={(e) =>
+                              setEditingVariationName(e.target.value)
+                            }
                             onClick={(e) => e.stopPropagation()}
                             autoFocus
                             className="px-2 py-1 text-sm border border-emerald-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full max-w-[120px] text-gray-900 dark:text-white bg-white dark:bg-gray-800"
@@ -315,15 +353,22 @@ export default function VariationsPage() {
                         </form>
                       ) : (
                         <>
-                          <p className={`font-semibold text-sm ${activeVariation?.id === variation.id ? "text-emerald-700 dark:text-emerald-400" : "text-gray-900 dark:text-white"}`}>
+                          <p
+                            className={`font-semibold text-sm ${activeVariation?.id === variation.id ? "text-emerald-700 dark:text-emerald-400" : "text-gray-900 dark:text-white"}`}
+                          >
                             {variation.name}
                           </p>
-                          <p className="text-xs text-gray-400 mt-0.5">{variation.values.length} values</p>
+                          <p className="text-xs text-gray-400 mt-0.5">
+                            {variation.values.length} values
+                          </p>
                         </>
                       )}
                     </div>
                     {editingVariationId !== variation.id && (
-                      <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
+                      <div
+                        className="flex gap-1"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <button
                           onClick={() => {
                             setEditingVariationId(variation.id);
@@ -334,7 +379,9 @@ export default function VariationsPage() {
                           <Edit2 size={16} />
                         </button>
                         <button
-                          onClick={(e) => handleDeleteVariation(variation.id, e)}
+                          onClick={(e) =>
+                            handleDeleteVariation(variation.id, e)
+                          }
                           className="p-1.5 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
                         >
                           <Trash2 size={16} />
@@ -352,20 +399,33 @@ export default function VariationsPage() {
         <div className="lg:col-span-8">
           {!activeVariation ? (
             <div className="h-[600px] bg-gray-50 dark:bg-gray-800/30 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center text-gray-400">
-              <Settings size={48} className="mb-4 text-gray-300 dark:text-gray-600" />
-              <p className="text-lg font-medium text-gray-600 dark:text-gray-300">Select an variation</p>
-              <p className="text-sm">Click an variation on the left to manage its values</p>
+              <Settings
+                size={48}
+                className="mb-4 text-gray-300 dark:text-gray-600"
+              />
+              <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
+                Select an variation
+              </p>
+              <p className="text-sm">
+                Click an variation on the left to manage its values
+              </p>
             </div>
           ) : (
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden h-[600px] flex flex-col">
               <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-emerald-50/50 dark:bg-emerald-900/10">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                    {activeVariation.name} <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Values</span>
+                    {activeVariation.name}{" "}
+                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                      Values
+                    </span>
                   </h2>
                 </div>
                 <div className="relative w-64">
-                  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <Search
+                    size={16}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                  />
                   <input
                     type="text"
                     placeholder="Search values..."
@@ -377,10 +437,13 @@ export default function VariationsPage() {
               </div>
 
               <div className="p-6 border-b border-gray-100 dark:border-gray-750">
-                <form onSubmit={handleCreateValue} className="max-w-md flex gap-3">
+                <form
+                  onSubmit={handleCreateValue}
+                  className="max-w-md flex gap-3"
+                >
                   <input
                     type="text"
-                    placeholder={`Add new value (e.g. ${activeVariation.name === 'Color' ? 'Red' : activeVariation.name === 'Size' ? 'XL' : 'Value'})`}
+                    placeholder={`Add new value (e.g. ${activeVariation.name === "Color" ? "Red" : activeVariation.name === "Size" ? "XL" : "Value"})`}
                     value={newValueName}
                     onChange={(e) => setNewValueName(e.target.value)}
                     className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none text-gray-900 dark:text-white"
@@ -398,7 +461,9 @@ export default function VariationsPage() {
               <div className="flex-1 overflow-y-auto p-6">
                 {filteredValues.length === 0 ? (
                   <div className="text-center py-10">
-                    <p className="text-gray-500 dark:text-gray-400">No values found.</p>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      No values found.
+                    </p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -415,7 +480,9 @@ export default function VariationsPage() {
                             <input
                               type="text"
                               value={editingValueName}
-                              onChange={(e) => setEditingValueName(e.target.value)}
+                              onChange={(e) =>
+                                setEditingValueName(e.target.value)
+                              }
                               autoFocus
                               className="flex-1 px-2 py-1 text-sm border border-emerald-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                             />
@@ -435,7 +502,9 @@ export default function VariationsPage() {
                           </form>
                         ) : (
                           <>
-                            <span className="font-medium text-sm text-gray-800 dark:text-gray-200">{val.value}</span>
+                            <span className="font-medium text-sm text-gray-800 dark:text-gray-200">
+                              {val.value}
+                            </span>
                             <div className="opacity-0 group-hover:opacity-100 flex transition-all">
                               <button
                                 onClick={() => {

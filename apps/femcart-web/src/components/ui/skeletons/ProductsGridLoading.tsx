@@ -11,13 +11,13 @@ export function ProductsGridLoading({ isSection = false }: Props = {}) {
     return (
       <div className="container mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col items-center mb-8">
-           <SkeletonBase className="w-64 h-8 rounded mb-2" />
-           <SkeletonBase className="w-40 h-4 rounded" />
+          <SkeletonBase className="w-64 h-8 rounded mb-2" />
+          <SkeletonBase className="w-40 h-4 rounded" />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-           {Array.from({ length: 5 }).map((_, i) => (
-             <ProductCardSkeleton key={i} />
-           ))}
+          {Array.from({ length: 5 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
         </div>
       </div>
     );
@@ -26,7 +26,6 @@ export function ProductsGridLoading({ isSection = false }: Props = {}) {
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-[100dvh] py-12">
       <div className="container mx-auto px-4">
-        
         {/* Header Skeleton */}
         <div className="mb-12">
           <SkeletonBase className="w-32 h-4 rounded mb-4" />
@@ -54,7 +53,6 @@ export function ProductsGridLoading({ isSection = false }: Props = {}) {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

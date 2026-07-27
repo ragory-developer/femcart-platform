@@ -1,15 +1,15 @@
 "use client";
-import React from 'react';
-import { Ruler } from 'lucide-react';
+import React from "react";
+import { Ruler } from "lucide-react";
 
-export default function SizeBanner({ 
-  img = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop", 
+export default function SizeBanner({
+  img = "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
   alt = "Woman checking size",
   title = "Not Sure About Your Size?",
   description = "Take our quick 2-minute fit quiz. Answer a few questions and let us find your perfect fit. We promise it's worth it.",
-  buttonText = "Find My Size"
-}: { 
-  img?: string; 
+  buttonText = "Find My Size",
+}: {
+  img?: string;
   alt?: string;
   title?: string;
   description?: string;
@@ -18,18 +18,16 @@ export default function SizeBanner({
   return (
     <section className="max-w-[1440px] mx-auto px-4 md:px-6 mb-4 md:mb-16">
       <div className="relative rounded-[20px] overflow-hidden shadow-xl min-h-[240px] md:min-h-[320px] flex items-center group bg-pink-500">
-        
         {/* Background Image */}
-        <img 
-          src={img} 
+        <img
+          src={img}
           alt={alt}
           className="absolute inset-0 w-full h-full object-cover object-[center_20%] transition-transform duration-1000 group-hover:scale-105"
         />
-        
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-pink-600/95 via-pink-500/80 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-pink-600/80 to-transparent md:hidden"></div> {/* Extra legibility on mobile */}
-        
+        <div className="absolute inset-0 bg-gradient-to-t from-pink-600/80 to-transparent md:hidden"></div>{" "}
+        {/* Extra legibility on mobile */}
         <div className="relative z-10 w-full max-w-lg p-6 md:p-12 text-white">
           <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md mb-4">
             <Ruler size={20} className="text-white md:w-6 md:h-6" />

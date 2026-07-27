@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from 'react';
-import { ChevronDown, Sparkles, Loader2 } from 'lucide-react';
-import { ProductCard } from './shared/ProductCard';
-import { homeMockProducts } from '@/constants/mockData';
+import React, { useState, useRef, useCallback } from "react";
+import { ChevronDown, Sparkles, Loader2 } from "lucide-react";
+import { ProductCard } from "./shared/ProductCard";
+import { homeMockProducts } from "@/constants/mockData";
 
 export default function Catalog() {
   const [items, setItems] = useState(homeMockProducts);
@@ -13,13 +13,13 @@ export default function Catalog() {
 
   const fetchMoreData = useCallback(() => {
     if (loadingRef.current) return;
-    
+
     loadingRef.current = true;
     setLoading(true);
-    
+
     // Simulate network delay
     setTimeout(() => {
-      setItems(prev => [...prev, ...homeMockProducts]);
+      setItems((prev) => [...prev, ...homeMockProducts]);
       setLoading(false);
       loadingRef.current = false;
     }, 1500);
@@ -44,7 +44,7 @@ export default function Catalog() {
             Price <ChevronDown size={14} strokeWidth={2} />
           </button>
         </div>
-        
+
         <div className="flex items-center gap-4 md:gap-8 w-full md:w-auto justify-between md:justify-end">
           <div className="flex items-center gap-2 md:gap-3">
             <span className="text-[#888]">Sort by:</span>
@@ -52,7 +52,9 @@ export default function Catalog() {
               Alphabetically, A-Z <ChevronDown size={14} strokeWidth={2} />
             </button>
           </div>
-          <span className="text-[#888] whitespace-nowrap">{items.length} products</span>
+          <span className="text-[#888] whitespace-nowrap">
+            {items.length} products
+          </span>
         </div>
       </div>
 
@@ -64,11 +66,14 @@ export default function Catalog() {
       </div>
 
       {/* Infinite Scroll Observer Target */}
-      <div ref={observerTarget} className="flex justify-center items-center py-12">
+      <div
+        ref={observerTarget}
+        className="flex justify-center items-center py-12"
+      >
         {loading ? (
           <Loader2 className="animate-spin text-pink-500" size={32} />
         ) : (
-          <button 
+          <button
             onClick={fetchMoreData}
             className="border-[1.5px] border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white px-8 py-3 rounded-full font-medium transition-all"
           >

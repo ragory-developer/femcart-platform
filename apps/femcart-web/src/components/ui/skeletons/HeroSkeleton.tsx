@@ -33,7 +33,7 @@ export function HeroSkeleton() {
             {/* CTA Button */}
             <SkeletonBase className="w-40 sm:w-48 h-12 sm:h-14 rounded-full bg-pink-900/15 dark:bg-white/20" />
           </div>
-          
+
           {/* Right Image Area */}
           <div className="md:w-1/2 flex justify-center mt-8 md:mt-0 relative w-full h-full hidden md:flex min-h-[300px]">
             <SkeletonBase className="w-[80%] aspect-square rounded-full bg-pink-900/10 dark:bg-white/10 blur-xl absolute" />

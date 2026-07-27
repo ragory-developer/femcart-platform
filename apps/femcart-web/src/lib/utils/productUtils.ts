@@ -8,7 +8,7 @@ export function extractUniqueCategories(products: any[]) {
           cats.set(c.name, {
             name: c.name,
             image: c.image || c.icon || null,
-            count: 0
+            count: 0,
           });
         }
         cats.get(c.name).count += 1;
@@ -16,7 +16,10 @@ export function extractUniqueCategories(products: any[]) {
     });
   });
   const extracted = Array.from(cats.values());
-  return [{ name: "All", count: products.filter(p => p && p.id).length }, ...extracted];
+  return [
+    { name: "All", count: products.filter((p) => p && p.id).length },
+    ...extracted,
+  ];
 }
 
 export function extractUniqueTags(products: any[]) {

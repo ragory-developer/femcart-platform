@@ -1,4 +1,4 @@
-﻿import { Response } from 'express';
+import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import { BadRequestError } from '../utils/errors';
 import { asyncHandler } from '../utils/helpers';

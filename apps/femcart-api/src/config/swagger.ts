@@ -1,4 +1,4 @@
-﻿import { Application } from 'express';
+import { Application } from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { config } from './index';

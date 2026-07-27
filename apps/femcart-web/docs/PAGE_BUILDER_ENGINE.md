@@ -1,4 +1,4 @@
-﻿# Page Builder Engine: Femcart Frontend
+# Page Builder Engine: Femcart Frontend
 
 The Femcart frontend features a sophisticated dynamic **Page Builder** engine located in `src/page-builder/`. This engine allows admins to build and configure pages (such as the Homepage or custom landing pages) via a JSON document, which the frontend then parses and renders dynamically.
 

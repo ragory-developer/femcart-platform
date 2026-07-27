@@ -18,8 +18,8 @@ sendGlobalSms(phone: string, textBody: string, purpose: string): Promise<boolean
 ### How It Resolves Configuration
 
 SMS configuration is resolved in this priority order:
-1. ENV variables (`SMS_API_KEY`, `SMS_GATEWAY_URL`) — highest priority
-2. DB settings (`sms_api_key`, `sms_gateway_url`) — fallback
+1. ENV variables (`SMS_API_KEY`, `SMS_GATEWAY_URL`) ï¿½ highest priority
+2. DB settings (`sms_api_key`, `sms_gateway_url`) ï¿½ fallback
 
 This allows runtime configuration changes via the admin panel without server restart.
 

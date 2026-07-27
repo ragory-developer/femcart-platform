@@ -4,29 +4,33 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-function LocationSelector({ setPosition }: { setPosition: (pos: [number, number]) => void }) {
+function LocationSelector({
+  setPosition,
+}: {
+  setPosition: (pos: [number, number]) => void;
+}) {
   useMapEvents({
     click(e: any) {
       setPosition([e.latlng.lat, e.latlng.lng]);
-    }
+    },
   });
   return null;
 }
 
-export default function MapInner({ 
-  position, 
+export default function MapInner({
+  position,
   setPosition,
-  customIcon 
-}: { 
+  customIcon,
+}: {
   position: [number, number];
   setPosition: (pos: [number, number]) => void;
   customIcon: any;
 }) {
   return (
-    <MapContainer 
-      center={position} 
-      zoom={13} 
-      scrollWheelZoom={true} 
+    <MapContainer
+      center={position}
+      zoom={13}
+      scrollWheelZoom={true}
       className="absolute inset-0 w-full h-full z-[1]"
     >
       <TileLayer

@@ -1,4 +1,4 @@
-﻿# Environment Setup Guide
+# Environment Setup Guide
 
 Follow this guide to set up the `femcart-web` frontend.
 

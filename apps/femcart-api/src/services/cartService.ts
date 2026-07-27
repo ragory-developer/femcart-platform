@@ -1,4 +1,4 @@
-﻿import { redis } from '../core/redis/RedisManager';
+import { redis } from '../core/redis/RedisManager';
 import { KeyFactory } from '../core/redis/KeyFactory';
 import prisma, { basePrisma } from '../config/database';
 

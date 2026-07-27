@@ -1,4 +1,4 @@
-# Femcart API — AI Onboarding Guide
+# Femcart API ï¿½ AI Onboarding Guide
 
 > **Last Updated:** 2026-06-11 | **For AI Agents & New Developers**
 
@@ -31,28 +31,28 @@ src/
 +-- server.ts         ? Start here: bootstrap, DB connect, jobs
 +-- app.ts            ? Express app, middleware, route registration
 +-- config/index.ts   ? All env vars exposed as `config` object
-+-- routes/index.ts   ? Master router — all 30 route modules
-¦
++-- routes/index.ts   ? Master router ï¿½ all 30 route modules
+ï¿½
 +-- controllers/      ? HTTP handlers (29 controllers)
-¦   +-- BuilderController.ts    ? MOST COMPLEX: page builder
-¦   +-- OrderController.ts      ? MOST COMPLEX: order lifecycle
-¦   +-- ProductController.ts    ? Product CRUD + search
-¦   +-- AuthController.ts       ? Auth flows
-¦
+ï¿½   +-- BuilderController.ts    ? MOST COMPLEX: page builder
+ï¿½   +-- OrderController.ts      ? MOST COMPLEX: order lifecycle
+ï¿½   +-- ProductController.ts    ? Product CRUD + search
+ï¿½   +-- AuthController.ts       ? Auth flows
+ï¿½
 +-- services/         ? Business logic
-¦   +-- authService.ts          ? JWT, OTP, register, login
-¦   +-- importQueue.ts          ? WooCommerce import task manager
-¦   +-- walletService.ts        ? Global wallet balance
-¦
+ï¿½   +-- authService.ts          ? JWT, OTP, register, login
+ï¿½   +-- importQueue.ts          ? WooCommerce import task manager
+ï¿½   +-- walletService.ts        ? Global wallet balance
+ï¿½
 +-- middleware/
-¦   +-- auth.ts                 ? authenticate, optionalAuthenticate, authorize
-¦   +-- validate.ts             ? Zod validation middleware
-¦   +-- errorHandler.ts         ? Centralized error responses
-¦
+ï¿½   +-- auth.ts                 ? authenticate, optionalAuthenticate, authorize
+ï¿½   +-- validate.ts             ? Zod validation middleware
+ï¿½   +-- errorHandler.ts         ? Centralized error responses
+ï¿½
 +-- validators/
-¦   +-- builder.schema.ts       ? Zod schemas for builder documents
-¦   +-- auth.schema.ts          ? Zod schemas for auth endpoints
-¦
+ï¿½   +-- builder.schema.ts       ? Zod schemas for builder documents
+ï¿½   +-- auth.schema.ts          ? Zod schemas for auth endpoints
+ï¿½
 +-- utils/
     +-- errors.ts               ? ApiError, BadRequestError, etc.
     +-- helpers.ts              ? asyncHandler, parsePagination, slugify, getActivePrice
@@ -76,13 +76,13 @@ docs/                   ? All documentation (maintained by AI)
 - **Phone/OTP:** Mobile-first login (`/api/auth/send-otp` ? `/api/auth/verify-otp`)
 - **Guest accounts:** Auto-created when anonymous users check out
 - **Tokens:** Short-lived `accessToken` (8h) + long-lived `refreshToken` (7d)
-- **Role:** `USER`, `ADMIN`, `SUPER_ADMIN` — embedded in JWT payload
+- **Role:** `USER`, `ADMIN`, `SUPER_ADMIN` ï¿½ embedded in JWT payload
 
 ### 2. Two middleware functions protect routes
 
 ```typescript
 authenticate         // Verify JWT, attach req.user
-authorize('ADMIN')   // Check role — must come AFTER authenticate
+authorize('ADMIN')   // Check role ï¿½ must come AFTER authenticate
 ```
 
 ### 3. All async controllers use asyncHandler
@@ -110,7 +110,7 @@ Pages are JSON (validated by Zod) stored as `BuilderPageVersion.document`. The f
 
 | File | Why |
 |------|-----|
-| `prisma/schema.prisma` | All database models — read this first |
+| `prisma/schema.prisma` | All database models ï¿½ read this first |
 | `src/config/index.ts` | What env vars exist and their defaults |
 | `src/middleware/auth.ts` | How authentication and authorization work |
 | `src/validators/builder.schema.ts` | Builder document structure |
@@ -122,7 +122,7 @@ Pages are JSON (validated by Zod) stored as `BuilderPageVersion.document`. The f
 
 ## How to Find an API Endpoint
 
-1. Start at `src/routes/index.ts` — all route modules are registered here
+1. Start at `src/routes/index.ts` ï¿½ all route modules are registered here
 2. Find the route module (e.g., `orderRoutes.ts` for `/api/orders/*`)
 3. Find the controller method called by that route
 4. Find the controller file (e.g., `OrderController.ts`)
@@ -166,8 +166,8 @@ const setting = await prisma.setting.findUnique({ where: { key: 'some_key' } });
 1. **Stock validation:** Orders check stock unless `ignore_stock_limits` setting is `"true"`
 2. **Stock management:** Stock decrements on order creation, increments on cancellation, increments on return (not damage)
 3. **Coupons:** Validated inside transaction to prevent race conditions on `maxUses`
-4. **OTP:** Maximum 3 send attempts, 5 verify attempts — blocks for 10-15 minutes
-5. **Guest checkout:** Users can order without an account — a guest user is auto-created
+4. **OTP:** Maximum 3 send attempts, 5 verify attempts ï¿½ blocks for 10-15 minutes
+5. **Guest checkout:** Users can order without an account ï¿½ a guest user is auto-created
 6. **SMS cost:** All non-OTP SMS deducts from global wallet; fails if balance is 0
 7. **Builder versions:** Every save creates a new immutable version; publish promotes a draft
 8. **Reward points:** Only credited when order reaches `COMPLETED` status; revoked if status reverts
@@ -232,9 +232,9 @@ npm run db:studio
 
 ## Known Issues / Technical Debt
 
-1. **`setupSuperAdmin` hardcoded key:** The admin access key is hardcoded as `"ADMIN"` — should be moved to an env var
-2. **Debug message in auth middleware:** `authorize()` returns `"DEBUG: Insufficient permissions (AUTH MOD)"` — should be cleaned up
+1. **`setupSuperAdmin` hardcoded key:** The admin access key is hardcoded as `"ADMIN"` ï¿½ should be moved to an env var
+2. **Debug message in auth middleware:** `authorize()` returns `"DEBUG: Insufficient permissions (AUTH MOD)"` ï¿½ should be cleaned up
 3. **`DEBUG` console.log in OrderController:** Several `console.log('[DEBUG]...')` lines in production code should be removed or moved to logger
-4. **No Docker support:** No `Dockerfile` or `docker-compose.yml` — containerization would improve portability
+4. **No Docker support:** No `Dockerfile` or `docker-compose.yml` ï¿½ containerization would improve portability
 5. **Import runs in-process:** WooCommerce import blocks the Node.js event loop; should be moved to a worker thread or separate process for large catalogs
 6. **SSLCommerz partially implemented:** `PaymentController.initiate` initiates payment but webhook handling for callbacks is incomplete

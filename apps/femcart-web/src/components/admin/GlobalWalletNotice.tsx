@@ -13,11 +13,13 @@ export default function GlobalWalletNotice() {
 
   const fetchBalance = async () => {
     try {
-      const token = localStorage.getItem("femcart_access_token") || localStorage.getItem("token");
+      const token =
+        localStorage.getItem("femcart_access_token") ||
+        localStorage.getItem("token");
       if (!token) return;
 
       const res = await fetch(`${API_URL}/api/wallet/balance`, {
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const json = await res.json();
 
@@ -37,7 +39,7 @@ export default function GlobalWalletNotice() {
   return (
     <AnimatePresence>
       {show && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -46,14 +48,14 @@ export default function GlobalWalletNotice() {
         >
           <div className="bg-pink-50 dark:bg-rose-950/80 backdrop-blur-xl border-l-4 border-rose-500 rounded-lg shadow-2xl p-5 border-y border-r border-rose-100 dark:border-rose-900/50">
             <div className="flex items-start justify-between absolute right-3 top-3">
-              <button 
+              <button
                 onClick={() => setShow(false)}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors"
               >
                 <X size={18} />
               </button>
             </div>
-            
+
             <div className="flex gap-4">
               <div className="p-2.5 bg-rose-500/20 text-rose-600 dark:text-rose-400 rounded-xl shrink-0 h-fit">
                 <AlertTriangle size={24} />
@@ -63,8 +65,12 @@ export default function GlobalWalletNotice() {
                   Critical Low Balance
                 </h4>
                 <p className="text-sm font-medium text-rose-600 dark:text-rose-400/80 mb-3">
-                  Your wallet is currently at <span className="font-bold underline">?{balance?.toLocaleString()}</span>. 
-                  If it drops to 0, SMS verification and global notifications will completely halt!
+                  Your wallet is currently at{" "}
+                  <span className="font-bold underline">
+                    ?{balance?.toLocaleString()}
+                  </span>
+                  . If it drops to 0, SMS verification and global notifications
+                  will completely halt!
                 </p>
                 <button
                   onClick={() => {

@@ -1,4 +1,4 @@
-﻿# Commands and Operations Guide
+# Commands and Operations Guide
 
 This document catalogs all actionable commands for the `femcart-web` frontend project.
 
