@@ -1,10 +1,10 @@
-import LoginTabs from "@/components/auth/LoginTabs";
+﻿import LoginTabs from "@/components/auth/LoginTabs";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
 export const metadata = {
-  title: "Sign In � Femcart",
+  title: "Sign In — Femcart",
   description: "Sign in to your Femcart account with your mobile number and password.",
 };
 

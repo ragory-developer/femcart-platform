@@ -111,7 +111,7 @@ export default function AdminLoginPage() {
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
+                  placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                   className="block w-full rounded-xl border border-gray-200 dark:border-gray-700 py-3.5 pl-11 pr-12 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-pink-500 focus:outline-none focus:ring-4 focus:ring-pink-500/10 sm:text-sm bg-gray-50/50 dark:bg-gray-900/50 transition-all duration-300"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

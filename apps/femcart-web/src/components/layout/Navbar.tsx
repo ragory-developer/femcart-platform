@@ -255,8 +255,8 @@ export default function Navbar({
                 <div className="absolute right-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-[160px]">
                   <div className="bg-white border border-gray-100/60 rounded-2xl shadow-xl overflow-hidden py-1">
                     <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-pink-600 bg-pink-50 transition-colors">English (EN)</button>
-                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">Español (ES)</button>
-                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">Français (FR)</button>
+                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">EspaÃ±ol (ES)</button>
+                    <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">FranÃ§ais (FR)</button>
                     <button className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">??????? (AR)</button>
                   </div>
                 </div>

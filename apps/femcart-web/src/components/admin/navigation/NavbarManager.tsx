@@ -314,7 +314,7 @@ export default function NavbarManager() {
     let options: { id: string, title: string }[] = [];
     for (const item of itemsList) {
       if (item.id === excludeId) continue;
-      options.push({ id: item.id, title: `${"  ".repeat(level)} ${level > 0 ? "+ " : ""}${item.title}` });
+      options.push({ id: item.id, title: `${"Â Â ".repeat(level)} ${level > 0 ? "+ " : ""}${item.title}` });
       if (item.children) {
         options = [...options, ...getFlatOptions(item.children, level + 1, excludeId)];
       }

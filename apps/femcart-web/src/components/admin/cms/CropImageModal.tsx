@@ -71,7 +71,7 @@ export function CropImageModal({ imageUrl, onClose, onSave }: { imageUrl: string
 
       const token = typeof window !== 'undefined' ? localStorage.getItem('token') || sessionStorage.getItem('token') : null;
 
-      const res = await fetch(`${API_URL}/upload`, {
+      const res = await fetch(`${API_URL}/api/media/upload`, {
         method: "POST",
         headers: {
           "Authorization": token ? `Bearer ${token}` : "",
@@ -82,9 +82,9 @@ export function CropImageModal({ imageUrl, onClose, onSave }: { imageUrl: string
       if (!res.ok) throw new Error("Upload failed");
       
       const data = await res.json();
-      if (data?.data?.url) {
+      if (data?.data?.urlFull) {
         showToast.success("Image cropped and uploaded successfully");
-        onSave(data.data.url);
+        onSave(data.data.urlFull);
       } else {
         throw new Error("Invalid response format");
       }

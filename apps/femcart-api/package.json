@@ -11,6 +11,7 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:seed:admin": "tsx scripts/seed-admin.ts",
+    "db:seed:csv": "tsx scripts/seed-csv.ts",
     "db:studio": "prisma studio",
     "test": "vitest run"
   },

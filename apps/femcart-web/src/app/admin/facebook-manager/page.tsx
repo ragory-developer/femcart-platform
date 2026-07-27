@@ -520,7 +520,7 @@ export default function FacebookManagerPage() {
                    <div className="w-10 h-10 bg-gray-200 dark:bg-gray-800 rounded-full flex-shrink-0"></div>
                    <div>
                      <div className="font-bold text-sm text-gray-900 dark:text-white">Your E-commerce Store</div>
-                     <div className="text-xs text-gray-500">Sponsored • ??</div>
+                     <div className="text-xs text-gray-500">Sponsored â€¢ ??</div>
                    </div>
                 </div>
                 <div className="px-3 pb-3 text-sm text-gray-800 dark:text-gray-200">

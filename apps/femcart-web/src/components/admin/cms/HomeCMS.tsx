@@ -92,443 +92,285 @@ const filterStyleSchema: FieldSchema = {
 
 const AVAILABLE_COMPONENTS: ComponentDef[] = [
   { 
-    type: "HeroBanner", 
-    label: "Hero Banner Slider", 
+    type: "Hero", 
+    label: "Hero Slider", 
     defaultProps: { 
-      categorySliderStyle: "step",
       slides: [
-        { badgeText: "New Collection", title: "Discover Natural Beauty", description: "Premium organic products for your daily routine", ctaText: "Shop Now", ctaHref: "/products", imageSrc: "/assets/banner.jpg" }
+        { 
+          id: 1,
+          title: "Comfortable Bras & Panty", 
+          subtitle: "For Women In Bangladesh", 
+          desc: "Soft, seamless & durable. Feel your very best every single day effortlessly.",
+          img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1440&auto=format&fit=crop"
+        },
+        {
+          id: 2,
+          title: "The Autumn Edit",
+          subtitle: "New Arrivals Are Here",
+          desc: "Warmer tones, softer fabrics, and the comfortable support you need as the seasons change.",
+          img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1440&auto=format&fit=crop"
+        }
       ]
     },
     schema: [
-      {
-        key: "categorySliderStyle", label: "Category Slider Animation", type: "select",
-        options: [{ label: "Step by Step (Snappy)", value: "step" }, { label: "Continuous (Linear)", value: "continuous" }]
-      },
       {
         key: "slides", label: "Slider Images & Content", type: "array",
-        description: "Recommended: 1920x800px (or similar 2.4:1 aspect ratio) WebP/JPEG format",
+        description: "Recommended: 1440x700px (or similar ratio) WebP/JPEG format",
         arraySchema: [
-          { key: "imageSrc", label: "Slide Image", type: "image", description: "Recommended: 1920x800px (or similar 2.4:1 ratio) WebP/JPEG format" },
-          { key: "badgeText", label: "Badge Text", type: "text" },
+          { key: "img", label: "Slide Image", type: "image" },
           { key: "title", label: "Title", type: "text" },
-          { key: "description", label: "Description", type: "textarea" },
-          { key: "ctaText", label: "Button Text", type: "text" },
-          { key: "ctaHref", label: "Button Link", type: "text" }
+          { key: "subtitle", label: "Subtitle", type: "text" },
+          { key: "desc", label: "Description", type: "textarea" }
         ]
       }
     ]
   },
   { 
-    type: "TrustBar", 
-    label: "Trust Bar", 
-    defaultProps: { 
+    type: "TrustStrip", 
+    label: "Trust Strip", 
+    defaultProps: {
       items: [
-        { text: "Hand-Slaughtered Zabiha Meat", href: "/categories/halal-meat-market" },
-        { text: "Fresh Deliveries Every Day", href: "/" },
-        { text: "500+ Halal Certified Products", href: "/products" }
-      ] 
-    },
-    schema: [
-      {
-        key: "items", label: "Trust Items", type: "array",
-        description: "Recommended: Maximum 3-4 items to prevent wrapping issues on smaller screens.",
-        arraySchema: [
-          { key: "text", label: "Text", type: "text" },
-          { key: "href", label: "Link URL (optional)", type: "text" }
-        ]
-      }
-    ]
-  },
-  { 
-    type: "PromoBadgeGrid", 
-    label: "Promo Badges", 
-    defaultProps: {
-      badges: [
-        { title: "60 Mins Delivery", subtitle: "Free shipping over 1500Tk", iconName: "Package", href: "/products" },
-        { title: "Authorized Products", subtitle: "within 30 days for an exchange", iconName: "ShieldCheck", href: "/products" },
-        { title: "Customer Service Support", subtitle: "8am to 10pm", iconName: "Headphones", href: "/contact" },
-        { title: "Flexible Payments", subtitle: "Pay with multiple credit cards", iconName: "Wallet", href: "/checkout" }
+        { icon: "Package", text: "Cash on Delivery" },
+        { icon: "ArrowLeftRight", text: "Instant Returns" },
+        { icon: "Truck", text: "Delivery within 48hrs" },
+        { icon: "CheckCircle", text: "Best Price Deal" }
       ]
     }, 
     schema: [
       {
-        key: "badges", label: "Promo Badges", type: "array",
+        key: "items", label: "Trust Strip Items", type: "array",
         arraySchema: [
-          { key: "title", label: "Title", type: "text" },
-          { key: "subtitle", label: "Subtitle", type: "text" },
-          { key: "iconName", label: "Icon Name (Lucide)", type: "text", description: "Must be a valid Lucide React icon name like 'Package' or 'ShieldCheck'" },
-          { key: "href", label: "Link URL", type: "text" }
+          { key: "icon", label: "Icon Name (from Lucide)", type: "text", placeholder: "e.g. Package, Truck" },
+          { key: "text", label: "Text", type: "text" }
         ]
       }
     ] 
   },
   { 
-    type: "OfferMarquee", 
-    label: "Offer Marquee", 
-    defaultProps: { 
-      offers: [
-        { text: "Premium Wagyu", subtext: "50% Off", iconName: "Sparkles", href: "/categories/fresh-halal-beef" },
-        { text: "Fresh Produce", subtext: "Buy 1 Get 1", iconName: "Tag", href: "/categories/fresh-produce" }
-      ]
-    },
-    schema: [
-      {
-        key: "offers", label: "Offers", type: "array",
-        arraySchema: [
-          { key: "text", label: "Offer Text", type: "text" },
-          { key: "subtext", label: "Subtext", type: "text" },
-          { key: "iconName", label: "Icon Name (Lucide)", type: "text" },
-          { key: "href", label: "Link URL (optional)", type: "text" }
-        ]
-      }
-    ] 
-  },
-  { 
-    type: "ProductShowcase", label: "Product Showcase", 
-    defaultProps: { title: "Products", subtitle: "", productSource: "ALL", categoryFilter: "", sortBy: "LATEST", stockStatus: "ANY", showCategoryFilter: true, filterStyle: "pills", limit: 12 },
-    schema: [titleSchema, { key: "subtitle", label: "Subtitle", type: "text" }, productSourceSchema, categoryFilterSchema, sortBySchema, stockStatusSchema, limitSchema, { key: "showCategoryFilter", label: "Show Category Filter Tabs", type: "boolean" }, filterStyleSchema] 
-  },
-  { 
-    type: "TwoImageGridBanner", 
-    label: "Two Image Banner", 
+    type: "Categories", 
+    label: "Categories Carousel", 
     defaultProps: {
-      banners: [
-        { title: "Farm Fresh <br/> <span class='text-[var(--color-lime)] italic font-light'>Produce</span>", subtitle: "Daily Arrivals", ctaText: "Shop Fresh", ctaHref: "/products", imageSrc: "/assets/banner.jpg" },
-        { title: "Premium <br/> <span class='text-[var(--color-brand-red)] italic font-light'>Meat Cuts</span>", subtitle: "100% Halal Certified", ctaText: "Shop Meat", ctaHref: "/products", imageSrc: "/assets/banner.jpg" }
-      ]
-    }, 
+      title: "Shop by Category"
+    },
     schema: [
-      { key: "bgImageSrc", label: "Section Background Image (Optional)", type: "image" },
-      {
-        key: "banners", label: "Left & Right Banners", type: "array",
-        description: "Upload exactly 2 banners for this section. The first is Left, the second is Right.",
-        itemLabels: ["Left Banner", "Right Banner"],
-        arraySchema: [
-          { key: "imageSrc", label: "Banner Image", type: "image", description: "Recommended: 800x600px (4:3 aspect ratio) WebP/JPEG" },
-          { key: "title", label: "Title (HTML allowed)", type: "text" },
-          { key: "subtitle", label: "Subtitle", type: "text" },
-          { key: "ctaText", label: "Button Text", type: "text" },
-          { key: "ctaHref", label: "Button Link URL", type: "text" }
-        ]
-      }
+      { key: "title", label: "Section Title", type: "text" }
     ] 
   },
   { 
-    type: "HotDealsSection", label: "Hot Deals", 
+    type: "FeaturedProducts", 
+    label: "Featured Products Grid", 
     defaultProps: { 
-      title: "This month best products",
-      subtitle: "Grab them before they're gone!",
-      productSource: "ALL", 
-      categoryFilter: "", sortBy: "LATEST", stockStatus: "ANY",
-      limit: 6,
-      leftImageSrc: "/images/banners/hot-deal-left.png",
-      rightImageSrc: "/images/banners/hot-deal-right.png",
-      leftImageHref: "/products",
-      rightImageHref: "/products"
+      productSource: "FEATURED", 
+      limit: 10,
+      bannerBadge: "Curated Collection",
+      bannerTitle: "The Comfort Edit",
+      bannerDesc: "Discover our most loved pieces, designed to provide unmatched softness and support for your everyday routine.",
+      bannerButtonText: "Shop The Edit",
+      bannerImage: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop"
     },
-    schema: [
-      titleSchema,
-      { key: "subtitle", label: "Subtitle", type: "text" },
-      {
-        key: "leftBanners", label: "?? Left Side Banners (Slider)", type: "array",
-        description: "Upload up to 10 banners that will slide on the LEFT side of the Hot Deals section.",
-        itemLabels: ["Main Left Banner", "Left Banner 2", "Left Banner 3"],
-        arraySchema: [
-          { key: "imageSrc", label: "Left Banner Image", type: "image", description: "Recommended: 400x800px Portrait WebP/JPEG" },
-          { key: "href", label: "Link URL", type: "text" }
-        ]
-      },
-      {
-        key: "rightBanners", label: "?? Right Side Banners (Slider)", type: "array",
-        description: "Upload up to 10 banners that will slide on the RIGHT side of the Hot Deals section.",
-        itemLabels: ["Main Right Banner", "Right Banner 2", "Right Banner 3"],
-        arraySchema: [
-          { key: "imageSrc", label: "Right Banner Image", type: "image", description: "Recommended: 400x800px Portrait WebP/JPEG" },
-          { key: "href", label: "Link URL", type: "text" }
-        ]
-      },
+    schema: [ 
+      { key: "bannerBadge", label: "Banner Badge Text", type: "text" },
+      { key: "bannerTitle", label: "Banner Title", type: "text" },
+      { key: "bannerDesc", label: "Banner Description", type: "textarea" },
+      { key: "bannerButtonText", label: "Banner Button Text", type: "text" },
+      { key: "bannerImage", label: "Banner Image", type: "image" },
       productSourceSchema, 
-      categoryFilterSchema, sortBySchema, stockStatusSchema,
-      limitSchema
+      limitSchema 
     ] 
   },
   { 
-    type: "BestBuyBanner", label: "Best Buy Banner", 
-    defaultProps: { 
-      title: "WEEKEND DEALS!!!", 
-      imageSrc: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400",
-      productSource: "WEEKLY_SALE", 
-      categoryFilter: "", sortBy: "LATEST", stockStatus: "ANY",
-      limit: 10 
-    },
-    schema: [
-      titleSchema, 
-      { key: "imageSrc", label: "Static Side Image (Fallback)", type: "image" },
-      {
-        key: "banners", label: "Side Graphic Banners (Slider)", type: "array",
-        arraySchema: [
-          { key: "imageSrc", label: "Banner Image", type: "image", description: "Recommended: High Resolution Square/Portrait WebP" },
-          { key: "href", label: "Link URL", type: "text" }
-        ]
-      },
-      productSourceSchema, 
-      categoryFilterSchema, sortBySchema, stockStatusSchema,
-      limitSchema
-    ] 
-  },
-  { 
-    type: "NewArrivalsSection", label: "New Arrivals", 
-    defaultProps: { title: "New Arrivals", subtitle: "Latest products added to our store", productSource: "NEW_ARRIVALS", categoryFilter: "", sortBy: "LATEST", stockStatus: "ANY", limit: 10 },
-    schema: [titleSchema, { key: "subtitle", label: "Subtitle", type: "text" }, productSourceSchema, categoryFilterSchema, sortBySchema, stockStatusSchema, limitSchema] 
-  },
-  { 
-    type: "BentoBannerGrid", 
-    label: "Bento Banners", 
+    type: "SizeBanner", 
+    label: "Size Banner", 
     defaultProps: {
-      title: "Today's Best Deals",
-      subtitle: "Curated offers handpicked for you",
-      largeLeftImage: "/images/banners/bento-meat.png",
-      largeLeftHref: "/products?category=meat",
-      topRightImage1: "/images/banners/bento-delivery.png",
-      topRightHref1: "/products",
-      topRightImage2: "/images/banners/bento-specials.png",
-      topRightHref2: "/weekly-specials",
-      bottomRightImage: "/images/banners/bento-bundle.png",
-      bottomRightHref: "/products?offer=bundle"
+      img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
+      alt: "Woman checking size",
+      title: "Not Sure About Your Size?",
+      description: "Take our quick 2-minute fit quiz. Answer a few questions and let us find your perfect fit. We promise it's worth it.",
+      buttonText: "Find My Size"
     }, 
     schema: [
-      titleSchema,
-      { key: "subtitle", label: "Subtitle", type: "text" },
-      { key: "largeLeftImage", label: "Large Left Banner (2x2)", type: "image", description: "Recommended: 800x800px (1:1 ratio)" },
-      { key: "largeLeftHref", label: "Large Left Link URL", type: "text" },
-      { key: "topRightImage1", label: "Top Right Banner 1 (1x1)", type: "image", description: "Recommended: 400x400px Square" },
-      { key: "topRightHref1", label: "Top Right Link URL 1", type: "text" },
-      { key: "topRightImage2", label: "Top Right Banner 2 (1x1)", type: "image", description: "Recommended: 400x400px Square" },
-      { key: "topRightHref2", label: "Top Right Link URL 2", type: "text" },
-      { key: "bottomRightImage", label: "Bottom Right Banner (2x1)", type: "image", description: "Takes 2 columns. Recommended: 800x400px (2:1 ratio)" },
-      { key: "bottomRightHref", label: "Bottom Right Link URL", type: "text" }
-    ] 
-  },
-  { 
-    type: "ProductTagShowcase", label: "Tag Showcase", 
-    defaultProps: { title: "Shop by Need", subtitle: "Find exactly what you are looking for", productSource: "ALL", categoryFilter: "", sortBy: "LATEST", stockStatus: "ANY", limit: 12 }, 
-    schema: [titleSchema, { key: "subtitle", label: "Subtitle", type: "text" }, productSourceSchema, categoryFilterSchema, sortBySchema, stockStatusSchema, limitSchema] 
-  },
-  { 
-    type: "ThreeProductBanner", 
-    label: "Three Product Banner", 
-    defaultProps: {
-      title: "Exclusive Offers",
-      subtitle: "Handpicked promotions just for you",
-      bgImageSrc: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1920&q=80",
-      cards: [
-        { title: "Premium Halal Meat", subtitle: "100% Zabiha Halal", ctaText: "Shop Meat", ctaHref: "/categories/halal-meat-market", imageSrc: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80", bgColor: "bg-pink-900", textColor: "text-white" },
-        { title: "Farm Fresh Produce", subtitle: "Daily Arrivals", ctaText: "Shop Fresh", ctaHref: "/categories/fresh-produce", imageSrc: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80", bgColor: "bg-emerald-900", textColor: "text-white" },
-        { title: "Authentic Spices", subtitle: "Flavors of Home", ctaText: "Explore", ctaHref: "/categories/south-asian-grocery", imageSrc: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80", bgColor: "bg-amber-900", textColor: "text-white" }
-      ]
-    }, 
-    schema: [
-      titleSchema,
-      { key: "subtitle", label: "Subtitle", type: "text" },
-      { key: "bgImageSrc", label: "Section Background Image", type: "image", description: "Recommended: 1920x800px (Wide)" },
-      {
-        key: "cards", label: "Promo Cards", type: "array",
-        description: "Recommended: Transparent PNGs work best for product images.",
-        arraySchema: [
-          { key: "title", label: "Title", type: "text" },
-          { key: "subtitle", label: "Subtitle", type: "text" },
-          { key: "ctaText", label: "Button Text", type: "text" },
-          { key: "ctaHref", label: "Button Link URL", type: "text" },
-          { key: "imageSrc", label: "Image", type: "image" },
-          { key: "bgColor", label: "Background Color Class", type: "text" },
-          { key: "textColor", label: "Text Color Class", type: "text" }
-        ]
-      }
-    ] 
-  },
-  { 
-    type: "WideOverflowBannerSection", 
-    label: "Wide Banner", 
-    defaultProps: { 
-      title: "Fresh Vegetables", 
-      subtitle: "Discover the crispest and most vibrant produce, picked fresh daily.",
-      imageSrc: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1600",
-      productSource: "ALL", 
-      categoryFilter: "", sortBy: "LATEST", stockStatus: "ANY",
-      limit: 12 
-    }, 
-    schema: [
-      titleSchema, 
-      { key: "subtitle", label: "Subtitle", type: "text" },
-      { key: "imageSrc", label: "Static Background Image (Fallback)", type: "image" },
-      {
-        key: "banners", label: "Banners (Slider)", type: "array",
-        description: "Recommended: Wide landscape format (e.g., 1600x600px)",
-        arraySchema: [
-          { key: "imageSrc", label: "Banner Image", type: "image" },
-          { key: "title", label: "Title", type: "text" },
-          { key: "subtitle", label: "Subtitle", type: "text" },
-          { key: "ctaText", label: "Button Text", type: "text" },
-          { key: "ctaHref", label: "Button Link", type: "text" }
-        ]
-      },
-      productSourceSchema, 
-      categoryFilterSchema, sortBySchema, stockStatusSchema,
-      limitSchema
-    ] 
-  },
-  { 
-    type: "BrandShowcase", 
-    label: "Brand Showcase", 
-    defaultProps: { title: "Featured Brands", subtitle: "Shop by your favorite brands", limit: 12, animationStyle: "step" }, 
-    schema: [
-      titleSchema, 
-      { key: "subtitle", label: "Subtitle", type: "text" }, 
-      limitSchema,
-      {
-        key: "animationStyle", label: "Slider Animation Style", type: "select",
-        options: [{ label: "Step by Step (Snappy)", value: "step" }, { label: "Continuous (Linear)", value: "continuous" }]
-      }
-    ] 
-  },
-  { 
-    type: "TestimonialSection", 
-    label: "Testimonials", 
-    defaultProps: { title: "Our Most Trusted & Satisfied Customers", subtitle: "Honest reviews of our products" }, 
-    schema: [titleSchema, { key: "subtitle", label: "Subtitle", type: "text" }] 
-  },
-  {
-    type: "RoutineBanner",
-    label: "Routine Banner",
-    defaultProps: {
-      title: "Simplify Your Content Routine",
-      subtitle: "Curated just for you",
-      description: "Discover easy-to-follow skincare routines with products selected by experts to give you glowing, healthy skin every day.",
-      ctaText: "Explore Routines",
-      ctaHref: "/products",
-      imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80",
-      imageAlign: "left",
-      themeVariant: "default"
-    },
-    schema: [
-      titleSchema,
-      { key: "subtitle", label: "Subtitle", type: "text" },
+      { key: "title", label: "Title", type: "text" },
       { key: "description", label: "Description", type: "textarea" },
-      { key: "ctaText", label: "Button Text", type: "text" },
-      { key: "ctaHref", label: "Button Link", type: "text" },
-      { key: "imageSrc", label: "Static Background Image (Fallback)", type: "image" },
-      { 
-        key: "imageAlign", label: "Image Alignment", type: "select",
-        options: [{ label: "Left", value: "left" }, { label: "Right", value: "right" }]
-      },
-      {
-        key: "themeVariant", label: "Theme Variant", type: "select",
-        options: [
-          { label: "Default", value: "default" },
-          { label: "Eid", value: "eid" },
-          { label: "Puja", value: "puja" },
-          { label: "Ramadan", value: "ramadan" },
-          { label: "Boishakh", value: "boishakh" },
-          { label: "Black Friday", value: "blackfriday" },
-          { label: "Christmas", value: "christmas" }
-        ]
-      },
-      {
-        key: "banners", label: "Routines (Slider)", type: "array",
-        description: "Add multiple routines here to create a slider.",
-        arraySchema: [
-          { key: "title", label: "Title", type: "text" },
-          { key: "subtitle", label: "Subtitle", type: "text" },
-          { key: "description", label: "Description", type: "textarea" },
-          { key: "ctaText", label: "Button Text", type: "text" },
-          { key: "ctaHref", label: "Button Link", type: "text" },
-          { key: "imageSrc", label: "Image", type: "image" },
-          { 
-            key: "imageAlign", label: "Image Alignment", type: "select",
-            options: [{ label: "Left", value: "left" }, { label: "Right", value: "right" }]
-          },
-          {
-            key: "themeVariant", label: "Theme Variant", type: "select",
-            options: [
-              { label: "Default", value: "default" },
-              { label: "Eid", value: "eid" },
-              { label: "Puja", value: "puja" },
-              { label: "Ramadan", value: "ramadan" },
-              { label: "Boishakh", value: "boishakh" },
-              { label: "Black Friday", value: "blackfriday" },
-              { label: "Christmas", value: "christmas" }
-            ]
-          }
-        ]
-      }
-    ]
+      { key: "buttonText", label: "Button Text", type: "text" },
+      { key: "img", label: "Banner Image", type: "image" },
+      { key: "alt", label: "Image Alt Text", type: "text" }
+    ] 
   },
-  {
-    type: "ConsultationBanner",
-    label: "Consultation Banner",
+  { 
+    type: "BestSellers", 
+    label: "Best Sellers Slider", 
+    defaultProps: { productSource: "PROMOTION", limit: 10 },
+    schema: [ productSourceSchema, limitSchema ] 
+  },
+  { 
+    type: "NewArrivals", 
+    label: "New Arrivals Slider", 
+    defaultProps: { productSource: "ALL", limit: 10, sortBy: "LATEST" },
+    schema: [ productSourceSchema, sortBySchema, limitSchema ] 
+  },
+  { 
+    type: "LimitedOffers", 
+    label: "Limited Offers Banner", 
     defaultProps: {
-      title: "Doctor's Skincare Consultation",
-      subtitle: "Get personalized skincare advice from certified dermatologists",
-      badgeText: "Expert Advice",
-      ctaText: "Book Now",
-      ctaHref: "/consultation",
-      imageSrc: "https://images.unsplash.com/photo-1559599101-f09722fb4948?auto=format&fit=crop&w=800&q=80",
-      imageAlign: "right",
-      themeVariant: "default"
-    },
+      title: "Flash Sale: 40% Off Basics",
+      buttonText: "Shop The Sale",
+      buttonLink: "/category/sale"
+    }, 
     schema: [
-      titleSchema,
-      { key: "subtitle", label: "Subtitle", type: "text" },
-      { key: "badgeText", label: "Badge Text", type: "text" },
-      { key: "ctaText", label: "Button Text", type: "text" },
-      { key: "ctaHref", label: "Button Link", type: "text" },
-      { key: "imageSrc", label: "Static Image (Fallback)", type: "image" },
-      { 
-        key: "imageAlign", label: "Image Alignment", type: "select",
-        options: [{ label: "Left", value: "left" }, { label: "Right", value: "right" }]
-      },
+      { key: "title", label: "Title", type: "text" },
+      { key: "buttonText", label: "Button Text", type: "text" },
+      { key: "buttonLink", label: "Button Link", type: "text" }
+    ] 
+  },
+  { 
+    type: "Reviews", 
+    label: "Customer Reviews", 
+    defaultProps: {
+      bannerImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1440&auto=format&fit=crop",
+      bannerTitle: "Over 10,000 Happy Women",
+      bannerDesc: "Join our community and experience the comfort everyone is talking about.",
+      title: "Real Conversations",
+      subtitle: "What our customers are saying across the country.",
+      chats: [
+        { name: "Nadia I.", status: "Active now", initial: "N", msg1: "Apu, the bra I ordered is so comfortable! Thank you so much for suggesting the size.", msg2: "You're very welcome Nadia! We're glad it fits you perfectly ❤️", msg3: "I will definitely order again next week. The quality is amazing for this price." },
+        { name: "Tasnim R.", status: "Active 2h ago", initial: "T", msg1: "Just received my parcel! The packaging was very discreet, loved that.", msg2: "We always ensure your privacy! How is the product quality?", msg3: "The fabric feels so premium. Softest sports bra I've ever used 😍" }
+      ]
+    }, 
+    schema: [
+      { key: "bannerImage", label: "Banner Image", type: "image" },
+      { key: "bannerTitle", label: "Banner Title", type: "text" },
+      { key: "bannerDesc", label: "Banner Description", type: "textarea" },
+      { key: "title", label: "Section Title", type: "text" },
+      { key: "subtitle", label: "Section Subtitle", type: "text" },
       {
-        key: "themeVariant", label: "Theme Variant", type: "select",
-        options: [
-          { label: "Default", value: "default" },
-          { label: "Eid", value: "eid" },
-          { label: "Puja", value: "puja" },
-          { label: "Ramadan", value: "ramadan" },
-          { label: "Boishakh", value: "boishakh" },
-          { label: "Black Friday", value: "blackfriday" },
-          { label: "Christmas", value: "christmas" }
-        ]
-      },
-      {
-        key: "banners", label: "Consultations (Slider)", type: "array",
-        description: "Add multiple consultations here to create a slider.",
+        key: "chats", label: "Chat Mockups (2 required)", type: "array",
         arraySchema: [
-          { key: "title", label: "Title", type: "text" },
-          { key: "subtitle", label: "Subtitle", type: "text" },
-          { key: "badgeText", label: "Badge Text", type: "text" },
-          { key: "ctaText", label: "Button Text", type: "text" },
-          { key: "ctaHref", label: "Button Link", type: "text" },
-          { key: "imageSrc", label: "Image", type: "image" },
-          { 
-            key: "imageAlign", label: "Image Alignment", type: "select",
-            options: [{ label: "Left", value: "left" }, { label: "Right", value: "right" }]
-          },
-          {
-            key: "themeVariant", label: "Theme Variant", type: "select",
-            options: [
-              { label: "Default", value: "default" },
-              { label: "Eid", value: "eid" },
-              { label: "Puja", value: "puja" },
-              { label: "Ramadan", value: "ramadan" },
-              { label: "Boishakh", value: "boishakh" },
-              { label: "Black Friday", value: "blackfriday" },
-              { label: "Christmas", value: "christmas" }
-            ]
-          }
+          { key: "name", label: "Customer Name", type: "text" },
+          { key: "initial", label: "Avatar Initial", type: "text", placeholder: "e.g. N" },
+          { key: "status", label: "Status Text", type: "text", placeholder: "e.g. Active now" },
+          { key: "msg1", label: "Customer Message 1", type: "textarea" },
+          { key: "msg2", label: "Admin Reply", type: "textarea" },
+          { key: "msg3", label: "Customer Message 2", type: "textarea" }
         ]
       }
-    ]
+    ] 
+  },
+  { 
+    type: "WhyShop", 
+    label: "Why Shop With Us", 
+    defaultProps: {
+      title: "Why Femecart?",
+      features: [
+        { icon: "Shield", title: "Premium Quality", desc: "Tested for perfect fit and durability." },
+        { icon: "Package", title: "Discreet Packaging", desc: "Your privacy is fully protected with us." },
+        { icon: "Truck", title: "Fast Delivery", desc: "Get your products quickly and securely." },
+        { icon: "Headset", title: "Customer Support", desc: "We are here to help you anytime." }
+      ]
+    }, 
+    schema: [
+      { key: "title", label: "Section Title", type: "text" },
+      {
+        key: "features", label: "Features", type: "array",
+        arraySchema: [
+          { key: "icon", label: "Icon Name (from Lucide)", type: "text", placeholder: "e.g. Shield" },
+          { key: "title", label: "Title", type: "text" },
+          { key: "desc", label: "Description", type: "text" }
+        ]
+      }
+    ] 
+  },
+  { 
+    type: "Editorial", 
+    label: "Editorial Block", 
+    defaultProps: {
+      img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1440&auto=format&fit=crop",
+      badgeText: "Editorial",
+      title: "The Softness You Deserve",
+      description: "Experience our new Cloud Cotton collection. Responsibly sourced, expertly crafted, and impossibly soft against your skin.",
+      buttonText: "Explore the Edit",
+      buttonLink: "/category/all"
+    }, 
+    schema: [
+      { key: "img", label: "Background Image", type: "image" },
+      { key: "badgeText", label: "Badge Text", type: "text" },
+      { key: "title", label: "Title", type: "text" },
+      { key: "description", label: "Description", type: "textarea" },
+      { key: "buttonText", label: "Button Text", type: "text" },
+      { key: "buttonLink", label: "Button Link", type: "text" }
+    ] 
+  },
+  { 
+    type: "PreOrder", 
+    label: "Pre-Order Banner", 
+    defaultProps: {
+      title: "Pre-order Collection",
+      description: "Reserve our upcoming innovations before they sell out. Ships October 15th.",
+      productSource: "ALL",
+      limit: 10
+    }, 
+    schema: [
+      { key: "title", label: "Title", type: "text" },
+      { key: "description", label: "Description", type: "textarea" },
+      productSourceSchema,
+      limitSchema
+    ] 
+  },
+  { 
+    type: "Social", 
+    label: "Social Media Feed", 
+    defaultProps: {
+      title: "Join the Community",
+      instagramHandle: "@femcart.bd",
+      images: [
+        { img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=400&auto=format&fit=crop", likes: "1.2k", link: "https://instagram.com/p/123" },
+        { img: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=400&auto=format&fit=crop", likes: "845", link: "" },
+        { img: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=400&auto=format&fit=crop", likes: "2.1k", link: "" },
+        { img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=400&auto=format&fit=crop", likes: "956", link: "" },
+        { img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop", likes: "3.4k", link: "" }
+      ]
+    }, 
+    schema: [
+      { key: "title", label: "Title", type: "text" },
+      { key: "instagramHandle", label: "Instagram Handle", type: "text" },
+      {
+        key: "images", label: "Images", type: "array",
+        arraySchema: [
+          { key: "img", label: "Image", type: "image" },
+          { key: "likes", label: "Likes (e.g. 1.2k) - Optional", type: "text" },
+          { key: "link", label: "Custom Link - Optional", type: "text" }
+        ]
+      }
+    ] 
+  },
+  { 
+    type: "Newsletter", 
+    label: "Newsletter Signup", 
+    defaultProps: {
+      title: "Get 10% Off Your First Order",
+      description: "Join the community for early access to sales, new arrivals, and exclusive offers.",
+      buttonText: "Subscribe"
+    }, 
+    schema: [
+      { key: "title", label: "Title", type: "text" },
+      { key: "description", label: "Description", type: "text" },
+      { key: "buttonText", label: "Button Text", type: "text" }
+    ] 
+  },
+  { 
+    type: "SeoBlock", 
+    label: "SEO Content Block", 
+    defaultProps: {
+      title: "Bra & Panty Price in Bangladesh",
+      description: "Femecart is your trusted online destination for premium intimate apparel in Bangladesh. We understand the struggle of finding comfortable, well-fitting bras and panties that don't compromise on quality or price. Our curated collection offers everything from everyday seamless essentials to supportive activewear and elegant lace sets. With nationwide cash on delivery, 48-hour dispatch, and a hassle-free 7-day return policy, we make shopping for innerwear private, secure, and stress-free. Whether you're looking for the perfect T-shirt bra or comfortable maternity wear, Femecart ensures you feel confident from the inside out.",
+      buttonText: "Read More & Articles",
+      buttonLink: "/blog"
+    }, 
+    schema: [
+      { key: "title", label: "Title", type: "text" },
+      { key: "description", label: "Description", type: "textarea" },
+      { key: "buttonText", label: "Button Text", type: "text" },
+      { key: "buttonLink", label: "Button Link", type: "text" }
+    ] 
   }
 ];
 
@@ -1120,6 +962,7 @@ export default function HomeCMS() {
             setLayout(DEFAULT_LAYOUT);
           }
         } catch(e) {
+          console.error("Failed to parse HOME_PAGE_LAYOUT in CMS", e);
           setLayout(DEFAULT_LAYOUT);
         }
       } else {

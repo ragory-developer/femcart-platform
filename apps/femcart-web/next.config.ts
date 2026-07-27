@@ -1,4 +1,4 @@
-﻿import type { NextConfig } from "next";
+import type { NextConfig } from "next";
 
 // Parse the backend URL from env to dynamically set allowed image hostnames
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -96,6 +96,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "picsum.photos",
+      },
+      {
+        protocol: "https",
+        hostname: "femecart.com",
+        pathname: "/**",
       },
     ],
   },

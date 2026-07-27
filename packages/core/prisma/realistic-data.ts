@@ -2,7 +2,16 @@ export const categories = [
   // Intimate Apparel
   { name: 'Intimate Apparel', slug: 'intimate-apparel' },
   { name: 'Bras', slug: 'bras', parent: 'intimate-apparel' },
+  { name: 'Cotton Bra', slug: 'cotton-bra', parent: 'bras', image: 'https://femecart.com/cdn/shop/collections/Seamless_Lift-Up_Bra_for_Women_7.jpg?v=1782035805&width=400' },
+  { name: 'Non-Padded Bra', slug: 'non-padded-bra', parent: 'bras', image: 'https://femecart.com/cdn/shop/collections/ArielPremiumWingLaceBra_3.jpg?v=1782035126&width=400' },
+  { name: 'Nursing Bra', slug: 'nursing-bra', parent: 'bras', image: 'https://femecart.com/cdn/shop/collections/SoftCottonFrontOpenNursingBra-femecart_2.jpg?v=1782026823&width=400' },
+  { name: 'Push Up Bra', slug: 'push-up-bra', parent: 'bras', image: 'https://femecart.com/cdn/shop/collections/Ultra-ThinAdjustableWirelessBra_1.jpg?v=1782025689&width=400' },
+  { name: 'Seamless Bra', slug: 'seamless-bra', parent: 'bras', image: 'https://femecart.com/cdn/shop/collections/SeamlessPushUpBraforWomen-femecart_1.jpg?v=1782035331&width=400' },
+  { name: 'Sports Bra', slug: 'sports-bra-cat', parent: 'bras', image: 'https://femecart.com/cdn/shop/collections/Adjustable_Front_Zip_Sports_Bra_6.jpg?v=1782034999&width=400' },
   { name: 'Panties', slug: 'panties', parent: 'intimate-apparel' },
+  { name: 'Cotton Panty', slug: 'cotton-panty', parent: 'panties', image: 'https://femecart.com/cdn/shop/collections/ImportedPremiumCottonBreathableWomen_sPanty_1.jpg?v=1782035640&width=400' },
+  { name: 'Period Panty', slug: 'period-panty', parent: 'panties', image: 'https://femecart.com/cdn/shop/collections/Leakproof_Period_Panties.jpg?v=1782025713&width=400' },
+  { name: 'Shaping Panty', slug: 'shaping-panty', parent: 'panties', image: 'https://femecart.com/cdn/shop/collections/MUNAFIE_Seamless_Safety_Pants_Underwear_for_women-femecart.jpg?v=1782027637&width=400' },
   { name: 'Lingerie Sets', slug: 'lingerie-sets', parent: 'intimate-apparel' },
   // Shapewear
   { name: 'Shapewear', slug: 'shapewear' },
@@ -63,15 +72,17 @@ function generateProducts() {
   };
 
   // Intimate Apparel
-  add('Seamless Everyday Bra', 45.00, 'bras', 'femcart-basics', 'Comfortable and seamless for daily wear.', 'bra');
-  add('Lace Trim Balconette Bra', 65.00, 'bras', 'femcart-luxe', 'Elegant lace detail with perfect support.', 'bra');
-  add('Push-up Plunge Bra', 55.00, 'bras', 'femcart-basics', 'Enhance your natural shape.', 'bra');
-  add('Wireless Cotton Bralette', 35.00, 'bras', 'femcart-basics', 'Breathable cotton without the wires.', 'bralette');
+  add('Seamless Everyday Bra', 45.00, 'seamless-bra', 'femcart-basics', 'Comfortable and seamless for daily wear.', 'bra');
+  add('Lace Trim Balconette Bra', 65.00, 'non-padded-bra', 'femcart-luxe', 'Elegant lace detail with perfect support.', 'bra');
+  add('Push-up Plunge Bra', 55.00, 'push-up-bra', 'femcart-basics', 'Enhance your natural shape.', 'bra');
+  add('Wireless Cotton Bralette', 35.00, 'cotton-bra', 'femcart-basics', 'Breathable cotton without the wires.', 'bralette');
+  add('Soft Cotton Nursing Bra', 40.00, 'nursing-bra', 'femcart-lab', 'Convenient and comfortable nursing bra.', 'bra');
   
-  add('Cotton Boyshort Panty', 15.00, 'panties', 'femcart-basics', 'Full coverage everyday comfort.', 'panties');
+  add('Cotton Boyshort Panty', 15.00, 'cotton-panty', 'femcart-basics', 'Full coverage everyday comfort.', 'panties');
   add('Lace Thong', 18.00, 'panties', 'femcart-luxe', 'Invisible under clothing.', 'lingerie');
-  add('High-Waisted Control Brief', 25.00, 'panties', 'comfortfit', 'Smoothing support for all-day wear.', 'panties');
+  add('High-Waisted Control Brief', 25.00, 'shaping-panty', 'comfortfit', 'Smoothing support for all-day wear.', 'panties');
   add('Seamless Bikini Panty 3-Pack', 35.00, 'panties', 'femcart-basics', 'Value pack of seamless panties.', 'panties');
+  add('Leakproof Period Panty', 22.00, 'period-panty', 'femcart-lab', 'Ultimate leak protection and comfort.', 'panties');
   
   add('Silk Satin Lingerie Set', 95.00, 'lingerie-sets', 'silk-skin', 'Luxurious silk set.', 'lingerie');
   add('Floral Lace Bodysuit', 75.00, 'lingerie-sets', 'femcart-luxe', 'Stunning floral lace one-piece.', 'bodysuit');
@@ -83,8 +94,8 @@ function generateProducts() {
   add('Everyday Smoothing Brief', 35.00, 'control-briefs', 'comfortfit', 'Gentle tummy control.', 'shapewear');
   
   // Activewear
-  add('High Impact Sports Bra', 55.00, 'sports-bras', 'activeflex', 'Maximum support for intense workouts.', 'sportsbra');
-  add('Seamless Yoga Bra', 45.00, 'sports-bras', 'activeflex', 'Flexible and breathable for yoga.', 'sportsbra');
+  add('High Impact Sports Bra', 55.00, 'sports-bra-cat', 'activeflex', 'Maximum support for intense workouts.', 'sportsbra');
+  add('Seamless Yoga Bra', 45.00, 'sports-bra-cat', 'activeflex', 'Flexible and breathable for yoga.', 'sportsbra');
   add('High-Waisted Compression Leggings', 75.00, 'leggings', 'activeflex', 'Squat-proof and shaping.', 'leggings');
   add('Seamless Ribbed Leggings', 65.00, 'leggings', 'activeflex', 'Trendy ribbed texture.', 'leggings');
   add('Breathable Crop Tank', 35.00, 'active-tops', 'activeflex', 'Lightweight performance fabric.', 'activewear');

@@ -123,7 +123,7 @@ export default function AdminProductsPage() {
             {product.brand.name}
           </p>
         ) : (
-          <span className="text-xs text-gray-400">—</span>
+          <span className="text-xs text-gray-400">â€”</span>
         )
       )
     },
@@ -515,7 +515,7 @@ export default function AdminProductsPage() {
   const formatPrice = (p: Product) => {
     if (p.productType === "VARIABLE" && p.priceRange) {
       if (p.priceRange.min === p.priceRange.max) return <span className="font-mono text-sm">${p.priceRange.min.toFixed(2)}</span>;
-      return <span className="font-mono text-xs md:text-sm">${p.priceRange.min.toFixed(2)} – ${p.priceRange.max.toFixed(2)}</span>;
+      return <span className="font-mono text-xs md:text-sm">${p.priceRange.min.toFixed(2)} â€“ ${p.priceRange.max.toFixed(2)}</span>;
     }
     
     const isOnSale = p.specialPrice && p.specialPrice < p.price;

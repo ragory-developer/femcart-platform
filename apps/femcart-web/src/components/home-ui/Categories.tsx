@@ -7,12 +7,18 @@ import { motion } from 'framer-motion';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 
-export default function Categories({ categories = [] }: { categories?: any[] }) {
+export default function Categories({ 
+  categories = [],
+  title = "Shop by Category"
+}: { 
+  categories?: any[],
+  title?: string
+}) {
   if (!categories || categories.length === 0) return null;
 
   return (
     <section className="max-w-[1440px] mx-auto px-4 md:px-6 mb-4 md:mb-16">
-      <h2 className="text-center text-fluid-2xl md:text-fluid-3xl mb-6 md:mb-10">Shop by Category</h2>
+      <h2 className="text-center text-fluid-2xl md:text-fluid-3xl mb-6 md:mb-10">{title}</h2>
       <Swiper
         modules={[Autoplay, FreeMode]}
         spaceBetween={4}

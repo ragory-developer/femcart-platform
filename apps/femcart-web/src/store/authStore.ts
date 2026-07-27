@@ -1,4 +1,4 @@
-﻿import { API_URL } from '@/lib/config';
+import { API_URL } from '@/lib/config';
 import { Logger } from '@/lib/logger';
 import { create } from 'zustand';
 
@@ -36,8 +36,15 @@ export const useAuthStore = create<AuthState>((set) => ({
         return;
       }
 
-      if (userStr) {
-        set({ user: JSON.parse(userStr), isAuthenticated: true, loading: false });
+      if (userStr && userStr !== 'undefined' && userStr !== 'null') {
+        try {
+          const parsedUser = JSON.parse(userStr);
+          set({ user: parsedUser, isAuthenticated: true, loading: false });
+        } catch (e) {
+          console.error("Failed to parse user string in authStore", e);
+          localStorage.removeItem('femcart_user');
+          localStorage.removeItem('user');
+        }
       }
 
       // Try fetching active profile if endpoint exists, otherwise silently fail and rely on token/cache

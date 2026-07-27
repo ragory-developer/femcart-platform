@@ -366,7 +366,7 @@ export default function AdminMediaPage() {
             Media Library
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
-            {items.length} image{items.length !== 1 ? "s" : ""} · Drag &amp; drop
+            {items.length} image{items.length !== 1 ? "s" : ""} Â· Drag &amp; drop
             anywhere to upload
           </p>
         </div>
@@ -558,7 +558,7 @@ export default function AdminMediaPage() {
                       <p className="flex justify-between">
                         <span className="font-medium">Original:</span>
                         <span className="text-gray-700 dark:text-gray-300">
-                          {selected.width} × {selected.height}px
+                          {selected.width} Ã— {selected.height}px
                         </span>
                       </p>
                     )}

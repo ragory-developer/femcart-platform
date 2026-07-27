@@ -229,7 +229,7 @@ export default function SpecificationTabWrapper() {
       // Update existing row
       update(idx, { ...specifications[idx], _selectedValueIds: newIds, value: newLabel } as any);
     } else {
-      // Specification is in catalog but not yet added to product — add it now
+      // Specification is in catalog but not yet added to product â€” add it now
       append({
         name: activeSpecification.name,
         value: newLabel,
@@ -366,7 +366,7 @@ export default function SpecificationTabWrapper() {
                 type="text"
                 value={specSearch}
                 onChange={(e) => setSpecSearch(e.target.value)}
-                placeholder="Search specs…"
+                placeholder="Search specsâ€¦"
                 className="w-full pl-6 pr-2 py-1.5 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
               />
               {specSearch && (
@@ -384,7 +384,7 @@ export default function SpecificationTabWrapper() {
           <div className="flex-1 overflow-y-auto">
             {loadingCatalog ? (
               <div className="flex items-center justify-center gap-2 py-10 text-gray-400 text-sm">
-                <Loader2 size={16} className="animate-spin" /> Loading…
+                <Loader2 size={16} className="animate-spin" /> Loadingâ€¦
               </div>
             ) : filteredCatalog.length === 0 ? (
               <p className="text-center text-xs text-gray-400 py-8 px-3">
@@ -447,7 +447,7 @@ export default function SpecificationTabWrapper() {
                     handleCreateSpecification();
                   }
                 }}
-                placeholder="New specification…"
+                placeholder="New specificationâ€¦"
                 className="flex-1 min-w-0 px-2 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
               />
               <button
@@ -514,7 +514,7 @@ export default function SpecificationTabWrapper() {
                       type="text"
                       value={valueSearch}
                       onChange={(e) => setValueSearch(e.target.value)}
-                      placeholder="Search values…"
+                      placeholder="Search valuesâ€¦"
                       className="w-full pl-8 pr-8 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
                     />
                     {valueSearch && (
@@ -533,7 +533,7 @@ export default function SpecificationTabWrapper() {
               <div className="flex-1 overflow-y-auto p-5">
                 {activeSpecification.values.length === 0 ? (
                   <p className="text-sm text-gray-400 italic">
-                    No values yet — create one below.
+                    No values yet â€” create one below.
                   </p>
                 ) : filteredValues.length === 0 ? (
                   <p className="text-sm text-gray-400 italic">
@@ -592,7 +592,7 @@ export default function SpecificationTabWrapper() {
                         handleCreateValue();
                       }
                     }}
-                    placeholder={`Add new value for "${activeSpecification.name}"…`}
+                    placeholder={`Add new value for "${activeSpecification.name}"â€¦`}
                     className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
                   />
                   <button

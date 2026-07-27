@@ -119,7 +119,7 @@ async function main() {
   
   // First pass: parent categories
   for (const cat of categories.filter((c: any) => !c.parent)) {
-    const created = await prisma.category.create({ data: { name: cat.name, slug: cat.slug } });
+    const created = await prisma.category.create({ data: { name: cat.name, slug: cat.slug, image: (cat as any).image } });
     createdCats[cat.slug] = created.id;
   }
   
@@ -127,7 +127,7 @@ async function main() {
     const parentSlug = (cat as any).parent;
     if (createdCats[parentSlug]) {
       const created = await prisma.category.create({ 
-        data: { name: (cat as any).name, slug: (cat as any).slug, parentId: createdCats[parentSlug] } 
+        data: { name: (cat as any).name, slug: (cat as any).slug, image: (cat as any).image, parentId: createdCats[parentSlug] } 
       });
       createdCats[cat.slug] = created.id;
     }

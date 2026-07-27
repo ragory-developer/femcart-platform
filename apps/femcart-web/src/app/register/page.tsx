@@ -99,7 +99,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  // Step 4 — location data
+  // Step 4 â€” location data
   const [states, setStates] = useState<LocationItem[]>([]);
   const [cities, setCities] = useState<LocationItem[]>([]);
   const [areas, setAreas] = useState<LocationItem[]>([]);
@@ -154,7 +154,7 @@ export default function RegisterPage() {
   };
 
   /* --------------------------------------
-   * STEP 1 — Send OTP
+   * STEP 1 â€” Send OTP
    * -------------------------------------- */
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -172,7 +172,7 @@ export default function RegisterPage() {
         return;
       }
       if (data.data?.isRegistered) {
-        // Full account already exists — redirect to login
+        // Full account already exists â€” redirect to login
         setIsRegistered(true);
         return;
       }
@@ -186,7 +186,7 @@ export default function RegisterPage() {
   };
 
   /* --------------------------------------
-   * STEP 2 — Verify OTP
+   * STEP 2 â€” Verify OTP
    * -------------------------------------- */
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,7 +218,7 @@ export default function RegisterPage() {
   };
 
   /* --------------------------------------
-   * STEP 3 — Complete profile
+   * STEP 3 â€” Complete profile
    * -------------------------------------- */
   const handleCompleteProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -251,7 +251,7 @@ export default function RegisterPage() {
   };
 
   /* --------------------------------------
-   * STEP 4 — Save address
+   * STEP 4 â€” Save address
    * -------------------------------------- */
   const handleSaveAddress = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -274,9 +274,17 @@ export default function RegisterPage() {
         return;
       }
       // Load the user object and finalize auth
-      const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+      let storedUser = null;
+      try {
+        const userStr = localStorage.getItem("user");
+        if (userStr && userStr !== "undefined") {
+          storedUser = JSON.parse(userStr);
+        }
+      } catch (e) {
+        console.error("Failed to parse user in register page", e);
+      }
       if (storedUser) setUser(storedUser);
-      // Clear tokens — user must log in freshly
+      // Clear tokens â€” user must log in freshly
       localStorage.removeItem("femcart_access_token");
       localStorage.removeItem("femcart_refresh_token");
       localStorage.removeItem("token");
@@ -338,7 +346,7 @@ export default function RegisterPage() {
           Create an account
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-          Join Femcart — takes less than 2 minutes.
+          Join Femcart â€” takes less than 2 minutes.
         </p>
       </div>
 

@@ -107,6 +107,10 @@ function ProductCard({
   badgeStyle?: "pill" | "corner" | "ribbon";
 }) {
   const addToCart = useCartStore((state) => state.addToCart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const quantityInCart = useCartStore((state) => 
+    state.items.find((i) => i.id === product.id)?.quantity || 0
+  );
   const router = useRouter();
   const [added, setAdded] = useState(false);
   const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
@@ -160,6 +164,12 @@ function ProductCard({
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    if (quantityInCart > 0) {
+      removeFromCart(product.id);
+      return;
+    }
+
     addToCart({
       id: product.id,
       name: product.name,
@@ -345,7 +355,7 @@ function ProductCard({
             }}
             title={isVariable ? "Select Options" : "Add to Cart"}
             className={`absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 z-[10] relative pointer-events-auto min-w-[36px] min-h-[36px] sm:min-w-[44px] sm:min-h-[44px] rounded-full flex items-center justify-center shadow-md transition-all duration-200 active:scale-90 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none
-              ${added
+              ${(added || quantityInCart > 0)
                 ? "bg-emerald-500 text-white opacity-100"
                 : isVariable
                   ? "bg-white dark:bg-gray-700 text-amber-600 dark:text-amber-400 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 hover:bg-amber-500 hover:text-white"
@@ -356,7 +366,7 @@ function ProductCard({
                       : "bg-white/95 backdrop-blur-sm dark:bg-gray-800 text-gray-700 dark:text-gray-200 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 shadow-sm hover:bg-olive hover:text-white hover:scale-110"
               }`}
           >
-            {isVariable ? <Eye size={16} /> : variant === "elegant" ? <span className="text-xl leading-none -mt-0.5">+</span> : <ShoppingCart size={16} />}
+            {isVariable ? <Eye size={16} /> : variant === "elegant" ? <span className="text-xl leading-none -mt-0.5">{quantityInCart > 0 ? "-" : "+"}</span> : <ShoppingCart size={16} />}
           </button>
         )}
 
@@ -414,7 +424,7 @@ function ProductCard({
                 }
               }}
               className={`w-full relative z-[10] pointer-events-auto py-[clamp(0.4rem,1.5vw,0.6rem)] px-3 rounded-md flex items-center justify-center gap-[clamp(0.25rem,1vw,0.5rem)] text-[clamp(11px,1.5vw,13px)] font-bold min-h-[32px] sm:min-h-[44px] whitespace-nowrap transition-all mt-1 sm:mt-2 active:scale-95 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none
-                ${added
+                ${(added || quantityInCart > 0)
                   ? "bg-emerald-500 text-white"
                   : isVariable
                     ? "bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 hover:bg-amber-500 hover:text-white"
@@ -427,7 +437,7 @@ function ProductCard({
                 </>
               ) : (
                 <>
-                  <ShoppingCart size={13} /> {added ? "Added!" : "Add to Cart"}
+                  <ShoppingCart size={13} /> {quantityInCart > 0 ? "Remove" : added ? "Added!" : "Add to Cart"}
                 </>
               )}
             </button>
@@ -446,14 +456,14 @@ function ProductCard({
                 }
               }}
               className={`w-full relative z-[10] pointer-events-auto py-[clamp(0.375rem,1.5vw,0.5rem)] text-[clamp(11px,1.5vw,13px)] font-bold text-center min-h-[32px] sm:min-h-[44px] whitespace-nowrap border border-gray-100 dark:border-gray-800 rounded-sm hover:border-emerald-500 hover:text-emerald-500 transition-colors mt-1 sm:mt-2 active:scale-95 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none
-                ${added
+                ${(added || quantityInCart > 0)
                   ? "text-emerald-500 border-emerald-500 bg-emerald-50/30 dark:bg-emerald-950/10"
                   : isVariable
                     ? "text-amber-600 dark:text-amber-400 hover:border-amber-500 hover:text-amber-500"
                     : "text-gray-500 dark:text-gray-400"
                 }`}
             >
-              {isVariable ? "Select Options" : added ? "✓ Added" : "+ Add to Cart"}
+              {isVariable ? "Select Options" : quantityInCart > 0 ? "− Remove" : added ? "✓ Added" : "+ Add to Cart"}
             </button>
           )}
 
@@ -470,7 +480,7 @@ function ProductCard({
                 }
               }}
               className={`w-full relative z-[10] pointer-events-auto py-[clamp(0.4rem,1.5vw,0.6rem)] px-3 rounded-md flex items-center justify-center gap-[clamp(0.25rem,1vw,0.5rem)] text-[clamp(11px,1.5vw,13px)] font-bold min-h-[32px] sm:min-h-[44px] whitespace-nowrap transition-all mt-1 sm:mt-2 active:scale-95 shadow-sm focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none
-                ${added
+                ${(added || quantityInCart > 0)
                   ? "bg-emerald-500 text-white"
                   : isVariable
                     ? "bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 hover:bg-amber-500 hover:text-white"
@@ -483,7 +493,7 @@ function ProductCard({
                 </>
               ) : (
                 <>
-                  <ShoppingCart size={13} /> {added ? "Added!" : "Add to Cart"}
+                  <ShoppingCart size={13} /> {quantityInCart > 0 ? "Remove" : added ? "Added!" : "Add to Cart"}
                 </>
               )}
             </button>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { API_URL } from "@/lib/config";
 import { Logger } from "@/lib/logger";
@@ -540,7 +540,7 @@ export default function MediaLibraryModal({
                               <p className="flex justify-between">
                                 <span className="font-medium">Dimensions:</span>
                                 <span className="text-gray-700 dark:text-gray-300">
-                                  {selected.width} � {selected.height}
+                                  {selected.width} × {selected.height}
                                 </span>
                               </p>
                             )}

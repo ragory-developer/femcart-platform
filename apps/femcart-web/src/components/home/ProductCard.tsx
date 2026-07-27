@@ -3,7 +3,7 @@
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Plus, Eye } from "lucide-react";
+import { Heart, Plus, Eye, Minus } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useShallow } from "zustand/react/shallow";
@@ -97,6 +97,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, prefetch = true }) =
   const handleAddToCart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    if (quantityInCart > 0) {
+      removeFromCart(product.id);
+      return;
+    }
+
     addToCart({
       id: product.id,
       name: product.name,
@@ -107,7 +113,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, prefetch = true }) =
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
-  }, [product, imageSrc, addToCart]);
+  }, [product, imageSrc, addToCart, removeFromCart, quantityInCart]);
 
   const handleWishlistToggle = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -163,10 +169,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, prefetch = true }) =
               e.stopPropagation();
               router.push(productUrl);
             } : handleAddToCart} 
-            disabled={added}
-            className="inline-flex items-center justify-center rounded-full font-sans font-semibold tracking-[0.3px] transition-all duration-150 cursor-pointer bg-white text-pink-500 border-[1.5px] border-pink-500 w-full max-w-[200px] h-9 md:h-10 text-[12px] md:text-[14px] px-2 md:px-4 disabled:opacity-80 pointer-events-auto"
+            className="inline-flex items-center justify-center rounded-full font-sans font-semibold tracking-[0.3px] transition-all duration-150 cursor-pointer bg-white text-pink-500 border-[1.5px] border-pink-500 w-full max-w-[200px] h-9 md:h-10 text-[12px] md:text-[14px] px-2 md:px-4 pointer-events-auto"
           >
-            {added ? <><Plus size={14} className="mr-2" /> Added</> : (isVariable ? 'Select Options' : 'Quick Add')}
+            {isVariable 
+              ? 'Select Options' 
+              : quantityInCart > 0 
+                ? <><Minus size={14} className="mr-2" /> Remove</> 
+                : added 
+                  ? <><Plus size={14} className="mr-2" /> Added</> 
+                  : 'Quick Add'}
           </button>
         </div>
       </div>

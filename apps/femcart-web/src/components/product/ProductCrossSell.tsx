@@ -120,7 +120,7 @@ export default function ProductCrossSell({
           }}
           className="!pt-4 !px-1 !pb-12"
         >
-          {items.map(p => (
+          {items.map((p: any) => (
             <SwiperSlide key={p.id}>
               <ProductCard product={p} />
             </SwiperSlide>

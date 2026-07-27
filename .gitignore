@@ -50,3 +50,10 @@ dist/
 check-db.ts
 flush-redis.ts
 test-prisma.ts
+
+redis/
+check-catalog.js
+test-api.js
+packages/core/test-db.js
+packages/core/fix-images.js
+apps/femcart-api/flush-redis.js

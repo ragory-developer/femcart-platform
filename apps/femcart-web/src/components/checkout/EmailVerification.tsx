@@ -103,7 +103,7 @@ export default function EmailVerification({ onVerified, onCancel }: EmailVerific
             Quick Checkout
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mt-1 text-[clamp(0.75rem,2vw,0.875rem)]">
-            {step === 'input' ? "No account needed — just your name & email." : `Enter the 6-digit code sent to ${email}`}
+            {step === 'input' ? "No account needed â€” just your name & email." : `Enter the 6-digit code sent to ${email}`}
           </p>
         </div>
         <button onClick={onCancel} className="text-[clamp(0.875rem,2vw,1rem)] font-semibold text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors min-h-[44px] flex items-center px-2">
@@ -178,7 +178,7 @@ export default function EmailVerification({ onVerified, onCancel }: EmailVerific
               />
             </div>
             <p className="text-right text-[clamp(0.75rem,1.5vw,0.875rem)] text-gray-500 mt-2">
-              Sent to <span className="font-bold">{email}</span> ·{" "}
+              Sent to <span className="font-bold">{email}</span> Â·{" "}
               <button type="button" onClick={() => setStep('input')} className="text-blue-500 hover:underline min-h-[36px] px-2">Edit</button>
             </p>
           </div>

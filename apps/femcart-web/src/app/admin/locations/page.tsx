@@ -319,7 +319,7 @@ export default function AdminLocationsPage() {
             />
           </div>
 
-          {/* Cities tab — filter by Division */}
+          {/* Cities tab â€” filter by Division */}
           {activeTab === "cities" && (
             <SearchableDropdown
               value={cityFilterStateId}
@@ -332,7 +332,7 @@ export default function AdminLocationsPage() {
             />
           )}
 
-          {/* Areas tab — filter by Division + City */}
+          {/* Areas tab â€” filter by Division + City */}
           {activeTab === "areas" && (
             <>
               <SearchableDropdown
@@ -388,7 +388,7 @@ export default function AdminLocationsPage() {
               ? <>Showing areas in city: <strong>{cities.find(c => c.id === areaFilterCityId)?.name}</strong></>
               : <>Showing areas in division: <strong>{states.find(s => s.id === areaFilterStateId)?.name}</strong></>
             }
-            &nbsp;— {filteredAreas.length} results
+            &nbsp;â€” {filteredAreas.length} results
             <button onClick={() => { setAreaFilterStateId(""); setAreaFilterCityId(""); }} className="ml-auto text-purple-500 hover:text-purple-700">
               <X size={14} />
             </button>
@@ -491,7 +491,7 @@ export default function AdminLocationsPage() {
                             onClick={() => setCityFilterStateId(city.stateId)}
                             className="text-xs px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 transition-colors"
                           >
-                            {city.state?.name || "—"}
+                            {city.state?.name || "â€”"}
                           </button>
                         </td>
                         <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-center text-gray-500 dark:text-gray-400">
@@ -558,10 +558,10 @@ export default function AdminLocationsPage() {
                                 {area.name}
                               </div>
                             </td>
-                            <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-gray-500 dark:text-gray-400">{area.city?.name || "—"}</td>
+                            <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-gray-500 dark:text-gray-400">{area.city?.name || "â€”"}</td>
                             <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-gray-500 dark:text-gray-400">
                               <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300">
-                                {area.city?.state?.name || "—"}
+                                {area.city?.state?.name || "â€”"}
                               </span>
                             </td>
                             <td className="px-6 py-4 align-middle border border-gray-200 dark:border-gray-750 text-center font-medium text-gray-900 dark:text-white">

@@ -106,7 +106,7 @@ export default function GeneralTab({ excludeId }: { excludeId?: string }) {
 
   const categoryOptions = flatCats.map(c => ({
     value: c.id,
-    label: `${"—".repeat(c.depth)} ${c.name}`
+    label: `${"â€”".repeat(c.depth)} ${c.name}`
   }));
 
   const brandOptions = brands.map(b => ({

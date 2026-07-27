@@ -192,7 +192,7 @@ export default function AdminCategoriesPage() {
 
   const parentOptions = [
     { value: "", label: "None (Root)" },
-    ...flatList.map(c => ({ value: c.id, label: `${"—".repeat(c.depth)} ${c.name}` }))
+    ...flatList.map(c => ({ value: c.id, label: `${"â€”".repeat(c.depth)} ${c.name}` }))
   ];
 
   const filteredFlatList = flatList.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));

@@ -1,4 +1,5 @@
-﻿import { PrismaClient } from '@prisma/client';
+import 'dotenv/config';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -70,10 +71,30 @@ async function main() {
     }
   });
 
+  // Ensure a normal test user exists
+  const userEmail = 'user@femcart.com';
+  const userPassword = await bcrypt.hash('user123', 10);
+
+  const normalUser = await prisma.user.upsert({
+    where: { email: userEmail },
+    update: {
+      password: userPassword,
+      role: 'USER'
+    },
+    create: {
+      name: 'Test User',
+      email: userEmail,
+      password: userPassword,
+      role: 'USER',
+      phone: '00000000002'
+    }
+  });
+
   console.log('=============================================');
-  console.log('✅ Admin & Manager users seeded successfully!');
+  console.log('✅ Admin, Manager & Normal users seeded successfully!');
   console.log(`[Super Admin] Email: ${adminUser.email} | Pass: admin123`);
   console.log(`[Order Mgr]   Email: ${managerUser.email} | Pass: manager123`);
+  console.log(`[Normal User] Email: ${normalUser.email} | Pass: user123`);
   console.log('=============================================');
 }
 

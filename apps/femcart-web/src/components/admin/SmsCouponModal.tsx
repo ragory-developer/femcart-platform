@@ -161,7 +161,7 @@ export function SmsCouponModal({
                   >
                     <option value="">-- Choose Coupon to Insert --</option>
                     {coupons.map(c => (
-                      <option key={c.id} value={c.code}>{c.code}  —  {c.discount}{c.type === 'PERCENT' ? '%' : '?'} Off</option>
+                      <option key={c.id} value={c.code}>{c.code}  â€”  {c.discount}{c.type === 'PERCENT' ? '%' : '?'} Off</option>
                     ))}
                   </select>
                 </div>

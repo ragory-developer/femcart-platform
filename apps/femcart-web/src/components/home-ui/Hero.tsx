@@ -9,7 +9,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-const slides = [
+const defaultSlides = [
   {
     id: 1,
     img: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1440&auto=format&fit=crop',
@@ -33,7 +33,7 @@ const slides = [
   }
 ];
 
-export default function Hero() {
+export default function Hero({ slides = defaultSlides }: { slides?: typeof defaultSlides }) {
   return (
     <section className="relative w-full h-[50dvh] md:h-[70dvh] overflow-hidden mb-4 md:mb-12 bg-rose-50">
       <Swiper
@@ -45,7 +45,7 @@ export default function Hero() {
         className="w-full h-full"
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={slide.id} className="relative w-full h-full">
+          <SwiperSlide key={slide.id || index} className="relative w-full h-full">
             <img 
               src={slide.img} 
               alt={slide.title} 
@@ -78,4 +78,3 @@ export default function Hero() {
     </section>
   );
 }
-

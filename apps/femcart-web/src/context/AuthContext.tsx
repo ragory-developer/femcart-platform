@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { API_URL } from '@/lib/config';
 import { Logger } from '@/lib/logger';
@@ -44,12 +44,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const storedUser = localStorage.getItem('femcart_user') || localStorage.getItem('user');
       const token = localStorage.getItem('femcart_access_token') || localStorage.getItem('token');
 
-      if (storedUser && token) {
+      if (storedUser && token && storedUser !== 'undefined' && storedUser !== 'null') {
         try {
           const parsed = JSON.parse(storedUser);
           // Ensure permissions are parsed if they come as a JSON string from backend
           if (typeof parsed.permissions === 'string') {
-            parsed.permissions = JSON.parse(parsed.permissions);
+            try {
+              parsed.permissions = JSON.parse(parsed.permissions);
+            } catch (e) {
+              parsed.permissions = [];
+            }
           }
           
           // Eagerly set user from local storage to prevent layout shift/micro-stutter

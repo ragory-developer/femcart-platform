@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { API_URL } from "@/lib/config";
 
 import { showToast } from "@/lib/toast";
@@ -226,6 +226,18 @@ export default function SettingsPage() {
                           <option value="6">6 Columns</option>
                         </select>
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider pl-1 mt-1">Note: On mobile, it will automatically switch to 2 columns for better usability.</p>
+                     </div>
+
+                     <div className="space-y-2 pt-2">
+                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Top Notification Bar</label>
+                        <input 
+                          type="text" 
+                          value={settings.top_bar_text ?? ""} 
+                          onChange={e => handleChange("top_bar_text", e.target.value)}
+                          className="w-full px-5 py-3 rounded-xl bg-gray-50 dark:bg-gray-800 border-none focus:ring-2 focus:ring-emerald-500 transition-all font-medium text-gray-900 dark:text-white"
+                          placeholder="e.g. Buy 3-Pack, Save 300 TK!"
+                        />
+                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider pl-1 mt-1">Leave empty to hide the top notification bar.</p>
                      </div>
 
                      <div className="pt-2">
