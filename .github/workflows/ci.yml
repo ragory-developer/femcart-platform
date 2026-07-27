@@ -9,10 +9,6 @@ on:
 jobs:
   backend-ci:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./apps/femcart-api
-
     steps:
     - uses: actions/checkout@v4
       with:
@@ -23,33 +19,33 @@ jobs:
       with:
         node-version: '24.x'
         cache: 'npm'
-        cache-dependency-path: './apps/femcart-api/package-lock.json'
+        cache-dependency-path: './package-lock.json'
         
     - name: Install dependencies
       run: npm ci
 
     - name: Linting
       run: npx eslint .
+      working-directory: ./apps/femcart-api
       continue-on-error: true # Warning only for now
 
     - name: Type Checking
       run: npx tsc --noEmit
+      working-directory: ./apps/femcart-api
 
     - name: Prisma Generate
       run: npx prisma generate
+      working-directory: ./apps/femcart-api
 
     - name: Run E2E Tests
       run: npx vitest run
+      working-directory: ./apps/femcart-api
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
   frontend-ci:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./apps/femcart-web
-
     steps:
     - uses: actions/checkout@v4
       with:
@@ -60,19 +56,22 @@ jobs:
       with:
         node-version: '24.x'
         cache: 'npm'
-        cache-dependency-path: './apps/femcart-web/package-lock.json'
+        cache-dependency-path: './package-lock.json'
         
     - name: Install dependencies
       run: npm ci
 
     - name: Linting
       run: npx eslint .
+      working-directory: ./apps/femcart-web
       continue-on-error: true # Warning only for now
 
     - name: Type Checking
       run: npx tsc --noEmit
+      working-directory: ./apps/femcart-web
 
     - name: Build Next.js
       run: npm run build
+      working-directory: ./apps/femcart-web
       env:
         NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
