@@ -1,0 +1,6 @@
+[submodule "femcart-api"]
+	path = femcart-api
+	url = https://github.com/ragory-developer/femcart-api.git
+[submodule "femcart-web"]
+	path = femcart-web
+	url = https://github.com/ragory-developer/femcart-web.git
