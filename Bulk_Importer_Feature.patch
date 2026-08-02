@@ -1,0 +1,3247 @@
+# Bulk Importer Feature Migration Patch
+
+This document contains a unified patch and AI instructions for migrating the entire Bulk Importer feature (Frontend + Backend) to a new project. 
+
+## AI Instructions for Application:
+1. Ensure you are in the root directory of the project. This project is assumed to have a frontend (femcart-web) and a backend (femcart-api).
+2. Save the API patch code block below into a file named 'api.patch' and the Web patch code block into 'web.patch'.
+3. For the backend: 
+   - Navigate to the backend directory ('cd femcart-api' or equivalent).
+   - Apply the patch: 'git apply ../api.patch' (or use 'patch -p1 < ../api.patch' if not using git).
+   - Run 'npx prisma generate' and 'npx prisma db push' to apply the new ImportLog and ImportStagingRow models.
+   - Run 'npm install' if dependencies like 'csv-parse' or 'xlsx' are missing.
+4. For the frontend:
+   - Navigate to the frontend directory ('cd femcart-web' or equivalent).
+   - Apply the patch: 'git apply ../web.patch'.
+   - Run 'npm install sweetalert2 lucide-react sonner framer-motion' (install any missing UI dependencies introduced in this patch).
+5. Restart both development servers.
+
+---
+
+## 1. Backend Patch (femcart-api)
+```diff
+diff --git a/check-settings.js b/check-settings.js
+deleted file mode 100644
+index 60add30..0000000
+--- a/check-settings.js
++++ /dev/null
+@@ -1,9 +0,0 @@
+-const { PrismaClient } = require('@prisma/client');
+-const prisma = new PrismaClient();
+-
+-async function main() {
+-  const settings = await prisma.setting.findMany();
+-  console.log(JSON.stringify(settings, null, 2));
+-}
+-
+-main().catch(console.error).finally(() => prisma.$disconnect());
+diff --git a/check-wp-settings.js b/check-wp-settings.js
+deleted file mode 100644
+index 95eb2a7..0000000
+--- a/check-wp-settings.js
++++ /dev/null
+@@ -1,8 +0,0 @@
+-const { PrismaClient } = require('@prisma/client');
+-const prisma = new PrismaClient();
+-
+-async function main() {
+-  const settings = await prisma.wordPressSetting.findMany();
+-  console.log(JSON.stringify(settings, null, 2));
+-}
+-main().catch(console.error).finally(() => prisma.$disconnect());
+diff --git a/fix-ts2.js b/fix-ts2.js
+deleted file mode 100644
+index b086034..0000000
+--- a/fix-ts2.js
++++ /dev/null
+@@ -1,38 +0,0 @@
+-const fs = require('fs');
+-const glob = require('glob'); // Note: if glob is not installed, we can just walk the directory.
+-
+-// Simple recursive walk
+-function walk(dir) {
+-    let results = [];
+-    const list = fs.readdirSync(dir);
+-    list.forEach(function(file) {
+-        file = dir + '/' + file;
+-        const stat = fs.statSync(file);
+-        if (stat && stat.isDirectory()) { 
+-            results = results.concat(walk(file));
+-        } else {
+-            if (file.endsWith('.ts')) results.push(file);
+-        }
+-    });
+-    return results;
+-}
+-
+-const files = walk('./src');
+-let count = 0;
+-
+-for (const file of files) {
+-    let content = fs.readFileSync(file, 'utf8');
+-    
+-    // Fix arrow functions without parens that got typed
+-    // e.g.   p: any =>   becomes   (p: any) =>
+-    // We use a regex: match word boundary, word, ": any =>"
+-    const regex = /\b([a-zA-Z0-9_]+):\s*any\s*=>/g;
+-    
+-    if (regex.test(content)) {
+-        content = content.replace(regex, '($1: any) =>');
+-        fs.writeFileSync(file, content);
+-        count++;
+-        console.log(`Fixed syntax in ${file}`);
+-    }
+-}
+-console.log(`Fixed ${count} files.`);
+diff --git a/fix_schema.js b/fix_schema.js
+deleted file mode 100644
+index ad7545c..0000000
+--- a/fix_schema.js
++++ /dev/null
+@@ -1,27 +0,0 @@
+-const fs = require('fs');
+-let c = fs.readFileSync('prisma/schema.prisma', 'utf8');
+-const searchString = 'model NewsletterSubscriber';
+-const index = c.indexOf(searchString);
+-if (index !== -1) {
+-    const start = c.substring(0, index);
+-    const end = `model NewsletterSubscriber {
+-  id        String   @id @default(cuid())
+-  email     String   @unique
+-  status    String   @default("SUBSCRIBED") // SUBSCRIBED, UNSUBSCRIBED
+-  createdAt DateTime @default(now())
+-  updatedAt DateTime @updatedAt
+-}
+-
+-model ShopifySetting {
+-  id              String   @id @default(cuid())
+-  shopUrl         String
+-  accessToken     String   @db.Text
+-  apiVersion      String   @default("2024-01")
+-  createdAt       DateTime @default(now())
+-  updatedAt       DateTime @updatedAt
+-  
+-  @@map("shopify_setting")
+-}
+-`;
+-    fs.writeFileSync('prisma/schema.prisma', start + end);
+-}
+diff --git a/package-lock.json b/package-lock.json
+index 55e2150..364acf4 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -38,6 +38,7 @@
+         "swagger-jsdoc": "^6.2.8",
+         "swagger-ui-express": "^5.0.1",
+         "winston": "^3.11.0",
++        "xlsx": "^0.18.5",
+         "zod": "^3.25.76"
+       },
+       "devDependencies": {
+@@ -2542,6 +2543,15 @@
+         "node": ">= 0.6"
+       }
+     },
++    "node_modules/adler-32": {
++      "version": "1.3.1",
++      "resolved": "https://registry.npmjs.org/adler-32/-/adler-32-1.3.1.tgz",
++      "integrity": "sha512-ynZ4w/nUUv5rrsR8UUGoe1VC9hZj6V5hU9Qw1HlMDJGEJw5S7TfTErWTjMys6M7vr0YWcPqs3qAr4ss0nDfP+A==",
++      "license": "Apache-2.0",
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/append-field": {
+       "version": "1.0.0",
+       "license": "MIT"
+@@ -2752,6 +2762,19 @@
+       "version": "1.0.2",
+       "license": "MIT"
+     },
++    "node_modules/cfb": {
++      "version": "1.2.2",
++      "resolved": "https://registry.npmjs.org/cfb/-/cfb-1.2.2.tgz",
++      "integrity": "sha512-KfdUZsSOw19/ObEWasvBP/Ac4reZvAGauZhs6S/gqNhXhI7cKwvlH7ulj+dOEYnca4bm4SGo8C1bTAQvnTjgQA==",
++      "license": "Apache-2.0",
++      "dependencies": {
++        "adler-32": "~1.3.0",
++        "crc-32": "~1.2.0"
++      },
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/chai": {
+       "version": "6.2.2",
+       "dev": true,
+@@ -2793,6 +2816,15 @@
+         "node": ">=0.10.0"
+       }
+     },
++    "node_modules/codepage": {
++      "version": "1.15.0",
++      "resolved": "https://registry.npmjs.org/codepage/-/codepage-1.15.0.tgz",
++      "integrity": "sha512-3g6NUTPd/YtuuGrhMnOMRjFc+LJw/bnMp3+0r/Wcz3IXUuCosKRJvMphm5+Q+bvTVGcJJuRvVLuYba+WojaFaA==",
++      "license": "Apache-2.0",
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/color": {
+       "version": "5.0.3",
+       "license": "MIT",
+@@ -2941,6 +2973,18 @@
+         "url": "https://opencollective.com/express"
+       }
+     },
++    "node_modules/crc-32": {
++      "version": "1.2.2",
++      "resolved": "https://registry.npmjs.org/crc-32/-/crc-32-1.2.2.tgz",
++      "integrity": "sha512-ROmzCKrTnOwybPcJApAA6WBWij23HVfGVNKqqrZpuyZOHqK2CwHSvpGuyt/UNNvaIjEd8X5IFGp4Mh+Ie1IHJQ==",
++      "license": "Apache-2.0",
++      "bin": {
++        "crc32": "bin/crc32.njs"
++      },
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/cron-parser": {
+       "version": "4.9.0",
+       "license": "MIT",
+@@ -3452,6 +3496,15 @@
+         "node": ">= 0.6"
+       }
+     },
++    "node_modules/frac": {
++      "version": "1.1.2",
++      "resolved": "https://registry.npmjs.org/frac/-/frac-1.1.2.tgz",
++      "integrity": "sha512-w/XBfkibaTl3YDqASwfDUqkna4Z2p9cFSr1aHDt0WoMTECnRfBOv2WArlZILlqgWlmdIlALXGpM2AOhEk5W3IA==",
++      "license": "Apache-2.0",
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/fresh": {
+       "version": "0.5.2",
+       "license": "MIT",
+@@ -5019,6 +5072,18 @@
+         "node": ">=0.10.0"
+       }
+     },
++    "node_modules/ssf": {
++      "version": "0.11.2",
++      "resolved": "https://registry.npmjs.org/ssf/-/ssf-0.11.2.tgz",
++      "integrity": "sha512-+idbmIXoYET47hH+d7dfm2epdOMUDjqcB4648sTZ+t2JwoyBFL/insLfB/racrDmsKB3diwsDA696pZMieAC5g==",
++      "license": "Apache-2.0",
++      "dependencies": {
++        "frac": "~1.1.2"
++      },
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/sslcommerz-lts": {
+       "version": "1.2.0",
+       "license": "ISC",
+@@ -5569,10 +5634,49 @@
+         "node": ">= 12.0.0"
+       }
+     },
++    "node_modules/wmf": {
++      "version": "1.0.2",
++      "resolved": "https://registry.npmjs.org/wmf/-/wmf-1.0.2.tgz",
++      "integrity": "sha512-/p9K7bEh0Dj6WbXg4JG0xvLQmIadrner1bi45VMJTfnbVHsc7yIajZyoSoK60/dtVBs12Fm6WkUI5/3WAVsNMw==",
++      "license": "Apache-2.0",
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
++    "node_modules/word": {
++      "version": "0.3.0",
++      "resolved": "https://registry.npmjs.org/word/-/word-0.3.0.tgz",
++      "integrity": "sha512-OELeY0Q61OXpdUfTp+oweA/vtLVg5VDOXh+3he3PNzLGG/y0oylSOC1xRVj0+l4vQ3tj/bB1HVHv1ocXkQceFA==",
++      "license": "Apache-2.0",
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/wrappy": {
+       "version": "1.0.2",
+       "license": "ISC"
+     },
++    "node_modules/xlsx": {
++      "version": "0.18.5",
++      "resolved": "https://registry.npmjs.org/xlsx/-/xlsx-0.18.5.tgz",
++      "integrity": "sha512-dmg3LCjBPHZnQp5/F/+nnTa+miPJxUXB6vtk42YjBBKayDNagxGEeIdWApkYPOf3Z3pm3k62Knjzp7lMeTEtFQ==",
++      "license": "Apache-2.0",
++      "dependencies": {
++        "adler-32": "~1.3.0",
++        "cfb": "~1.2.1",
++        "codepage": "~1.15.0",
++        "crc-32": "~1.2.1",
++        "ssf": "~0.11.2",
++        "wmf": "~1.0.1",
++        "word": "~0.3.0"
++      },
++      "bin": {
++        "xlsx": "bin/xlsx.njs"
++      },
++      "engines": {
++        "node": ">=0.8"
++      }
++    },
+     "node_modules/xml-naming": {
+       "version": "0.1.0",
+       "funding": [
+diff --git a/package.json b/package.json
+index bddd4f7..590ebfd 100644
+--- a/package.json
++++ b/package.json
+@@ -46,6 +46,7 @@
+     "swagger-jsdoc": "^6.2.8",
+     "swagger-ui-express": "^5.0.1",
+     "winston": "^3.11.0",
++    "xlsx": "^0.18.5",
+     "zod": "^3.25.76"
+   },
+   "devDependencies": {
+diff --git a/prisma/schema.prisma b/prisma/schema.prisma
+index da07718..609072d 100644
+--- a/prisma/schema.prisma
++++ b/prisma/schema.prisma
+@@ -483,10 +483,43 @@ model ImportLog {
+   finishedAt    DateTime?
+   createdAt     DateTime  @default(now())
+   updatedAt     DateTime  @updatedAt
++  stagingRows   ImportStagingRow[]
+ 
+   @@map("importlog")
+ }
+ 
++model ImportStagingRow {
++  id            String    @id @default(cuid())
++  importLogId   String
++  status        String    @default("PENDING") // PENDING, VALID, INVALID, IMPORTED
++  
++  // Normalized Data Fields
++  name          String?
++  slug          String?
++  sku           String?
++  price         Float?
++  comparePrice  Float?
++  stock         Int?
++  description   String?   @db.Text
++  brandName     String?
++  categories    String?
++  images        String?   @db.LongText
++  parentSku     String?
++  options       String?   @db.Text
++  
++  // Error Tracking
++  errors        Json?
++  
++  createdAt     DateTime  @default(now())
++  updatedAt     DateTime  @updatedAt
++
++  importLog     ImportLog @relation(fields: [importLogId], references: [id], onDelete: Cascade)
++  
++  @@index([importLogId])
++  @@index([status])
++  @@map("importstagingrow")
++}
++
+ model ImportTask {
+   id         String    @id @default(cuid())
+   name       String
+diff --git a/src/controllers/BulkImportController.ts b/src/controllers/BulkImportController.ts
+new file mode 100644
+index 0000000..3b3472d
+--- /dev/null
++++ b/src/controllers/BulkImportController.ts
+@@ -0,0 +1,219 @@
++import { Request, Response } from 'express';
++import prisma from '../config/database';
++import { parseSpreadsheet, importProducts, importOrders, validateSpreadsheetRows } from '../services/bulkImportService';
++import { importShopifyProducts, importWooProducts, importShopifyOrders, importWooOrders } from '../services/nativeParsers';
++export class BulkImportController {
++  
++  /**
++   * Uploads and initiates bulk product import
++   */
++  static async importProducts(req: Request, res: Response) {
++    try {
++      const file = req.file;
++      if (!file) {
++        return res.status(400).json({ success: false, message: 'No spreadsheet file uploaded.' });
++      }
++
++      const mapping = JSON.parse(req.body.mapping || '{}');
++      const rows = parseSpreadsheet(file.buffer);
++
++      if (!rows.length) {
++        return res.status(400).json({ success: false, message: 'The spreadsheet contains no data rows.' });
++      }
++
++      // Create Import Log
++      const log = await prisma.importLog.create({
++        data: {
++          status: 'processing',
++          totalProducts: rows.length,
++          imported: 0,
++          failed: 0,
++          startedAt: new Date(),
++        }
++      });
++
++      // Run Import in background to prevent API gateway timeout
++      setTimeout(async () => {
++        try {
++          const platform = req.body.importPlatform;
++          let result;
++          if (platform === 'SHOPIFY') {
++            result = await importShopifyProducts(rows, log.id);
++          } else if (platform === 'WOOCOMMERCE') {
++            result = await importWooProducts(rows, log.id);
++          } else {
++            result = await importProducts(rows, mapping, log.id);
++          }
++          await prisma.importLog.update({
++            where: { id: log.id },
++            data: {
++              status: result.errors.length > 0 ? 'failed' : 'completed',
++              finishedAt: new Date(),
++              errors: result.errors.join('\n') || null
++            }
++          });
++        } catch (err: any) {
++          await prisma.importLog.update({
++            where: { id: log.id },
++            data: {
++              status: 'failed',
++              finishedAt: new Date(),
++              errors: err.message
++            }
++          });
++        }
++      }, 0);
++
++      return res.status(200).json({
++        success: true,
++        message: 'Product bulk import started successfully.',
++        log
++      });
++
++    } catch (e: any) {
++      console.error('Bulk Product Import Error:', e);
++      return res.status(500).json({ success: false, message: e.message });
++    }
++  }
++
++  /**
++   * Uploads and initiates bulk order import
++   */
++  static async importOrders(req: Request, res: Response) {
++    try {
++      const file = req.file;
++      if (!file) {
++        return res.status(400).json({ success: false, message: 'No spreadsheet file uploaded.' });
++      }
++
++      const mapping = JSON.parse(req.body.mapping || '{}');
++      const rows = parseSpreadsheet(file.buffer);
++
++      if (!rows.length) {
++        return res.status(400).json({ success: false, message: 'The spreadsheet contains no data rows.' });
++      }
++
++      // Create Import Log
++      const log = await prisma.importLog.create({
++        data: {
++          status: 'processing',
++          totalProducts: rows.length, // total orders in this context
++          imported: 0,
++          failed: 0,
++          startedAt: new Date(),
++        }
++      });
++
++      // Run Import in background
++      setTimeout(async () => {
++        try {
++          const platform = req.body.importPlatform;
++          let result;
++          if (platform === 'SHOPIFY') {
++            result = await importShopifyOrders(rows, log.id);
++          } else if (platform === 'WOOCOMMERCE') {
++            result = await importWooOrders(rows, log.id);
++          } else {
++            result = await importOrders(rows, mapping, log.id);
++          }
++          await prisma.importLog.update({
++            where: { id: log.id },
++            data: {
++              status: result.errors.length > 0 ? 'failed' : 'completed',
++              finishedAt: new Date(),
++              errors: result.errors.join('\n') || null
++            }
++          });
++        } catch (err: any) {
++          await prisma.importLog.update({
++            where: { id: log.id },
++            data: {
++              status: 'failed',
++              finishedAt: new Date(),
++              errors: err.message
++            }
++          });
++        }
++      }, 0);
++
++      return res.status(200).json({
++        success: true,
++        message: 'Order bulk import started successfully.',
++        log
++      });
++
++    } catch (e: any) {
++      console.error('Bulk Order Import Error:', e);
++      return res.status(500).json({ success: false, message: e.message });
++    }
++  }
++
++  /**
++   * Retrieves headers from uploaded file for previewing mapping
++   */
++  static async getHeaders(req: Request, res: Response) {
++    try {
++      const file = req.file;
++      if (!file) {
++        return res.status(400).json({ success: false, message: 'No spreadsheet file uploaded.' });
++      }
++
++      const rows = parseSpreadsheet(file.buffer);
++      if (!rows.length) {
++        return res.status(400).json({ success: false, message: 'The spreadsheet is empty.' });
++      }
++
++      const headers = Object.keys(rows[0]);
++      const previewRows = rows.slice(0, 5); // first 5 rows for validation preview
++
++      return res.status(200).json({
++        success: true,
++        headers,
++        previewRows
++      });
++
++    } catch (e: any) {
++      return res.status(500).json({ success: false, message: e.message });
++    }
++  }
++
++  /**
++   * Retrieves historic bulk import logs
++   */
++  static async getLogs(req: Request, res: Response) {
++    try {
++      const logs = await prisma.importLog.findMany({
++        orderBy: { createdAt: 'desc' },
++        take: 30
++      });
++      return res.status(200).json({ success: true, data: logs });
++    } catch (e: any) {
++      return res.status(500).json({ success: false, message: e.message });
++    }
++  }
++
++  /**
++   * Pre-import dry-run validation checks
++   */
++  static async validate(req: Request, res: Response) {
++    try {
++      const file = req.file;
++      if (!file) {
++        return res.status(400).json({ success: false, message: 'No spreadsheet file uploaded.' });
++      }
++
++      const mapping = JSON.parse(req.body.mapping || '{}');
++      const importType = req.body.importType || 'PRODUCTS';
++      const rows = parseSpreadsheet(file.buffer);
++
++      const warnings = validateSpreadsheetRows(rows, mapping, importType);
++
++      return res.status(200).json({
++        success: true,
++        warnings
++      });
++    } catch (e: any) {
++      return res.status(500).json({ success: false, message: e.message });
++    }
++  }
++}
+diff --git a/src/routes/bulkImportRoutes.ts b/src/routes/bulkImportRoutes.ts
+new file mode 100644
+index 0000000..007e990
+--- /dev/null
++++ b/src/routes/bulkImportRoutes.ts
+@@ -0,0 +1,28 @@
++import { Router } from 'express';
++import multer from 'multer';
++import { BulkImportController } from '../controllers/BulkImportController';
++import { StagingController } from '../controllers/StagingController';
++import { authenticate, requirePermission } from '../middleware/auth';
++
++const router = Router();
++const upload = multer({
++  storage: multer.memoryStorage(),
++  limits: { fileSize: 25 * 1024 * 1024 } // 25MB max
++});
++
++router.use(authenticate, requirePermission('IMPORT'));
++
++router.post('/products', upload.single('file'), BulkImportController.importProducts);
++router.post('/orders', upload.single('file'), BulkImportController.importOrders);
++router.post('/preview-headers', upload.single('file'), BulkImportController.getHeaders);
++router.post('/validate', upload.single('file'), BulkImportController.validate);
++router.get('/logs', BulkImportController.getLogs);
++
++// Staging Routes
++router.get('/staging/:logId', StagingController.getStagingRows);
++router.put('/staging/row/:rowId', StagingController.updateStagingRow);
++router.post('/staging/:logId/commit', StagingController.commitStaging);
++router.get('/staging/:logId/download-errors', StagingController.downloadErrors);
++router.delete('/staging/:logId/cancel', StagingController.cancelStaging);
++
++export default router;
+diff --git a/src/routes/index.ts b/src/routes/index.ts
+index e2029d4..f9eb24b 100644
+--- a/src/routes/index.ts
++++ b/src/routes/index.ts
+@@ -32,6 +32,7 @@ import walletRoutes from './walletRoutes';
+ import wishlistRoutes from './wishlistRoutes';
+ import wordpressRoutes from './wordpressRoutes';
+ import shopifyRoutes from './shopifyRoutes';
++import bulkImportRoutes from './bulkImportRoutes';
+ import telemetryRoutes from './telemetryRoutes';
+ import searchRoutes from './searchRoutes';
+ import { authenticate, authorize } from '../middleware/auth';
+@@ -54,6 +55,7 @@ router.use('/specifications', specificationRoutes);
+ router.use('/variations', variationRoutes);
+ router.use('/wordpress', wordpressRoutes);
+ router.use('/shopify', shopifyRoutes);
++router.use('/bulk-import', bulkImportRoutes);
+ router.use('/global-settings', settingRoutes);
+ router.use('/pages', pageRoutes);
+ router.use('/wallet', walletRoutes);
+diff --git a/src/services/bulkImportService.ts b/src/services/bulkImportService.ts
+new file mode 100644
+index 0000000..24cd55d
+--- /dev/null
++++ b/src/services/bulkImportService.ts
+@@ -0,0 +1,725 @@
++import prisma from '../config/database';
++import * as XLSX from 'xlsx';
++import { CacheService } from '../core/redis/CacheService';
++import { KeyFactory } from '../core/redis/KeyFactory';
++
++export interface ColumnMapping {
++  name?: string;
++  slug?: string;
++  sku?: string;
++  price?: string;
++  comparePrice?: string;
++  specialPrice?: string;
++  stock?: string;
++  description?: string;
++  shortDescription?: string;
++  featured?: string;
++  brand?: string;
++  categories?: string;
++  images?: string;
++  specifications?: string;
++  parentSku?: string;
++  parentSlug?: string;
++  variantAttributes?: string;
++
++  // Order Fields
++  orderId?: string;
++  customerName?: string;
++  customerEmail?: string;
++  customerPhone?: string;
++  deliveryAddress?: string;
++  deliveryCity?: string;
++  deliveryArea?: string;
++  deliveryState?: string;
++  paymentMethod?: string;
++  paymentStatus?: string;
++  total?: string;
++  subtotal?: string;
++  deliveryFee?: string;
++  discount?: string;
++  status?: string;
++  items?: string;
++}
++
++function slugify(str: string): string {
++  return str
++    .toLowerCase()
++    .replace(/[^a-z0-9]+/g, '-')
++    .replace(/^-+|-+$/g, '');
++}
++
++async function uniqueSlug(base: string): Promise<string> {
++  let slug = base;
++  let counter = 1;
++  while (true) {
++    const found = await prisma.product.findUnique({ where: { slug } });
++    if (!found) break;
++    slug = `${base}-${counter++}`;
++  }
++  return slug;
++}
++
++function parseSpecifications(raw: any): string | null {
++  if (!raw) return null;
++  if (typeof raw === 'object') return JSON.stringify(raw);
++  
++  // Format expected: "Key1: Value1 | Value2, Key2: Value3"
++  try {
++    const specs: { name: string; value: string }[] = [];
++    const parts = raw.toString().split(',');
++    for (const part of parts) {
++      const idx = part.indexOf(':');
++      if (idx !== -1) {
++        const name = part.substring(0, idx).trim();
++        const value = part.substring(idx + 1).trim();
++        if (name && value) {
++          specs.push({ name, value });
++        }
++      }
++    }
++    return specs.length ? JSON.stringify(specs) : null;
++  } catch {
++    return null;
++  }
++}
++
++async function getOrCreateBrand(name: string): Promise<string> {
++  const slug = slugify(name);
++  const brand = await prisma.brand.upsert({
++    where: { slug },
++    update: { name },
++    create: { name, slug },
++  });
++  return brand.id;
++}
++
++async function getOrCreateCategory(name: string): Promise<string> {
++  const slug = slugify(name);
++  const category = await prisma.category.upsert({
++    where: { slug },
++    update: { name },
++    create: { name, slug },
++  });
++  return category.id;
++}
++
++export function parseSpreadsheet(buffer: Buffer): any[] {
++  const workbook = XLSX.read(buffer, { type: 'buffer' });
++  const sheetName = workbook.SheetNames[0];
++  const sheet = workbook.Sheets[sheetName];
++  return XLSX.utils.sheet_to_json(sheet, { defval: '' });
++}
++
++export async function importProducts(
++  rows: any[],
++  mapping: any,
++  logId: string
++): Promise<{ imported: number; failed: number; errors: string[] }> {
++  let imported = 0;
++  let failed = 0;
++  const errors: string[] = [];
++  const BATCH_SIZE = 20;
++  let batch: any[] = [];
++
++  const nameCol = mapping.name || 'name';
++  const priceCol = mapping.price || 'price';
++  const skuCol = mapping.sku || 'sku';
++  const slugCol = mapping.slug || 'slug';
++  const descCol = mapping.description || 'description';
++  const stockCol = mapping.stock || 'stock';
++  const comparePriceCol = mapping.comparePrice || 'comparePrice';
++  const brandCol = mapping.brand || 'brand';
++  const catCol = mapping.categories || 'categories';
++  const imgCol = mapping.images || 'images';
++  const parentSkuCol = mapping.parentSku || 'parentSku';
++  const varAttrCol = mapping.variantAttributes || 'variantAttributes';
++
++  for (const row of rows) {
++    try {
++      const parentSku = row[parentSkuCol]?.toString().trim() || null;
++      const isVariant = !!parentSku;
++
++      const name = row[nameCol]?.toString().trim() || null;
++      
++      const rawPrice = parseFloat(row[priceCol]);
++      let price = isNaN(rawPrice) ? null : rawPrice;
++
++      const rawCompare = parseFloat(row[comparePriceCol]);
++      const comparePrice = isNaN(rawCompare) ? null : rawCompare;
++
++      const rawStock = parseInt(row[stockCol]);
++      const stock = isNaN(rawStock) ? null : rawStock;
++
++      const sku = row[skuCol]?.toString().trim() || null;
++      const description = row[descCol]?.toString().trim() || null;
++      const brandName = row[brandCol]?.toString().trim() || null;
++      const categories = row[catCol]?.toString().trim() || null;
++      
++      const imgStrings = row[imgCol]?.toString().split(',') || [];
++      const galleryImages = imgStrings.map((url: string) => url.trim()).filter(Boolean);
++      const images = galleryImages.length ? JSON.stringify(galleryImages) : null;
++
++      const optionsArr = [];
++      if (isVariant) {
++        const rawAttrs = row[varAttrCol]?.toString().split(',') || [];
++        for (const attr of rawAttrs) {
++          const idx = attr.indexOf(':');
++          if (idx !== -1) {
++            const attrName = attr.substring(0, idx).trim();
++            const attrValue = attr.substring(idx + 1).trim();
++            if (attrName && attrValue) {
++              optionsArr.push({ name: attrName, value: attrValue });
++            }
++          }
++        }
++      }
++      const options = optionsArr.length ? JSON.stringify(optionsArr) : null;
++
++      const fieldErrors: any = {};
++      if (!isVariant && !name) fieldErrors.name = "Parent product requires a name";
++      
++      const warnings: any = {};
++      if (price === null) {
++        price = 0;
++        warnings.price = "Missing price set to 0. Please update.";
++      } else if (price < 0) {
++        fieldErrors.price = "Price cannot be negative";
++      }
++
++      if (isVariant && !sku && optionsArr.length === 0) {
++         fieldErrors.sku = "Variant row is missing both unique SKU and Variant Attributes.";
++      }
++
++      const status = Object.keys(fieldErrors).length > 0 ? 'INVALID' : 'VALID';
++      const finalErrors = { ...fieldErrors, ...warnings };
++
++      batch.push({
++        importLogId: logId,
++        status,
++        name,
++        sku,
++        price,
++        comparePrice,
++        stock,
++        description,
++        brandName,
++        categories,
++        images,
++        parentSku,
++        options,
++        errors: Object.keys(finalErrors).length > 0 ? finalErrors : null
++      });
++
++      if (batch.length >= BATCH_SIZE) {
++        await prisma.importStagingRow.createMany({ data: batch });
++        imported += batch.length;
++        await prisma.importLog.update({ where: { id: logId }, data: { imported } });
++        batch = [];
++      }
++    } catch (e: any) {
++      failed++;
++      errors.push("Row error: " + e.message);
++    }
++  }
++
++  if (batch.length > 0) {
++    try {
++      await prisma.importStagingRow.createMany({ data: batch });
++      imported += batch.length;
++    } catch (e: any) {
++      failed++;
++      errors.push("Final batch error: " + e.message);
++    }
++  }
++
++  await prisma.importLog.update({ where: { id: logId }, data: { imported, failed, errors: errors.join('\n') } });
++  return { imported, failed, errors };
++}
++
++export async function importOrders(
++  rows: any[],
++  mapping: ColumnMapping,
++  logId: string
++): Promise<{ imported: number; failed: number; errors: string[] }> {
++  let imported = 0;
++  let failed = 0;
++  const errors: string[] = [];
++
++  const orderIdCol = mapping.orderId || 'orderId';
++  const nameCol = mapping.customerName || 'customerName';
++  const emailCol = mapping.customerEmail || 'customerEmail';
++  const phoneCol = mapping.customerPhone || 'customerPhone';
++  const addrCol = mapping.deliveryAddress || 'deliveryAddress';
++  const cityCol = mapping.deliveryCity || 'deliveryCity';
++  const areaCol = mapping.deliveryArea || 'deliveryArea';
++  const stateCol = mapping.deliveryState || 'deliveryState';
++  const payMethodCol = mapping.paymentMethod || 'paymentMethod';
++  const payStatusCol = mapping.paymentStatus || 'paymentStatus';
++  const statusCol = mapping.status || 'status';
++  const totalCol = mapping.total || 'total';
++  const subtotalCol = mapping.subtotal || 'subtotal';
++  const feeCol = mapping.deliveryFee || 'deliveryFee';
++  const discountCol = mapping.discount || 'discount';
++  const itemsCol = mapping.items || 'items';
++
++  for (const row of rows) {
++    try {
++      const externalId = row[orderIdCol]?.toString().trim();
++      if (!externalId) {
++        throw new Error('Order ID is required for bulk order import.');
++      }
++
++      const email = row[emailCol]?.toString().trim() || null;
++      const phone = row[phoneCol]?.toString().trim() || null;
++      const customerName = row[nameCol]?.toString().trim() || 'Guest Customer';
++
++      // 👤 Check or Auto-Create Guest User
++      let user = null;
++      if (email) {
++        user = await prisma.user.findFirst({ where: { email } });
++      }
++      if (!user && phone) {
++        user = await prisma.user.findFirst({ where: { phone } });
++      }
++      if (!user) {
++        const placeholderEmail = email || `guest_${externalId}@imported.local`;
++        user = await prisma.user.create({
++          data: {
++            name: customerName,
++            email: placeholderEmail,
++            phone,
++            isGuest: true,
++          }
++        });
++      }
++
++      // Map Enum Fields
++      const rawStatus = row[statusCol]?.toString().toUpperCase() || 'PENDING';
++      const status = ['PENDING', 'CONFIRMED', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'COMPLETED', 'RETURNED', 'PARTIALLY_RETURNED', 'CANCELLED'].includes(rawStatus)
++        ? (rawStatus as any)
++        : 'PENDING';
++
++      const rawPayMethod = row[payMethodCol]?.toString().toUpperCase() || 'COD';
++      const paymentMethod = ['COD', 'CARD', 'BKASH', 'NAGAD', 'STRIPE', 'PAYPAL'].includes(rawPayMethod)
++        ? (rawPayMethod as any)
++        : 'COD';
++
++      const paymentStatus = row[payStatusCol]?.toString().toUpperCase() || 'UNPAID';
++
++      const total = parseFloat(row[totalCol]) || 0;
++      const subtotal = parseFloat(row[subtotalCol]) || total;
++      const deliveryFee = parseFloat(row[feeCol]) || 0;
++      const discount = parseFloat(row[discountCol]) || 0;
++
++      const deliveryAddress = row[addrCol]?.toString().trim() || 'Imported Address';
++      const deliveryCity = row[cityCol]?.toString().trim() || null;
++      const deliveryArea = row[areaCol]?.toString().trim() || null;
++      const deliveryState = row[stateCol]?.toString().trim() || null;
++
++      const orderData = {
++        userId: user.id,
++        customerName,
++        customerPhone: phone,
++        externalId: `bulk_${externalId}`,
++        externalSource: 'BULK_IMPORT',
++        status,
++        paymentMethod,
++        paymentStatus,
++        total,
++        subtotal,
++        deliveryFee,
++        discount,
++        deliveryAddress,
++        deliveryCity,
++        deliveryArea,
++        deliveryState,
++      };
++
++      const existingOrder = await prisma.order.findUnique({
++        where: { externalId: orderData.externalId }
++      });
++
++      let order;
++      if (existingOrder) {
++        order = await prisma.order.update({
++          where: { id: existingOrder.id },
++          data: orderData
++        });
++      } else {
++        order = await prisma.order.create({
++          data: orderData
++        });
++      }
++
++      // 🛒 Parse and Add Line Items
++      // Expected Item format: "SKU1:Qty1|Price1, SKU2:Qty2|Price2" or SKU-only
++      const rawItems = row[itemsCol]?.toString().split(',') || [];
++      
++      // Clean previous items
++      await prisma.orderItem.deleteMany({
++        where: { orderId: order.id }
++      });
++
++      for (const rawItem of rawItems) {
++        const parts = rawItem.split(':');
++        const sku = parts[0]?.trim();
++        if (sku) {
++          let quantity = 1;
++          let price = 0;
++
++          if (parts[1]) {
++            const details = parts[1].split('|');
++            quantity = parseInt(details[0]) || 1;
++            price = parseFloat(details[1]) || 0;
++          }
++
++          // Try matching SKU to product or variant
++          const product = await prisma.product.findFirst({ where: { sku } });
++          const variant = await prisma.productVariant.findFirst({ where: { sku } });
++
++          const dbPrice = price || (variant ? variant.price : (product ? product.price : 0));
++
++          await prisma.orderItem.create({
++            data: {
++              orderId: order.id,
++              productId: product?.id || variant?.productId || null,
++              variantId: variant?.id || null,
++              quantity,
++              price: dbPrice,
++            }
++          });
++        }
++      }
++
++      imported++;
++      await prisma.importLog.update({
++        where: { id: logId },
++        data: { imported, failed }
++      });
++
++    } catch (e: any) {
++      failed++;
++      errors.push(`Row error (Order ${row[orderIdCol]}): ${e.message}`);
++      await prisma.importLog.update({
++        where: { id: logId },
++        data: { imported, failed, errors: errors.join('\n') }
++      });
++    }
++  }
++
++  return { imported, failed, errors };
++}
++
++export function validateSpreadsheetRows(
++  rows: any[],
++  mapping: ColumnMapping,
++  importType: "PRODUCTS" | "ORDERS"
++): string[] {
++  const warnings: string[] = [];
++
++  if (importType === "PRODUCTS") {
++    const nameCol = mapping.name || "name";
++    const priceCol = mapping.price || "price";
++    const skuCol = mapping.sku || "sku";
++    const stockCol = mapping.stock || "stock";
++    const comparePriceCol = mapping.comparePrice || "comparePrice";
++    const specialPriceCol = mapping.specialPrice || "specialPrice";
++    const parentSkuCol = mapping.parentSku || "parentSku";
++    const parentSlugCol = mapping.parentSlug || "parentSlug";
++    const varAttrCol = mapping.variantAttributes || "variantAttributes";
++
++    rows.forEach((row, idx) => {
++      const lineNum = idx + 2; // header is line 1
++      const name = row[nameCol]?.toString().trim();
++      const parentSku = row[parentSkuCol]?.toString().trim();
++      const parentSlug = row[parentSlugCol]?.toString().trim();
++      const isVariant = !!(parentSku || parentSlug);
++
++      if (!isVariant && !name) {
++        warnings.push(`Row ${lineNum}: Product Name is missing.`);
++      }
++
++      const priceVal = parseFloat(row[priceCol]);
++      if (!isVariant && isNaN(priceVal)) {
++        warnings.push(`Row ${lineNum}: Price is missing or is not a valid number.`);
++      } else if (priceVal < 0) {
++        warnings.push(`Row ${lineNum}: Price cannot be negative.`);
++      }
++
++      const stockVal = parseInt(row[stockCol]);
++      if (row[stockCol] && isNaN(stockVal)) {
++        warnings.push(`Row ${lineNum}: Stock "${row[stockCol]}" is not a valid integer.`);
++      }
++
++      const compareVal = parseFloat(row[comparePriceCol]);
++      if (row[comparePriceCol] && isNaN(compareVal)) {
++        warnings.push(`Row ${lineNum}: Compare price "${row[comparePriceCol]}" is not a valid number.`);
++      }
++
++      const specialVal = parseFloat(row[specialPriceCol]);
++      if (row[specialPriceCol] && isNaN(specialVal)) {
++        warnings.push(`Row ${lineNum}: Special price "${row[specialPriceCol]}" is not a valid number.`);
++      }
++
++      if (isVariant) {
++        const sku = row[skuCol]?.toString().trim();
++        const attrs = row[varAttrCol]?.toString().trim();
++        if (!sku && !attrs) {
++          warnings.push(`Row ${lineNum}: Variant row is missing both unique SKU and Variant Attributes.`);
++        }
++      }
++    });
++  } else {
++    const orderIdCol = mapping.orderId || "orderId";
++    const totalCol = mapping.total || "total";
++    const itemsCol = mapping.items || "items";
++
++    rows.forEach((row, idx) => {
++      const lineNum = idx + 2;
++      const orderId = row[orderIdCol]?.toString().trim();
++      if (!orderId) {
++        warnings.push(`Row ${lineNum}: Order ID is missing.`);
++      }
++
++      const totalVal = parseFloat(row[totalCol]);
++      if (isNaN(totalVal)) {
++        warnings.push(`Row ${lineNum}: Total amount is missing or not a valid number.`);
++      }
++
++      const items = row[itemsCol]?.toString().trim();
++      if (!items) {
++        warnings.push(`Row ${lineNum}: Order Items (SKUs) column is missing.`);
++      }
++    });
++  }
++
++  return warnings;
++}
++
++
++export async function commitStagingToProducts(logId: string, includeInvalid: boolean = false) {
++  let committed = 0;
++  let failed = 0;
++
++  const statusFilter = { in: includeInvalid ? ['VALID', 'INVALID'] : ['VALID'] };
++
++  const totalValid = await prisma.importStagingRow.count({
++    where: { importLogId: logId, status: statusFilter }
++  });
++
++  if (totalValid === 0) {
++    return { committed, failed };
++  }
++  
++  await prisma.importLog.update({ 
++    where: { id: logId }, 
++    data: { totalProducts: totalValid, imported: 0, failed: 0 } 
++  });
++
++  const BATCH_SIZE = 20;
++
++  // 1. Process Parents first using ID chunking to avoid memory limits and infinite loops
++  const parentIds = (await prisma.importStagingRow.findMany({
++    where: { importLogId: logId, status: statusFilter, parentSku: null },
++    select: { id: true }
++  })).map(r => r.id);
++
++  for (let i = 0; i < parentIds.length; i += BATCH_SIZE) {
++    const chunkIds = parentIds.slice(i, i + BATCH_SIZE);
++    const parentBatch = await prisma.importStagingRow.findMany({
++      where: { id: { in: chunkIds } }
++    });
++
++    for (const row of parentBatch) {
++      try {
++        const safeName = row.name || 'Untitled Product';
++        const baseSlug = (row as any).slug || safeName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
++        
++        const existingBySku = row.sku ? await prisma.product.findFirst({ where: { sku: row.sku } }) : null;
++        
++        let slug = existingBySku ? existingBySku.slug : baseSlug || `product-${Date.now()}`;
++        let existingBySlug = await prisma.product.findUnique({ where: { slug } });
++        let counter = 1;
++        while (!existingBySku && existingBySlug) {
++          slug = `${baseSlug}-${counter}`;
++          existingBySlug = await prisma.product.findUnique({ where: { slug } });
++          counter++;
++        }
++        
++        const existing = existingBySku || existingBySlug;
++
++        const productData = {
++          name: safeName,
++          slug,
++          sku: row.sku,
++          price: row.price ?? 0,
++          comparePrice: row.comparePrice ?? null,
++          stock: row.stock ?? 0,
++          description: row.description ?? '',
++          brandId: row.brandName ? await getOrCreateBrand(row.brandName) : null,
++          image: row.images ? (() => { try { return JSON.parse(row.images)[0]; } catch { return null; } })() : null,
++          images: row.images ?? '[]',
++          specialPrice: row.comparePrice ? row.price : null,
++          productType: 'SIMPLE' as any,
++        };
++
++        const categoryConnections: { id: string }[] = [];
++        if (row.categories) {
++          const catNames = row.categories.split(',').filter(Boolean);
++          for (const cat of catNames) {
++            categoryConnections.push({ id: await getOrCreateCategory(cat.trim()) });
++          }
++        }
++
++        if (existing) {
++          await prisma.product.update({
++            where: { id: existing.id },
++            data: { ...productData, categories: { set: categoryConnections } }
++          });
++        } else {
++          await prisma.product.create({
++            data: { ...productData, categories: { connect: categoryConnections } }
++          });
++        }
++
++        await prisma.importStagingRow.update({
++          where: { id: row.id },
++          data: { status: 'IMPORTED' }
++        });
++        committed++;
++        
++        if (committed % 20 === 0) {
++          await prisma.importLog.update({ where: { id: logId }, data: { imported: committed, failed } });
++        }
++      } catch (e: any) {
++        failed++;
++        await prisma.importStagingRow.update({
++          where: { id: row.id },
++          data: { status: 'INVALID', errors: { system: e.message } }
++        });
++        
++        if (failed % 20 === 0) {
++          await prisma.importLog.update({ where: { id: logId }, data: { imported: committed, failed } });
++        }
++      }
++    }
++  }
++
++  // 2. Process Variants using the exact same ID chunking
++  const variantIds = (await prisma.importStagingRow.findMany({
++    where: { importLogId: logId, status: statusFilter, parentSku: { not: null } },
++    select: { id: true }
++  })).map(r => r.id);
++
++  for (let i = 0; i < variantIds.length; i += BATCH_SIZE) {
++    const chunkIds = variantIds.slice(i, i + BATCH_SIZE);
++    const variantBatch = await prisma.importStagingRow.findMany({
++      where: { id: { in: chunkIds } }
++    });
++
++    for (const row of variantBatch) {
++      try {
++        let parent = null;
++        if (row.parentSku) {
++          parent = await prisma.product.findFirst({ where: { sku: row.parentSku } });
++          if (!parent) parent = await prisma.product.findUnique({ where: { slug: row.parentSku } });
++        }
++
++        if (!parent) {
++          failed++;
++          await prisma.importStagingRow.update({
++            where: { id: row.id },
++            data: { status: 'INVALID', errors: { parent: 'Parent product not found in database or staging.' } }
++          });
++          continue;
++        }
++
++        if (parent.productType === 'SIMPLE') {
++          await prisma.product.update({ where: { id: parent.id }, data: { productType: 'VARIABLE' } });
++        }
++
++        const parsedAttrs = row.options ? JSON.parse(row.options) : [];
++        let existingVariant = null;
++        if (row.sku) {
++          existingVariant = await prisma.productVariant.findFirst({ 
++            where: { sku: row.sku, productId: parent.id } 
++          });
++        } else if (parsedAttrs.length > 0) {
++          const parentVariants = await prisma.productVariant.findMany({
++            where: { productId: parent.id },
++            include: { attributes: true }
++          });
++          existingVariant = parentVariants.find(v => {
++            if (v.attributes.length !== parsedAttrs.length) return false;
++            return parsedAttrs.every((pa: any) => 
++              v.attributes.some((va: any) => 
++                va.name.toLowerCase() === pa.name.toLowerCase() && 
++                va.value.toLowerCase() === pa.value.toLowerCase()
++              )
++            );
++          }) || null;
++        }
++
++        const vData: any = {
++          productId: parent.id,
++          sku: row.sku || `VAR-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
++          price: row.price ?? parent.price,
++          specialPrice: row.comparePrice ? row.price : null,
++          stock: row.stock ?? 0,
++          image: row.images ? (() => {
++            try {
++              const arr = JSON.parse(row.images);
++              return arr[0] || null;
++            } catch { return null; }
++          })() : null,
++        };
++
++        let variant;
++        if (existingVariant) {
++          variant = await prisma.productVariant.update({ where: { id: existingVariant.id }, data: vData });
++        } else {
++          variant = await prisma.productVariant.create({ data: vData });
++        }
++
++        if (parsedAttrs.length > 0) {
++          await prisma.variantAttribute.deleteMany({ where: { variantId: variant.id } });
++          await prisma.variantAttribute.createMany({
++            data: parsedAttrs.map((pa: any) => ({
++              variantId: variant.id,
++              name: pa.name,
++              value: pa.value,
++            }))
++          });
++        }
++
++        await prisma.importStagingRow.update({
++          where: { id: row.id },
++          data: { status: 'IMPORTED' }
++        });
++        committed++;
++        if (committed % 20 === 0) {
++          await prisma.importLog.update({ where: { id: logId }, data: { imported: committed, failed } });
++        }
++      } catch (e: any) {
++        failed++;
++        await prisma.importStagingRow.update({
++          where: { id: row.id },
++          data: { status: 'INVALID', errors: { system: e.message } }
++        });
++        if (failed % 20 === 0) {
++          await prisma.importLog.update({ where: { id: logId }, data: { imported: committed, failed } });
++        }
++      }
++    }
++  }
++
++  await prisma.importLog.update({ 
++    where: { id: logId }, 
++    data: { status: 'completed', imported: committed, failed, totalProducts: committed + failed } 
++  });
++  
++  // Invalidate product cache to reflect bulk imported products and variants immediately
++  await CacheService.incr(KeyFactory.productCacheVersion());
++
++  return { committed, failed };
++}
+diff --git a/src/services/nativeParsers.ts b/src/services/nativeParsers.ts
+new file mode 100644
+index 0000000..db47494
+--- /dev/null
++++ b/src/services/nativeParsers.ts
+@@ -0,0 +1,429 @@
++import prisma from '../config/database';
++import { slugify } from '../utils/helpers';
++import { ProductType } from '@prisma/client';
++
++async function uniqueSlug(base: string): Promise<string> {
++  let slug = base;
++  let counter = 1;
++  while (true) {
++    const existing = await prisma.product.findUnique({ where: { slug } });
++    if (!existing) return slug;
++    slug = `${base}-${counter}`;
++    counter++;
++  }
++}
++
++async function getOrCreateBrand(name: string): Promise<string> {
++  const slug = slugify(name);
++  const brand = await prisma.brand.upsert({
++    where: { slug },
++    update: { name },
++    create: { name, slug },
++  });
++  return brand.id;
++}
++
++async function getOrCreateCategory(name: string): Promise<string> {
++  const slug = slugify(name);
++  const category = await prisma.category.upsert({
++    where: { slug },
++    update: { name },
++    create: { name, slug },
++  });
++  return category.id;
++}
++
++export async function importShopifyProducts(
++  rows: any[],
++  logId: string
++): Promise<{ imported: number; failed: number; errors: string[] }> {
++  let imported = 0;
++  let failed = 0;
++  const errors: string[] = [];
++  
++  const BATCH_SIZE = 20;
++  let batch: any[] = [];
++  const currentOptionNames: Record<string, { opt1?: string, opt2?: string, opt3?: string }> = {};
++
++  for (const row of rows) {
++    try {
++      const handle = row['Handle']?.toString().trim();
++      const title = row['Title']?.toString().trim();
++      const name = title || handle; // Shopify uses handle for variations
++
++      const priceVal = parseFloat(row['Variant Price']);
++      let price = isNaN(priceVal) ? null : priceVal;
++
++      const compareVal = parseFloat(row['Variant Compare At Price']);
++      const comparePrice = isNaN(compareVal) ? null : compareVal;
++
++      const stockVal = parseInt(row['Variant Inventory Qty']);
++      const stock = isNaN(stockVal) ? null : stockVal;
++
++      const description = row['Body (HTML)']?.toString().trim();
++      const brandName = row['Vendor']?.toString().trim();
++      const categories = row['Custom Product Type']?.toString().trim() || row['Standardized Product Type']?.toString().trim();
++      const images = row['Image Src']?.toString().trim();
++      const sku = row['Variant SKU']?.toString().trim();
++
++      if (handle && !currentOptionNames[handle]) {
++        currentOptionNames[handle] = {};
++      }
++
++      const opt1Name = row[`Option1 Name`]?.toString().trim() || (handle ? currentOptionNames[handle].opt1 : undefined);
++      if (row[`Option1 Name`]?.toString().trim() && handle) currentOptionNames[handle].opt1 = row[`Option1 Name`].toString().trim();
++
++      const opt2Name = row[`Option2 Name`]?.toString().trim() || (handle ? currentOptionNames[handle].opt2 : undefined);
++      if (row[`Option2 Name`]?.toString().trim() && handle) currentOptionNames[handle].opt2 = row[`Option2 Name`].toString().trim();
++
++      const opt3Name = row[`Option3 Name`]?.toString().trim() || (handle ? currentOptionNames[handle].opt3 : undefined);
++      if (row[`Option3 Name`]?.toString().trim() && handle) currentOptionNames[handle].opt3 = row[`Option3 Name`].toString().trim();
++
++      const optionsArr = [];
++      const opt1Val = row[`Option1 Value`]?.toString().trim();
++      if (opt1Name && opt1Val && opt1Name.toLowerCase() !== 'title' && opt1Val.toLowerCase() !== 'default title') {
++        optionsArr.push({ name: opt1Name, value: opt1Val });
++      }
++      const opt2Val = row[`Option2 Value`]?.toString().trim();
++      if (opt2Name && opt2Val && opt2Name.toLowerCase() !== 'title' && opt2Val.toLowerCase() !== 'default title') {
++        optionsArr.push({ name: opt2Name, value: opt2Val });
++      }
++      const opt3Val = row[`Option3 Value`]?.toString().trim();
++      if (opt3Name && opt3Val && opt3Name.toLowerCase() !== 'title' && opt3Val.toLowerCase() !== 'default title') {
++        optionsArr.push({ name: opt3Name, value: opt3Val });
++      }
++      const options = optionsArr.length ? JSON.stringify(optionsArr) : null;
++
++      // Handle Gallery Images: Rows with no title and no options but an image
++      if (!title && !opt1Val && images && handle) {
++        // Find the parent row in the current batch
++        const parentRow = batch.find(r => r.slug === handle && r.parentSku === null);
++        if (parentRow) {
++          try {
++            const parsedImages = parentRow.images ? JSON.parse(parentRow.images) : [];
++            parsedImages.push(images);
++            parentRow.images = JSON.stringify(parsedImages);
++          } catch (e) {
++            // Ignore parse error
++          }
++        }
++        // Skip creating a new row for this gallery image
++        continue;
++      }
++
++      const fieldErrors: any = {};
++      if (!name) fieldErrors.name = "Name or Handle is required";
++      
++      const warnings: any = {};
++      if (price === null) {
++        price = 0;
++        warnings.price = "Missing price set to 0. Please update.";
++      } else if (price < 0) {
++        fieldErrors.price = "Price cannot be negative";
++      }
++
++      const status = Object.keys(fieldErrors).length > 0 ? 'INVALID' : 'VALID';
++      const finalErrors = { ...fieldErrors, ...warnings };
++
++      const dataPayload: any = {
++          importLogId: logId,
++          status,
++          name,
++          slug: handle,
++          sku,
++          price,
++          comparePrice,
++          stock,
++          description,
++          brandName,
++          categories,
++          images: images ? JSON.stringify([images]) : null,
++          parentSku: !title && handle ? handle : null,
++          options,
++          errors: Object.keys(finalErrors).length > 0 ? finalErrors : null
++      };
++
++      batch.push(dataPayload);
++      
++      if (batch.length >= BATCH_SIZE) {
++        await prisma.importStagingRow.createMany({ data: batch });
++        imported += batch.length;
++        await prisma.importLog.update({ where: { id: logId }, data: { imported } });
++        batch = [];
++      }
++    } catch (e: any) {
++      failed++;
++      errors.push(`Row error: ${e.message}`);
++    }
++  }
++
++  if (batch.length > 0) {
++    try {
++      await prisma.importStagingRow.createMany({ data: batch });
++      imported += batch.length;
++    } catch (e: any) {
++      failed += batch.length;
++      errors.push(`Final batch error: ${e.message}`);
++    }
++  }
++
++  await prisma.importLog.update({ where: { id: logId }, data: { imported, failed, errors: errors.join('\n') } });
++  return { imported, failed, errors };
++}
++
++export async function importWooProducts(
++  rows: any[],
++  logId: string
++): Promise<{ imported: number; failed: number; errors: string[] }> {
++  let imported = 0;
++  let failed = 0;
++  const errors: string[] = [];
++  const BATCH_SIZE = 20;
++  let batch: any[] = [];
++
++  for (const row of rows) {
++    try {
++      const type = row['Type']?.toString().toLowerCase();
++      const isVariant = type === 'variation';
++
++      const name = row['Name']?.toString().trim();
++      let priceVal = parseFloat(row['Regular price']);
++      let price = isNaN(priceVal) ? null : priceVal;
++      
++      const specialVal = parseFloat(row['Sale price']);
++      const comparePrice = isNaN(specialVal) ? null : specialVal; // Map sale price logic properly in commit phase
++
++      const stockVal = parseInt(row['Stock']);
++      const stock = isNaN(stockVal) ? null : stockVal;
++
++      const description = row['Description']?.toString().trim();
++      const sku = row['SKU']?.toString().trim();
++      const imagesStr = row['Images']?.toString().trim();
++      const images = imagesStr ? JSON.stringify(imagesStr.split(',').map((u: string) => u.trim()).filter(Boolean)) : null;
++
++      const categories = row['Categories']?.toString().trim();
++      const parentSku = isVariant ? row['Parent']?.toString().trim() : null;
++
++      const optionsArr = [];
++      if (isVariant) {
++        for (let i = 1; i <= 5; i++) {
++          const optName = row[`Attribute ${i} name`]?.toString().trim();
++          const optVal = row[`Attribute ${i} value(s)`]?.toString().trim();
++          if (optName && optVal) optionsArr.push({ name: optName, value: optVal });
++        }
++      }
++      const options = optionsArr.length ? JSON.stringify(optionsArr) : null;
++
++      const fieldErrors: any = {};
++      if (!isVariant && !name) fieldErrors.name = "Parent product requires a name";
++      
++      const warnings: any = {};
++      if (price === null) {
++        price = 0;
++        warnings.price = "Missing price set to 0. Please update.";
++      } else if (price < 0) {
++        fieldErrors.price = "Price cannot be negative";
++      }
++
++      const status = Object.keys(fieldErrors).length > 0 ? 'INVALID' : 'VALID';
++      const finalErrors = { ...fieldErrors, ...warnings };
++
++      batch.push({
++        importLogId: logId,
++        status,
++        name,
++        sku,
++        price,
++        comparePrice,
++        stock,
++        description,
++        categories,
++        images,
++        parentSku,
++        options,
++        errors: Object.keys(finalErrors).length > 0 ? finalErrors : null
++      });
++
++      if (batch.length >= BATCH_SIZE) {
++        await prisma.importStagingRow.createMany({ data: batch });
++        imported += batch.length;
++        await prisma.importLog.update({ where: { id: logId }, data: { imported } });
++        batch = [];
++      }
++    } catch(e: any) {
++      failed++;
++      errors.push(`Row error: ${e.message}`);
++    }
++  }
++
++  if (batch.length > 0) {
++    try {
++      await prisma.importStagingRow.createMany({ data: batch });
++      imported += batch.length;
++    } catch (e: any) {
++      failed += batch.length;
++      errors.push(`Final batch error: ${e.message}`);
++    }
++  }
++
++  await prisma.importLog.update({ where: { id: logId }, data: { imported, failed, errors: errors.join('\n') } });
++  return { imported, failed, errors };
++}
++
++export async function importShopifyOrders(
++  rows: any[],
++  logId: string
++): Promise<{ imported: number; failed: number; errors: string[] }> {
++  let imported = 0;
++  let failed = 0;
++  const errors: string[] = [];
++
++  const groupedByName: Record<string, any[]> = {};
++  for (const row of rows) {
++    const name = row['Name']?.toString().trim();
++    if (name) {
++      if (!groupedByName[name]) groupedByName[name] = [];
++      groupedByName[name].push(row);
++    }
++  }
++
++  for (const orderName of Object.keys(groupedByName)) {
++    try {
++      const groupRows = groupedByName[orderName];
++      const parentRow = groupRows[0];
++
++      const email = parentRow['Email']?.toString().trim();
++      const phone = parentRow['Phone']?.toString().trim() || parentRow['Shipping Phone']?.toString().trim();
++      
++      let user = null;
++      if (email) user = await prisma.user.findFirst({ where: { email } });
++      if (!user && phone) user = await prisma.user.findFirst({ where: { phone } });
++      
++      if (!user) {
++        user = await prisma.user.create({
++          data: {
++            email: email || `guest_${orderName}@imported.local`,
++            phone,
++            name: (parentRow['Shipping Name']?.toString() || 'Guest').trim(),
++            password: 'NO_LOGIN',
++            role: 'USER'
++          }
++        });
++      }
++
++      const totalVal = parseFloat(parentRow['Total']);
++      const total = isNaN(totalVal) ? 0 : totalVal;
++
++      const order = await prisma.order.upsert({
++        where: { externalId: `shopify_${orderName}` },
++        update: { total, userId: user.id },
++        create: {
++          externalId: `shopify_${orderName}`,
++          userId: user.id,
++          total,
++          subtotal: total,
++          status: 'COMPLETED',
++          paymentStatus: parentRow['Financial Status']?.toString().toLowerCase() === 'paid' ? 'PAID' : 'UNPAID',
++          deliveryAddress: `${parentRow['Shipping Street'] || ''} ${parentRow['Shipping City'] || ''}`.trim()
++        }
++      });
++
++      await prisma.orderItem.deleteMany({ where: { orderId: order.id } });
++
++      for (const itemRow of groupRows) {
++        const sku = itemRow['Lineitem sku']?.toString().trim();
++        const quantityVal = parseInt(itemRow['Lineitem quantity']);
++        const quantity = isNaN(quantityVal) ? 1 : quantityVal;
++        const priceVal = parseFloat(itemRow['Lineitem price']);
++        const price = isNaN(priceVal) ? 0 : priceVal;
++
++        let productId = null;
++        let variantId = null;
++
++        if (sku) {
++          const v = await prisma.productVariant.findFirst({ where: { sku } });
++          if (v) {
++            variantId = v.id;
++            productId = v.productId;
++          } else {
++            const p = await prisma.product.findFirst({ where: { sku } });
++            if (p) productId = p.id;
++          }
++        }
++
++        await prisma.orderItem.create({
++          data: {
++            orderId: order.id,
++            productId,
++            variantId,
++            quantity,
++            price
++          }
++        });
++      }
++
++      imported++;
++      await prisma.importLog.update({ where: { id: logId }, data: { imported, failed } });
++
++    } catch (e: any) {
++      failed++;
++      errors.push(`Shopify Order [${orderName}] error: ${e.message}`);
++      await prisma.importLog.update({ where: { id: logId }, data: { imported, failed, errors: errors.join('\n') } });
++    }
++  }
++
++  return { imported, failed, errors };
++}
++
++export async function importWooOrders(
++  rows: any[],
++  logId: string
++): Promise<{ imported: number; failed: number; errors: string[] }> {
++  let imported = 0;
++  let failed = 0;
++  const errors: string[] = [];
++
++  for (const row of rows) {
++    try {
++      const orderId = row['Order ID']?.toString().trim();
++      if (!orderId) continue;
++
++      const email = row['Customer email']?.toString().trim();
++      let user = email ? await prisma.user.findFirst({ where: { email } }) : null;
++      if (!user) {
++        user = await prisma.user.create({
++          data: {
++            email: email || `guest_${orderId}@imported.local`,
++            name: `${row['Billing first name'] || ''} ${row['Billing last name'] || ''}`.trim() || 'Guest',
++            password: 'NO_LOGIN',
++            role: 'USER'
++          }
++        });
++      }
++
++      const totalVal = parseFloat(row['Order total']);
++      
++      const order = await prisma.order.upsert({
++        where: { externalId: `woo_${orderId}` },
++        update: { total: isNaN(totalVal) ? 0 : totalVal },
++        create: {
++          externalId: `woo_${orderId}`,
++          userId: user.id,
++          total: isNaN(totalVal) ? 0 : totalVal,
++          subtotal: isNaN(totalVal) ? 0 : totalVal,
++          status: 'COMPLETED',
++          paymentStatus: 'PAID',
++          deliveryAddress: `${row['Shipping address 1'] || ''} ${row['Shipping city'] || ''}`.trim()
++        }
++      });
++
++      imported++;
++      await prisma.importLog.update({ where: { id: logId }, data: { imported, failed } });
++    } catch(e: any) {
++      failed++;
++      errors.push(`Woo Order error: ${e.message}`);
++      await prisma.importLog.update({ where: { id: logId }, data: { imported, failed, errors: errors.join('\n') } });
++    }
++  }
++  return { imported, failed, errors };
++}
+diff --git a/src/tests/productController.test.ts b/src/tests/productController.test.ts
+index 5b91958..367888a 100644
+--- a/src/tests/productController.test.ts
++++ b/src/tests/productController.test.ts
+@@ -12,6 +12,7 @@ vi.mock('../config/database', () => {
+   };
+   return {
+     default: mockPrisma,
++    basePrisma: mockPrisma,
+   };
+ });
+ 
+
+```
+
+## 2. Frontend Patch (femcart-web)
+```diff
+diff --git a/bulk_importer_web.patch b/bulk_importer_web.patch
+new file mode 100644
+index 0000000..b1eae9f
+Binary files /dev/null and b/bulk_importer_web.patch differ
+diff --git a/next.config.ts b/next.config.ts
+index 3e81f1b..ff6c25d 100644
+--- a/next.config.ts
++++ b/next.config.ts
+@@ -102,6 +102,11 @@ const nextConfig: NextConfig = {
+         hostname: "femecart.com",
+         pathname: "/**",
+       },
++      {
++        protocol: "https",
++        hostname: "cdn.shopify.com",
++        pathname: "/**",
++      },
+     ],
+   },
+ };
+diff --git a/src/app/admin/bulk-import/page.tsx b/src/app/admin/bulk-import/page.tsx
+new file mode 100644
+index 0000000..c729ad8
+--- /dev/null
++++ b/src/app/admin/bulk-import/page.tsx
+@@ -0,0 +1,629 @@
++"use client";
++
++import React, { useState, useRef } from "react";
++import { motion } from "framer-motion";
++import Swal from "sweetalert2";
++import {
++  Upload,
++  Database,
++  ArrowRight,
++  Loader2,
++  Terminal,
++  FileSpreadsheet,
++  CheckCircle,
++  AlertCircle,
++  HelpCircle,
++  Lock,
++  Download,
++} from "lucide-react";
++import { API_URL } from "@/lib/config";
++import ColumnMapper from "@/components/admin/bulk-import/ColumnMapper";
++import ImportLogs from "@/components/admin/bulk-import/ImportLogs";
++
++export default function BulkImportPage() {
++  const [activeTab, setActiveTab] = useState<"upload" | "history">("upload");
++  const [importType, setImportType] = useState<"PRODUCTS" | "ORDERS">("PRODUCTS");
++  const [importPlatform, setImportPlatform] = useState<"CUSTOM" | "SHOPIFY" | "WOOCOMMERCE">("CUSTOM");
++
++  // File states
++  const [file, setFile] = useState<File | null>(null);
++  const [sheetHeaders, setSheetHeaders] = useState<string[]>([]);
++  const [previewRows, setPreviewRows] = useState<any[]>([]);
++  const [parsingHeaders, setParsingHeaders] = useState(false);
++
++  // Mapping state
++  const [mapping, setMapping] = useState<Record<string, string>>({});
++  const [importing, setImporting] = useState(false);
++  const [importStatus, setImportStatus] = useState<{
++    success: boolean;
++    message: string;
++  } | null>(null);
++
++  const [warnings, setWarnings] = useState<string[]>([]);
++  const [showWarningsConfirm, setShowWarningsConfirm] = useState(false);
++
++  const fileInputRef = useRef<HTMLInputElement>(null);
++
++  // Field Schemas
++  const productFields = [
++    { key: "name", label: "Product Name", required: true, description: "Name of the product" },
++    { key: "price", label: "Price", required: true, description: "Regular price amount" },
++    { key: "sku", label: "SKU", required: false, description: "Stock Keeping Unit code" },
++    { key: "slug", label: "Slug", required: false, description: "Unique URL identifier" },
++    { key: "stock", label: "Stock Quantity", required: false, description: "Initial inventory count" },
++    { key: "comparePrice", label: "Compare Price", required: false, description: "Original strike-through price" },
++    { key: "specialPrice", label: "Special Price", required: false, description: "Sale or promotional price" },
++    { key: "description", label: "Description", required: false, description: "Long product details HTML/Text" },
++    { key: "shortDescription", label: "Short Description", required: false, description: "Brief snippet summary" },
++    { key: "featured", label: "Featured", required: false, description: "Boolean 'true' or 'false'" },
++    { key: "brand", label: "Brand Name", required: false, description: "Brand will be auto-created if missing" },
++    { key: "categories", label: "Categories (comma-separated)", required: false, description: "Category structures will be auto-created" },
++    { key: "images", label: "Images (comma-separated URLs)", required: false, description: "Downloads and hosts files" },
++    { key: "specifications", label: "Specifications (Key:Value,Key2:Value2)", required: false, description: "Additional details grid" },
++    { key: "parentSku", label: "Parent SKU", required: false, description: "If a variant row, SKU of parent" },
++    { key: "parentSlug", label: "Parent Slug", required: false, description: "If a variant row, Slug of parent" },
++    { key: "variantAttributes", label: "Variant Attributes (Key:Value,Key2:Value2)", required: false, description: "Variant options (e.g. Size:M)" },
++  ];
++
++  const orderFields = [
++    { key: "orderId", label: "Order ID / External ID", required: true, description: "Unique identifier of the order" },
++    { key: "customerName", label: "Customer Name", required: false, description: "Billing customer name" },
++    { key: "customerEmail", label: "Customer Email", required: false, description: "Used to match or create guest accounts" },
++    { key: "customerPhone", label: "Customer Phone", required: false, description: "Billing phone contact" },
++    { key: "deliveryAddress", label: "Delivery Address", required: false, description: "Full street shipping address" },
++    { key: "deliveryCity", label: "City", required: false, description: "City (e.g. Dhaka)" },
++    { key: "deliveryArea", label: "Area", required: false, description: "Area / neighborhood name" },
++    { key: "deliveryState", label: "State", required: false, description: "State / Division" },
++    { key: "paymentMethod", label: "Payment Method (COD, CARD, BKASH, etc.)", required: false, description: "Payment gateway code" },
++    { key: "paymentStatus", label: "Payment Status (PAID/UNPAID)", required: false, description: "PAID or UNPAID" },
++    { key: "total", label: "Grand Total Amount", required: true, description: "Total price paid" },
++    { key: "subtotal", label: "Subtotal Amount", required: false, description: "Total before fees and discounts" },
++    { key: "deliveryFee", label: "Delivery Fee", required: false, description: "Shipping cost amount" },
++    { key: "discount", label: "Discount Total", required: false, description: "Coupon or loyalty deductions" },
++    { key: "status", label: "Order Status (PENDING, PROCESSING, etc.)", required: false, description: "Current workflow state" },
++    { key: "items", label: "Items (SKU1:Qty1|Price1, SKU2:Qty2)", required: true, description: "Ordered product SKU line item rows" },
++  ];
++
++  const currentFields = importType === "PRODUCTS" ? productFields : orderFields;
++
++  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
++    const selectedFile = e.target.files?.[0];
++    if (!selectedFile) return;
++
++    setFile(selectedFile);
++    setParsingHeaders(true);
++    setSheetHeaders([]);
++    setPreviewRows([]);
++    setMapping({});
++    setWarnings([]);
++    setShowWarningsConfirm(false);
++    setImportStatus(null);
++
++    const formData = new FormData();
++    formData.append("file", selectedFile);
++
++    try {
++      const token =
++        localStorage.getItem("femcart_access_token") ||
++        localStorage.getItem("token") ||
++        "";
++
++      const res = await fetch(`${API_URL}/api/bulk-import/preview-headers`, {
++        method: "POST",
++        headers: { Authorization: `Bearer ${token}` },
++        body: formData,
++      });
++
++      const json = await res.json();
++      if (json.success) {
++        setSheetHeaders(json.headers || []);
++        setPreviewRows(json.previewRows || []);
++      } else {
++        Swal.fire("Error", json.message || "Failed to parse file headers.", "error");
++        setFile(null);
++      }
++    } catch (err: any) {
++      console.error(err);
++      Swal.fire("Error", "An error occurred while loading headers.", "error");
++      setFile(null);
++    } finally {
++      setParsingHeaders(false);
++    }
++  };
++
++  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
++    e.preventDefault();
++    const droppedFile = e.dataTransfer.files?.[0];
++    if (droppedFile) {
++      const input = fileInputRef.current;
++      if (input) {
++        const dataTransfer = new DataTransfer();
++        dataTransfer.items.add(droppedFile);
++        input.files = dataTransfer.files;
++        // Trigger manual change listener
++        const event = { target: input } as any;
++        handleFileChange(event);
++      }
++    }
++  };
++
++  const executeImport = async () => {
++    setImporting(true);
++    setImportStatus(null);
++    setShowWarningsConfirm(false);
++
++    const formData = new FormData();
++    formData.append("file", file!);
++    formData.append("mapping", JSON.stringify(mapping));
++    formData.append("importPlatform", importPlatform);
++
++    try {
++      const token =
++        localStorage.getItem("femcart_access_token") ||
++        localStorage.getItem("token") ||
++        "";
++
++      const endpoint =
++        importType === "PRODUCTS"
++          ? `${API_URL}/api/bulk-import/products`
++          : `${API_URL}/api/bulk-import/orders`;
++
++      const res = await fetch(endpoint, {
++        method: "POST",
++        headers: { Authorization: `Bearer ${token}` },
++        body: formData,
++      });
++
++      const json = await res.json();
++      if (json.success) {
++        setImportStatus({
++          success: true,
++          message: "Data spreadsheet is processing in the background! Redirecting to queue...",
++        });
++        
++        // Auto redirect to queue tab to view logs in 2s
++        setTimeout(() => {
++          setActiveTab("history");
++          // Clear file state to allow new uploads
++          setFile(null);
++          setSheetHeaders([]);
++          setPreviewRows([]);
++          setMapping({});
++          setWarnings([]);
++        }, 1800);
++      } else {
++        setImportStatus({
++          success: false,
++          message: json.message || "Bulk import failed to launch.",
++        });
++      }
++    } catch (err: any) {
++      setImportStatus({
++        success: false,
++        message: err.message || "A network error occurred.",
++      });
++    } finally {
++      setImporting(false);
++    }
++  };
++
++  const handleStartImport = async () => {
++    if (!file) return;
++
++    if (importPlatform === "CUSTOM") {
++      // Check required mappings
++      const missing = currentFields
++        .filter((f) => f.required && !mapping[f.key])
++        .map((f) => f.label);
++
++      if (missing.length > 0) {
++        Swal.fire("Missing Fields", `Please map the following required fields: ${missing.join(", ")}`, "warning");
++        return;
++      }
++    }
++
++    if (showWarningsConfirm || importPlatform !== "CUSTOM") {
++      await executeImport();
++      return;
++    }
++
++    setImporting(true);
++    setImportStatus(null);
++
++    const formData = new FormData();
++    formData.append("file", file);
++    formData.append("mapping", JSON.stringify(mapping));
++    formData.append("importType", importType);
++
++    try {
++      const token =
++        localStorage.getItem("femcart_access_token") ||
++        localStorage.getItem("token") ||
++        "";
++
++      const res = await fetch(`${API_URL}/api/bulk-import/validate`, {
++        method: "POST",
++        headers: { Authorization: `Bearer ${token}` },
++        body: formData,
++      });
++
++      const json = await res.json();
++      if (json.success && json.warnings && json.warnings.length > 0) {
++        setWarnings(json.warnings);
++        setShowWarningsConfirm(true);
++      } else {
++        await executeImport();
++      }
++    } catch (err: any) {
++      setImportStatus({
++        success: false,
++        message: err.message || "A validation check error occurred.",
++      });
++    } finally {
++      setImporting(false);
++    }
++  };
++
++  return (
++    <div className="p-6 md:p-10 max-w-[1400px] mx-auto space-y-8">
++      <div>
++        <h1 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white flex items-center gap-3">
++          Spreadsheet Data Importer
++        </h1>
++        <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm md:text-base font-medium">
++          Import and synchronize products, variants, brands, categories, and orders dynamically using CSV or Excel `.xlsx` spreadsheets.
++        </p>
++      </div>
++
++      <div className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-200/60 dark:border-gray-800 shadow-xl shadow-gray-200/20 dark:shadow-none overflow-hidden">
++        {/* Header Tabs */}
++        <div className="flex border-b border-gray-100 dark:border-gray-850 p-2 gap-2 bg-gray-50/50 dark:bg-gray-950/40">
++          <button
++            onClick={() => setActiveTab("upload")}
++            className={`px-5 py-3 text-sm font-bold rounded-xl flex items-center gap-2 transition-colors whitespace-nowrap outline-none ${
++              activeTab === "upload"
++                ? "bg-white dark:bg-gray-900 text-emerald-700 dark:text-emerald-400 shadow-sm border border-gray-200/50 dark:border-gray-800"
++                : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
++            }`}
++          >
++            <Upload size={16} /> Upload & Setup
++          </button>
++          <button
++            onClick={() => setActiveTab("history")}
++            className={`px-5 py-3 text-sm font-bold rounded-xl flex items-center gap-2 transition-colors whitespace-nowrap outline-none ${
++              activeTab === "history"
++                ? "bg-white dark:bg-gray-900 text-emerald-700 dark:text-emerald-400 shadow-sm border border-gray-200/50 dark:border-gray-800"
++                : "text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
++            }`}
++          >
++            <Terminal size={16} /> Import Tasks History
++          </button>
++        </div>
++
++        {/* Tab Content */}
++        <div className="p-6 md:p-8">
++          {activeTab === "upload" ? (
++            <div className="space-y-8">
++              {/* Step 1: Select Type */}
++              <div className="space-y-3">
++                <h3 className="text-sm font-black text-gray-850 dark:text-gray-200 flex items-center gap-2">
++                  <Database size={16} className="text-emerald-600" />
++                  1. What data are you importing?
++                  {file && <Lock size={12} className="text-gray-400 ml-1" />}
++                </h3>
++                <div className="flex gap-4">
++                  <button
++                    onClick={() => {
++                      if (!file) setImportType("PRODUCTS");
++                    }}
++                    disabled={!!file}
++                    className={`px-6 py-4 rounded-2xl border text-left flex flex-col gap-1 transition-all w-full max-w-[280px] disabled:opacity-60 disabled:cursor-not-allowed ${
++                      importType === "PRODUCTS"
++                        ? "bg-emerald-50/30 dark:bg-emerald-950/15 border-emerald-500 text-emerald-900 dark:text-emerald-300 ring-2 ring-emerald-500/20"
++                        : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-gray-300"
++                    }`}
++                  >
++                    <div className="flex items-center justify-between w-full">
++                      <span className="font-bold text-sm">Products & Catalog</span>
++                      {file && <Lock size={12} className="text-gray-400 opacity-60" />}
++                    </div>
++                    <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">Import products, options, stock, specs, and variants.</span>
++                  </button>
++                  <button
++                    onClick={() => {
++                      if (!file) setImportType("ORDERS");
++                    }}
++                    disabled={!!file}
++                    className={`px-6 py-4 rounded-2xl border text-left flex flex-col gap-1 transition-all w-full max-w-[280px] disabled:opacity-60 disabled:cursor-not-allowed ${
++                      importType === "ORDERS"
++                        ? "bg-emerald-50/30 dark:bg-emerald-950/15 border-emerald-500 text-emerald-900 dark:text-emerald-300 ring-2 ring-emerald-500/20"
++                        : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-gray-300"
++                    }`}
++                  >
++                    <div className="flex items-center justify-between w-full">
++                      <span className="font-bold text-sm">Orders & Line Items</span>
++                      {file && <Lock size={12} className="text-gray-400 opacity-60" />}
++                    </div>
++                    <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">Import customers, purchase total, payment status, and items.</span>
++                  </button>
++                </div>
++              </div>
++
++              {/* Step 2: Select Format */}
++              <div className="space-y-3">
++                <h3 className="text-sm font-black text-gray-850 dark:text-gray-200 flex items-center gap-2">
++                  <FileSpreadsheet size={16} className="text-emerald-600" />
++                  2. Select Format Source
++                  {file && <Lock size={12} className="text-gray-400 ml-1" />}
++                </h3>
++                <div className="flex gap-4 flex-wrap">
++                  <button
++                    onClick={() => {
++                      if (!file) setImportPlatform("CUSTOM");
++                    }}
++                    disabled={!!file}
++                    className={`px-6 py-4 rounded-2xl border text-left flex flex-col gap-1 transition-all w-full max-w-[280px] disabled:opacity-60 disabled:cursor-not-allowed ${
++                      importPlatform === "CUSTOM"
++                        ? "bg-emerald-50/30 dark:bg-emerald-950/15 border-emerald-500 text-emerald-900 dark:text-emerald-300 ring-2 ring-emerald-500/20"
++                        : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-gray-300"
++                    }`}
++                  >
++                    <div className="flex items-center justify-between w-full">
++                      <span className="font-bold text-sm">Custom Spreadsheet</span>
++                      {file && <Lock size={12} className="text-gray-400 opacity-60" />}
++                    </div>
++                    <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">Map your own custom columns.</span>
++                  </button>
++                  <button
++                    onClick={() => {
++                      if (!file) setImportPlatform("SHOPIFY");
++                    }}
++                    disabled={!!file}
++                    className={`px-6 py-4 rounded-2xl border text-left flex flex-col gap-1 transition-all w-full max-w-[280px] disabled:opacity-60 disabled:cursor-not-allowed ${
++                      importPlatform === "SHOPIFY"
++                        ? "bg-emerald-50/30 dark:bg-emerald-950/15 border-emerald-500 text-emerald-900 dark:text-emerald-300 ring-2 ring-emerald-500/20"
++                        : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-gray-300"
++                    }`}
++                  >
++                    <div className="flex items-center justify-between w-full">
++                      <span className="font-bold text-sm">Shopify Export</span>
++                      {file && <Lock size={12} className="text-gray-400 opacity-60" />}
++                    </div>
++                    <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">No mapping required. Parses Options & Variants automatically.</span>
++                  </button>
++                  <button
++                    onClick={() => {
++                      if (!file) setImportPlatform("WOOCOMMERCE");
++                    }}
++                    disabled={!!file}
++                    className={`px-6 py-4 rounded-2xl border text-left flex flex-col gap-1 transition-all w-full max-w-[280px] disabled:opacity-60 disabled:cursor-not-allowed ${
++                      importPlatform === "WOOCOMMERCE"
++                        ? "bg-emerald-50/30 dark:bg-emerald-950/15 border-emerald-500 text-emerald-900 dark:text-emerald-300 ring-2 ring-emerald-500/20"
++                        : "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-gray-300"
++                    }`}
++                  >
++                    <div className="flex items-center justify-between w-full">
++                      <span className="font-bold text-sm">WooCommerce Export</span>
++                      {file && <Lock size={12} className="text-gray-400 opacity-60" />}
++                    </div>
++                    <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">No mapping required. Native structure support.</span>
++                  </button>
++                </div>
++              </div>
++
++              {/* Step 3: Upload Zone */}
++              <div className="space-y-3">
++                <div className="flex items-center justify-between">
++                  <h3 className="text-sm font-black text-gray-850 dark:text-gray-200 flex items-center gap-2">
++                    <Upload size={16} className="text-emerald-600" />
++                    3. Choose Spreadsheet File
++                  </h3>
++                  {importPlatform === "CUSTOM" && (
++                    <button
++                      onClick={() => Swal.fire("Coming Soon", "Template download feature coming soon!", "info")}
++                      className="flex items-center justify-center gap-2 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-xl shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
++                    >
++                      <Download size={14} />
++                      Download {importType === "PRODUCTS" ? "Product" : "Order"} Template
++                    </button>
++                  )}
++                </div>
++                <div
++                  onDragOver={(e) => e.preventDefault()}
++                  onDrop={handleDrop}
++                  className={`border-2 border-dashed rounded-3xl p-8 text-center flex flex-col items-center justify-center transition-all ${
++                    file
++                      ? "border-emerald-400/80 bg-emerald-50/10 dark:bg-emerald-950/5"
++                      : "border-gray-200 dark:border-gray-800 hover:border-emerald-400 dark:hover:border-emerald-800 bg-gray-50/30 dark:bg-gray-950/20"
++                  }`}
++                >
++                  <input
++                    type="file"
++                    ref={fileInputRef}
++                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
++                    onChange={handleFileChange}
++                    className="hidden"
++                  />
++
++                  {parsingHeaders ? (
++                    <div className="py-4 space-y-2">
++                      <Loader2 size={36} className="animate-spin text-emerald-600 mx-auto" />
++                      <p className="text-xs font-bold text-gray-600 dark:text-gray-400">Reading columns data...</p>
++                    </div>
++                  ) : file ? (
++                    <div className="space-y-4">
++                      <FileSpreadsheet size={40} className="text-emerald-600 mx-auto" />
++                      <div>
++                        <p className="text-sm font-black text-gray-800 dark:text-white">{file.name}</p>
++                        <p className="text-[10px] text-gray-400 mt-1 font-bold">
++                          {(file.size / 1024).toFixed(1)} KB • {sheetHeaders.length} Column Headers Found
++                        </p>
++                      </div>
++                      <button
++                        onClick={() => {
++                          setFile(null);
++                          setSheetHeaders([]);
++                          setPreviewRows([]);
++                          setMapping({});
++                          setImportStatus(null);
++                        }}
++                        className="text-xs font-bold text-rose-500 hover:text-rose-600 underline"
++                      >
++                        Reset and Choose Different File
++                      </button>
++                    </div>
++                  ) : (
++                    <div className="space-y-4">
++                      <Upload size={36} className="text-gray-400 mx-auto" />
++                      <div>
++                        <p className="text-sm font-bold text-gray-800 dark:text-white">
++                          Drag & drop your file here, or{" "}
++                          <button
++                            onClick={() => fileInputRef.current?.click()}
++                            className="text-emerald-600 hover:text-emerald-700 underline font-black"
++                          >
++                            browse files
++                          </button>
++                        </p>
++                        <p className="text-[10px] text-gray-400 mt-2 font-medium">
++                          Supports CSV, XLS, and XLSX sheets (Max size 25MB)
++                        </p>
++                      </div>
++                    </div>
++                  )}
++                </div>
++              </div>
++
++              {/* Step 4: Column Mapping & Preview */}
++              {file && sheetHeaders.length > 0 && (
++                <motion.div
++                  initial={{ opacity: 0, y: 15 }}
++                  animate={{ opacity: 1, y: 0 }}
++                  className="space-y-8 border-t border-gray-100 dark:border-gray-850 pt-8"
++                >
++                  {importPlatform === "CUSTOM" && (
++                    <div className="space-y-3">
++                      <h3 className="text-sm font-black text-gray-850 dark:text-gray-200 flex items-center gap-2">
++                        <HelpCircle size={16} className="text-emerald-600" />
++                        4. Map Spreadsheet Columns to System Fields
++                      </h3>
++                      <ColumnMapper
++                        headers={sheetHeaders}
++                        fields={currentFields}
++                        mapping={mapping}
++                        setMapping={setMapping}
++                      />
++                    </div>
++                  )}
++
++                  {/* Spreadsheet Preview Grid */}
++                  <div className="space-y-3">
++                    <h3 className="text-sm font-black text-gray-850 dark:text-gray-200">
++                      📄 Spreadsheet Preview (First 5 Rows)
++                    </h3>
++                    <div className="overflow-x-auto border border-gray-200 dark:border-gray-800 rounded-2xl">
++                      <table className="w-full text-left border-collapse text-xs">
++                        <thead>
++                          <tr className="bg-gray-50 dark:bg-gray-900/50 font-semibold border-b border-gray-200 dark:border-gray-800 text-gray-500">
++                            {sheetHeaders.map((header) => (
++                              <th key={header} className="px-4 py-3 whitespace-nowrap">
++                                {header}
++                              </th>
++                            ))}
++                          </tr>
++                        </thead>
++                        <tbody>
++                          {previewRows.map((row, rIdx) => (
++                            <tr key={rIdx} className="border-b border-gray-100 dark:border-gray-850">
++                              {sheetHeaders.map((header) => (
++                                <td key={header} className="px-4 py-2.5 text-gray-600 dark:text-gray-400 whitespace-nowrap">
++                                  {row[header]?.toString() || "-"}
++                                </td>
++                              ))}
++                            </tr>
++                          ))}
++                        </tbody>
++                      </table>
++                    </div>
++                  </div>
++
++                  {/* Actions Section */}
++                  <div className="border-t border-gray-100 dark:border-gray-850 pt-6 flex flex-col items-end gap-3 w-full">
++                    {warnings.length > 0 && showWarningsConfirm && (
++                      <div className="w-full p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/15 border border-amber-200 dark:border-amber-900/30 text-amber-800 dark:text-amber-400 space-y-2">
++                        <h4 className="text-xs font-black flex items-center gap-1">
++                          <AlertCircle size={14} /> Pre-Import Validation Warnings ({warnings.length}):
++                        </h4>
++                        <ul className="list-disc pl-5 text-[10px] space-y-1 max-h-[140px] overflow-y-auto font-medium">
++                          {warnings.map((w, idx) => (
++                            <li key={idx}>{w}</li>
++                          ))}
++                        </ul>
++                        <p className="text-[10px] text-amber-600 dark:text-amber-500 font-bold pt-1">
++                          You can still import the valid rows by clicking "Force Import anyway" below. Invalid rows will be skipped and logged.
++                        </p>
++                      </div>
++                    )}
++
++                    {importStatus && (
++                      <div
++                        className={`w-full p-4 rounded-2xl flex items-center gap-3 border ${
++                          importStatus.success
++                            ? "bg-emerald-50/50 dark:bg-emerald-950/10 border-emerald-100 dark:border-emerald-900 text-emerald-800 dark:text-emerald-400"
++                            : "bg-rose-50/50 dark:bg-rose-950/10 border-rose-100 dark:border-rose-900 text-rose-800 dark:text-rose-400"
++                        }`}
++                      >
++                        {importStatus.success ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
++                        <span className="text-xs font-semibold">{importStatus.message}</span>
++                      </div>
++                    )}
++
++                    <div className="flex gap-3">
++                      {showWarningsConfirm && (
++                        <button
++                          onClick={() => {
++                            setShowWarningsConfirm(false);
++                            setWarnings([]);
++                          }}
++                          className="px-5 py-3.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-black rounded-2xl transition-all"
++                        >
++                          Cancel
++                        </button>
++                      )}
++                      
++                      <button
++                        onClick={handleStartImport}
++                        disabled={importing}
++                        className={`px-6 py-3.5 text-white text-xs font-black rounded-2xl shadow-lg transition-all flex items-center gap-2 disabled:opacity-50 ${
++                          showWarningsConfirm
++                            ? "bg-amber-600 hover:bg-amber-700 shadow-amber-600/20 hover:shadow-amber-700/30"
++                            : "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20 hover:shadow-emerald-700/30"
++                        }`}
++                      >
++                        {importing ? (
++                          <>
++                            <Loader2 size={14} className="animate-spin" /> Processing...
++                          </>
++                        ) : showWarningsConfirm ? (
++                          <>
++                            Force Import anyway <ArrowRight size={14} />
++                          </>
++                        ) : (
++                          <>
++                            Start Spreadsheet Import <ArrowRight size={14} />
++                          </>
++                        )}
++                      </button>
++                    </div>
++                  </div>
++                </motion.div>
++              )}
++            </div>
++          ) : (
++            <ImportLogs />
++          )}
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/src/app/admin/products/page.tsx b/src/app/admin/products/page.tsx
+index 05bc5da..6dbd84c 100644
+--- a/src/app/admin/products/page.tsx
++++ b/src/app/admin/products/page.tsx
+@@ -14,7 +14,8 @@ import {
+   Star,
+ } from "lucide-react";
+ import Link from "next/link";
+-import { useCallback, useEffect, useState } from "react";
++import NextImage from "next/image";
++import { useCallback, useEffect, useState, useMemo } from "react";
+ import Swal from "sweetalert2";
+ import { UndoToast } from "@/components/ui/UndoToast";
+ import { resolveImageUrl } from "@/lib/utils";
+@@ -67,9 +68,9 @@ export default function AdminProductsPage() {
+   const { settings } = useSettingsStore();
+ 
+   // Columns layout configuration
+-  const columns: DataTableColumn<Product>[] = [
++  const columns = useMemo<DataTableColumn<Product>[]>(() => [
+     {
+-      key: "image",
++      key: "product",
+       header: "Product",
+       thClassName: "w-[10%]",
+       render: (product) => (
+@@ -81,16 +82,22 @@ export default function AdminProductsPage() {
+           }
+           target="_blank"
+           rel="noopener noreferrer"
+-          className="w-14 h-14 rounded-xl border border-gray-200/80 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-center overflow-hidden shrink-0 shadow-sm group-hover:shadow-md transition-all duration-300 cursor-pointer block"
++          className="flex items-center gap-3"
+         >
+           {product.image ? (
+-            <img
+-              src={resolveImageUrl(product.image)}
+-              alt={product.name}
+-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+-            />
++            <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-750 flex-shrink-0 group shadow-sm">
++              <NextImage
++                src={resolveImageUrl(product.image) || "/placeholder.png"}
++                alt={product.name || "Product"}
++                width={50}
++                height={50}
++                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
++              />
++            </div>
+           ) : (
+-            <ImageIcon size={20} className="text-gray-400" />
++            <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
++              <ImageIcon size={20} className="text-gray-400" />
++            </div>
+           )}
+         </Link>
+       ),
+@@ -132,7 +139,7 @@ export default function AdminProductsPage() {
+             {product.categories.length > 0 ? (
+               catText
+             ) : (
+-              <span className="text-[10px] font-bold text-pink-500 dark:text-pink-450">
++              <span className="text-[10px] font-bold text-pink-500 dark:text-pink-500">
+                 Uncategorized
+               </span>
+             )}
+@@ -162,11 +169,11 @@ export default function AdminProductsPage() {
+       thClassName: "w-[13%]",
+       render: (product) => (
+         <div>
+-          <div className="font-semibold text-sm text-gray-850 dark:text-gray-200">
++          <div className="font-semibold text-sm text-gray-800 dark:text-gray-200">
+             {formatPrice(product)}
+           </div>
+           {product.productType === "VARIABLE" && (
+-            <span className="inline-flex items-center gap-1 mt-1.5 text-[9px] bg-emerald-50 dark:bg-emerald-900/30 text-emerald-650 dark:text-emerald-450 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">
++            <span className="inline-flex items-center gap-1 mt-1.5 text-[9px] bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">
+               <LayoutGrid size={10} /> Variable
+             </span>
+           )}
+@@ -197,7 +204,7 @@ export default function AdminProductsPage() {
+               >
+                 {totalStock > 0 ? `${totalStock} in stock` : "Out of stock"}
+               </span>
+-              <span className="text-[10px] text-gray-455 dark:text-gray-400 font-medium">
++              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
+                 ({product.variants?.length || 0} variants)
+               </span>
+             </div>
+@@ -227,10 +234,10 @@ export default function AdminProductsPage() {
+         <div className="flex items-center gap-2">
+           <button
+             onClick={() => toggleFeatured(product.id, !product.featured)}
+-            className={`p-2 rounded-xl transition-all duration-200 border hover:shadow-sm ${
++            className={`p-2 rounded-xl border transition-all duration-300 ${
+               product.featured
+-                ? "bg-amber-50 dark:bg-amber-955/20 border-amber-200 dark:border-amber-900/50 text-amber-555 dark:text-amber-450 scale-105"
+-                : "bg-gray-50/50 dark:bg-gray-800 border-gray-150 dark:border-gray-700 text-gray-300 dark:text-gray-655 hover:text-amber-450 hover:bg-amber-50/30 dark:hover:bg-amber-955/10 hover:border-amber-100"
++                ? "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900/50 text-amber-500 dark:text-amber-500 scale-105"
++                : "bg-gray-50/50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 hover:text-amber-500 hover:bg-amber-50/30 dark:hover:bg-amber-900/10 hover:border-amber-100"
+             }`}
+             title={
+               product.featured
+@@ -247,7 +254,7 @@ export default function AdminProductsPage() {
+               title={getSaleDates(product)}
+             >
+               {Math.round(
+-                ((product.price - product.specialPrice) / product.price) * 100,
++                product.price > 0 ? ((product.price - product.specialPrice) / product.price) * 100 : 0,
+               )}
+               % OFF
+             </span>
+@@ -301,7 +308,7 @@ export default function AdminProductsPage() {
+         );
+       },
+     },
+-  ];
++  ], [pendingDeletions, selectedProducts]);
+ 
+   // Responsive mobile layout card builder
+   const renderMobileCard = (
+@@ -422,10 +429,10 @@ export default function AdminProductsPage() {
+           <div className="flex items-center gap-2">
+             <button
+               onClick={() => toggleFeatured(product.id, !product.featured)}
+-              className={`p-1.5 rounded-lg border transition-colors ${
++              className={`p-1.5 rounded-lg border ${
+                 product.featured
+-                  ? "bg-amber-50 dark:bg-amber-955/20 border-amber-200 dark:border-amber-900/50 text-amber-550"
+-                  : "bg-gray-50/50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-550"
++                  ? "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900/50 text-amber-500"
++                  : "bg-gray-50/50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-500"
+               }`}
+             >
+               <Star
+@@ -460,7 +467,7 @@ export default function AdminProductsPage() {
+                   className={`p-1.5 rounded-lg border transition-colors ${
+                     isMultipleSelected
+                       ? "bg-gray-50/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50"
+-                      : "bg-gray-50/50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-550 dark:text-gray-450 hover:text-pink-650"
++                      : "bg-gray-50/50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-500 hover:text-pink-600"
+                   }`}
+                 >
+                   <Trash2 size={14} />
+@@ -651,9 +658,9 @@ export default function AdminProductsPage() {
+     return `Sale: ${start} - ${end}`;
+   };
+ 
+-  const visibleProducts = products.filter(
+-    (p) => !pendingDeletions.includes(p.id),
+-  );
++  const visibleProducts = useMemo(() => {
++    return products.filter((p) => !pendingDeletions.includes(p.id));
++  }, [products, pendingDeletions]);
+ 
+   return (
+     <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6">
+diff --git a/src/components/admin/bulk-import/ColumnMapper.tsx b/src/components/admin/bulk-import/ColumnMapper.tsx
+new file mode 100644
+index 0000000..db2e34d
+--- /dev/null
++++ b/src/components/admin/bulk-import/ColumnMapper.tsx
+@@ -0,0 +1,135 @@
++import React, { useEffect } from "react";
++
++interface FieldDefinition {
++  key: string;
++  label: string;
++  required?: boolean;
++  description?: string;
++}
++
++interface ColumnMapperProps {
++  headers: string[];
++  fields: FieldDefinition[];
++  mapping: Record<string, string>;
++  setMapping: React.Dispatch<React.SetStateAction<Record<string, string>>>;
++}
++
++export default function ColumnMapper({
++  headers,
++  fields,
++  mapping,
++  setMapping,
++}: ColumnMapperProps) {
++  
++  // Auto-match headers to database fields on initial load
++  useEffect(() => {
++    const initialMapping: Record<string, string> = { ...mapping };
++    let changed = false;
++
++    fields.forEach((field) => {
++      if (!initialMapping[field.key]) {
++        const fieldKeyLower = field.key.toLowerCase();
++        const fieldLabelLower = field.label.toLowerCase();
++
++        const match = headers.find((h) => {
++          const headerLower = h.toLowerCase().replace(/[^a-z0-9]/g, "");
++          const keyClean = fieldKeyLower.replace(/[^a-z0-9]/g, "");
++          const labelClean = fieldLabelLower.replace(/[^a-z0-9]/g, "");
++
++          return (
++            headerLower === keyClean ||
++            headerLower === labelClean ||
++            headerLower.includes(keyClean) ||
++            keyClean.includes(headerLower)
++          );
++        });
++
++        if (match) {
++          initialMapping[field.key] = match;
++          changed = true;
++        }
++      }
++    });
++
++    if (changed) {
++      setMapping(initialMapping);
++    }
++  }, [headers, fields]);
++
++  const handleChange = (fieldKey: string, value: string) => {
++    setMapping((prev) => ({
++      ...prev,
++      [fieldKey]: value,
++    }));
++  };
++
++  return (
++    <div className="space-y-6">
++      <div className="bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/50 dark:border-emerald-900/30 p-4 rounded-2xl">
++        <h3 className="text-sm font-bold text-emerald-800 dark:text-emerald-400">
++          💡 Smart Auto-Mapping Active
++        </h3>
++        <p className="text-xs text-emerald-600 dark:text-emerald-500 mt-1">
++          We matched columns with similar names automatically. Please review and adjust the dropdowns below to verify accuracy.
++        </p>
++      </div>
++
++      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
++        {fields.map((field) => {
++          const isSelected = !!mapping[field.key];
++          return (
++            <div
++              key={field.key}
++              className={`p-4 rounded-2xl border transition-all duration-200 ${
++                isSelected
++                  ? "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-sm"
++                  : field.required 
++                  ? "bg-rose-50/30 dark:bg-rose-950/20 border-rose-400 dark:border-rose-900 shadow-[0_0_12px_rgba(244,63,94,0.15)] ring-1 ring-rose-500/20"
++                  : "bg-gray-50/50 dark:bg-gray-900/30 border-dashed border-gray-200 dark:border-gray-800"
++              }`}
++            >
++              <div className="flex items-center justify-between mb-2">
++                <label className="text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
++                  {field.label}
++                  {field.required && (
++                    <span className="text-rose-500 font-black">*</span>
++                  )}
++                </label>
++                {field.description && (
++                  <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500">
++                    {field.description}
++                  </span>
++                )}
++              </div>
++
++              <select
++                value={mapping[field.key] || ""}
++                onChange={(e) => handleChange(field.key, e.target.value)}
++                className={`w-full px-3 py-2 text-xs font-semibold rounded-xl border bg-transparent outline-none transition-all ${
++                  mapping[field.key]
++                    ? "border-emerald-200 dark:border-emerald-900 text-emerald-700 dark:text-emerald-400 focus:border-emerald-500"
++                    : field.required
++                    ? "border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 focus:border-rose-500"
++                    : "border-gray-250 dark:border-gray-800 text-gray-500 focus:border-blue-500"
++                }`}
++              >
++                <option value="" className="text-gray-400">
++                  -- Ignore Field --
++                </option>
++                {headers.map((header) => (
++                  <option
++                    key={header}
++                    value={header}
++                    className="text-gray-800 dark:text-gray-200 font-medium"
++                  >
++                    {header}
++                  </option>
++                ))}
++              </select>
++            </div>
++          );
++        })}
++      </div>
++    </div>
++  );
++}
+diff --git a/src/components/admin/bulk-import/ImportLogs.tsx b/src/components/admin/bulk-import/ImportLogs.tsx
+new file mode 100644
+index 0000000..d0e5783
+--- /dev/null
++++ b/src/components/admin/bulk-import/ImportLogs.tsx
+@@ -0,0 +1,256 @@
++import React, { useEffect, useState } from "react";
++import { API_URL } from "@/lib/config";
++import { AlertCircle, CheckCircle2, Loader2, RefreshCw } from "lucide-react";
++import StagingGrid from "./StagingGrid";
++
++interface ImportLog {
++  id: string;
++  status: string;
++  totalProducts: number;
++  imported: number;
++  failed: number;
++  errors: string | null;
++  startedAt: string | null;
++  finishedAt: string | null;
++  createdAt: string;
++}
++
++const WavingText = ({ text }: { text: string }) => {
++  return (
++    <span className="inline-flex space-x-[1px]">
++      {text.split("").map((char, index) => (
++        <span
++          key={index}
++          className="inline-block animate-wave"
++          style={{ 
++            animationDelay: `${index * 0.1}s`, 
++            animationDuration: '1.2s' 
++          }}
++        >
++          {char === " " ? "\u00A0" : char}
++        </span>
++      ))}
++      <style>{`
++        @keyframes wave {
++          0%, 100% { transform: translateY(0); }
++          50% { transform: translateY(-2px); }
++        }
++        .animate-wave {
++          animation: wave ease-in-out infinite;
++        }
++      `}</style>
++    </span>
++  );
++};
++
++export default function ImportLogs() {
++  const [logs, setLogs] = useState<ImportLog[]>([]);
++  const [loading, setLoading] = useState(true);
++  const [refreshing, setRefreshing] = useState(false);
++  const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
++
++  useEffect(() => {
++    fetchLogs();
++  }, []);
++
++  // Auto-polling for active tasks
++  useEffect(() => {
++    const hasActiveTasks = logs.some(l => l.status === 'processing' || l.status === 'committing');
++    if (!hasActiveTasks) return;
++
++    const interval = setInterval(() => {
++      fetchLogs(true);
++    }, 2000);
++
++    return () => clearInterval(interval);
++  }, [logs]);
++
++  const fetchLogs = async (silent = false) => {
++    try {
++      if (!silent) setRefreshing(true);
++      const token =
++        localStorage.getItem("femcart_access_token") ||
++        localStorage.getItem("token") ||
++        "";
++
++      const res = await fetch(`${API_URL}/api/bulk-import/logs`, {
++        headers: { Authorization: `Bearer ${token}` },
++      });
++      const json = await res.json();
++      if (json.success) {
++        setLogs(json.data || []);
++      }
++    } catch (e) {
++      console.error("Failed to fetch import logs:", e);
++    } finally {
++      setLoading(false);
++      setRefreshing(false);
++    }
++  };
++
++  const getStatusBadge = (log: any) => {
++    const progress = log.totalProducts > 0 
++      ? Math.min(100, Math.round(((log.imported + log.failed) / log.totalProducts) * 100)) 
++      : 0;
++
++    switch (log.status) {
++      case "processing":
++      case "committing":
++        return (
++          <div className="flex flex-col items-center gap-1.5 w-full min-w-[120px] max-w-[140px] mx-auto">
++            <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 whitespace-nowrap">
++              <WavingText text={log.status === 'committing' ? 'Publishing' : 'Parsing CSV'} /> 
++              <span>{progress}%</span>
++            </span>
++            <div className="w-full bg-blue-100 dark:bg-blue-900/30 rounded-full h-1.5 overflow-hidden">
++              <div 
++                className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
++                style={{ width: `${progress}%` }}
++              />
++            </div>
++          </div>
++        );
++      case "completed":
++        return (
++          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
++            <CheckCircle2 size={10} /> Success
++          </span>
++        );
++      case "failed":
++        return (
++          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400">
++            <AlertCircle size={10} /> Failed
++          </span>
++        );
++      default:
++        return (
++          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-50 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400">
++            Idle
++          </span>
++        );
++    }
++  };
++
++  if (loading) {
++    return (
++      <div className="flex flex-col items-center justify-center p-12 text-gray-500 gap-3">
++        <Loader2 size={24} className="animate-spin text-emerald-600" />
++        <span className="text-xs font-semibold">Loading import logs...</span>
++      </div>
++    );
++  }
++
++  return (
++    <div className="space-y-6">
++      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
++        <div>
++          <h3 className="text-sm font-bold text-gray-800 dark:text-white">
++            Bulk Import Tasks History
++          </h3>
++          <p className="text-xs text-gray-500 mt-0.5">
++            Monitor real-time progress, log outputs, and results of import tasks.
++          </p>
++        </div>
++        <button
++          onClick={fetchLogs}
++          disabled={refreshing}
++          className="p-2 rounded-xl border border-gray-250/50 dark:border-gray-800 hover:bg-gray-150/40 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-50 transition-colors"
++        >
++          <RefreshCw
++            size={14}
++            className={refreshing ? "animate-spin" : ""}
++          />
++        </button>
++      </div>
++
++      {logs.length === 0 ? (
++        <div className="text-center p-12 border border-dashed border-gray-200 dark:border-gray-800 rounded-3xl text-gray-400">
++          <p className="text-xs font-bold">No import tasks have been registered yet.</p>
++        </div>
++      ) : (
++        <div className="overflow-hidden border border-gray-200 dark:border-gray-800 rounded-2xl">
++          <div className="overflow-x-auto">
++            <table className="w-full text-left border-collapse text-xs">
++              <thead>
++                <tr className="bg-gray-50/80 dark:bg-gray-900/50 text-gray-500 font-semibold border-b border-gray-200 dark:border-gray-800">
++                  <th className="px-4 py-3">Task ID</th>
++                  <th className="px-4 py-3">Created At</th>
++                  <th className="px-4 py-3 text-center">Status</th>
++                  <th className="px-4 py-3 text-right">Total Rows</th>
++                  <th className="px-4 py-3 text-right text-emerald-600 dark:text-emerald-400">Imported</th>
++                  <th className="px-4 py-3 text-right text-rose-600 dark:text-rose-400">Failed</th>
++                  <th className="px-4 py-3 text-center">Errors</th>
++                </tr>
++              </thead>
++              <tbody>
++                {logs.map((log) => {
++                  const isExpanded = expandedLogId === log.id;
++                  const dateStr = log.startedAt
++                    ? new Date(log.startedAt).toLocaleString()
++                    : new Date(log.createdAt).toLocaleString();
++
++                  return (
++                    <React.Fragment key={log.id}>
++                      <tr className="border-b border-gray-100 dark:border-gray-850 hover:bg-gray-50/50 dark:hover:bg-gray-900/20">
++                        <td className="px-4 py-3 font-mono font-medium text-gray-800 dark:text-gray-200">
++                          {log.id.slice(-6).toUpperCase()}
++                        </td>
++                        <td className="px-4 py-3 text-gray-500">{dateStr}</td>
++                        <td className="px-4 py-3 text-center align-middle">
++                          {getStatusBadge(log)}
++                        </td>
++                        <td className="px-4 py-3 text-right font-medium text-gray-700 dark:text-gray-300">
++                          {log.totalProducts}
++                        </td>
++                        <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-400">
++                          {log.imported}
++                        </td>
++                        <td className="px-4 py-3 text-right font-bold text-rose-600 dark:text-rose-400">
++                          {log.failed}
++                        </td>
++                          <td className="px-4 py-3 text-center">
++                            <button
++                              onClick={() =>
++                                setExpandedLogId(isExpanded ? null : log.id)
++                              }
++                              className="text-xs font-bold text-blue-500 hover:text-blue-600 underline"
++                            >
++                              {isExpanded ? "Hide Review" : "Review Staging"}
++                            </button>
++                          </td>
++                      </tr>
++
++                      {isExpanded && (
++                        <tr>
++                          <td colSpan={7} className="px-4 py-3 bg-gray-50/30 dark:bg-gray-900/10 border-b border-gray-200 dark:border-gray-800">
++                            <div className="w-full">
++                              <StagingGrid 
++                                logId={log.id} 
++                                onCommitSuccess={fetchLogs}
++                              />
++                            </div>
++                            
++                            {log.errors && (
++                              <div className="p-3 mt-4 bg-rose-50/80 dark:bg-rose-950/20 border border-rose-100/50 dark:border-rose-900/30 rounded-xl">
++                                <h4 className="text-xs font-bold text-rose-800 dark:text-rose-400 mb-1.5 flex items-center gap-1">
++                                  <AlertCircle size={12} /> Execution Errors List:
++                                </h4>
++                                <pre className="text-[10px] font-mono text-rose-700 dark:text-rose-400 overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-[180px]">
++                                  {log.errors}
++                                </pre>
++                              </div>
++                            )}
++                          </td>
++                        </tr>
++                      )}
++                    </React.Fragment>
++                  );
++                })}
++              </tbody>
++            </table>
++          </div>
++        </div>
++      )}
++    </div>
++  );
++}
+diff --git a/src/components/admin/shopify-import/ImportProcessTab.tsx b/src/components/admin/shopify-import/ImportProcessTab.tsx
+index eccb365..10c08f9 100644
+--- a/src/components/admin/shopify-import/ImportProcessTab.tsx
++++ b/src/components/admin/shopify-import/ImportProcessTab.tsx
+@@ -1,6 +1,34 @@
+ "use client";
+ import { API_URL } from "@/lib/config";
+ import { toast } from "sonner";
++import Swal from "sweetalert2";
++
++const WavingText = ({ text }: { text: string }) => (
++  <span className="inline-flex space-x-[1px]">
++    {text.split("").map((char, index) => (
++      <span
++        key={index}
++        className="inline-block animate-wave"
++        style={{ 
++          animationDelay: `${index * 0.1}s`, 
++          animationDuration: '1.2s' 
++        }}
++      >
++        {char === " " ? "\u00A0" : char}
++      </span>
++    ))}
++    <style>{`
++      @keyframes wave {
++        0%, 100% { transform: translateY(0); }
++        50% { transform: translateY(-2px); }
++      }
++      .animate-wave {
++        animation: wave ease-in-out infinite;
++      }
++    `}</style>
++  </span>
++);
++
+ import {
+   AlertTriangle,
+   CheckCircle2,
+@@ -168,8 +196,17 @@ export default function ImportProcessTab() {
+   };
+ 
+   const clearTasks = async () => {
+-    if (!confirm("Delete all tasks? Running tasks will not be stopped."))
+-      return;
++    const result = await Swal.fire({
++      title: "Delete all tasks?",
++      text: "Running tasks will not be stopped.",
++      icon: "warning",
++      showCancelButton: true,
++      confirmButtonColor: "#ef4444",
++      confirmButtonText: "Yes, delete them"
++    });
++    
++    if (!result.isConfirmed) return;
++
+     try {
+       await fetch(`${API_URL}/api/shopify/tasks`, {
+         method: "DELETE",
+@@ -361,18 +398,14 @@ export default function ImportProcessTab() {
+                 }`}
+               >
+                 <div className="flex items-center gap-4 p-5">
+-                  <div className={`p-3 rounded-xl ${cfg.bg} ${cfg.color}`}>
+-                    <StatusIcon
+-                      size={20}
+-                      className={
+-                        task.status === "running"
+-                          ? "animate-spin"
+-                          : task.status === "queued"
+-                            ? "animate-pulse"
+-                            : ""
+-                      }
+-                    />
+-                  </div>
++                  {task.status !== "running" && (
++                    <div className={`p-3 rounded-xl ${cfg.bg} ${cfg.color}`}>
++                      <StatusIcon
++                        size={20}
++                        className={task.status === "queued" ? "animate-pulse" : ""}
++                      />
++                    </div>
++                  )}
+ 
+                   <div className="flex-1 min-w-0">
+                     <div className="flex items-center gap-2 mb-2">
+@@ -380,9 +413,9 @@ export default function ImportProcessTab() {
+                         {task.name}
+                       </span>
+                       <span
+-                        className={`text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider ${cfg.bg} ${cfg.color} ${cfg.border} border`}
++                        className={`text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider ${cfg.bg} ${cfg.color} ${cfg.border} border whitespace-nowrap`}
+                       >
+-                        {cfg.label}
++                        {task.status === "running" ? <WavingText text={cfg.label.toUpperCase()} /> : cfg.label}
+                       </span>
+                     </div>
+                     
+diff --git a/src/components/admin/wp-import/ImportProcessTab.tsx b/src/components/admin/wp-import/ImportProcessTab.tsx
+index 9dcfb1a..00a2af3 100644
+--- a/src/components/admin/wp-import/ImportProcessTab.tsx
++++ b/src/components/admin/wp-import/ImportProcessTab.tsx
+@@ -1,6 +1,34 @@
+ "use client";
+ import { API_URL } from "@/lib/config";
+ import { toast } from "sonner";
++import Swal from "sweetalert2";
++
++const WavingText = ({ text }: { text: string }) => (
++  <span className="inline-flex space-x-[1px]">
++    {text.split("").map((char, index) => (
++      <span
++        key={index}
++        className="inline-block animate-wave"
++        style={{ 
++          animationDelay: `${index * 0.1}s`, 
++          animationDuration: '1.2s' 
++        }}
++      >
++        {char === " " ? "\u00A0" : char}
++      </span>
++    ))}
++    <style>{`
++      @keyframes wave {
++        0%, 100% { transform: translateY(0); }
++        50% { transform: translateY(-2px); }
++      }
++      .animate-wave {
++        animation: wave ease-in-out infinite;
++      }
++    `}</style>
++  </span>
++);
++
+ import {
+   AlertTriangle,
+   CheckCircle2,
+@@ -168,8 +196,17 @@ export default function ImportProcessTab() {
+   };
+ 
+   const clearTasks = async () => {
+-    if (!confirm("Delete all tasks? Running tasks will not be stopped."))
+-      return;
++    const result = await Swal.fire({
++      title: "Delete all tasks?",
++      text: "Running tasks will not be stopped.",
++      icon: "warning",
++      showCancelButton: true,
++      confirmButtonColor: "#ef4444",
++      confirmButtonText: "Yes, delete them"
++    });
++    
++    if (!result.isConfirmed) return;
++
+     try {
+       await fetch(`${API_URL}/api/wordpress/tasks`, {
+         method: "DELETE",
+@@ -361,18 +398,14 @@ export default function ImportProcessTab() {
+                 }`}
+               >
+                 <div className="flex items-center gap-4 p-5">
+-                  <div className={`p-3 rounded-xl ${cfg.bg} ${cfg.color}`}>
+-                    <StatusIcon
+-                      size={20}
+-                      className={
+-                        task.status === "running"
+-                          ? "animate-spin"
+-                          : task.status === "queued"
+-                            ? "animate-pulse"
+-                            : ""
+-                      }
+-                    />
+-                  </div>
++                  {task.status !== "running" && (
++                    <div className={`p-3 rounded-xl ${cfg.bg} ${cfg.color}`}>
++                      <StatusIcon
++                        size={20}
++                        className={task.status === "queued" ? "animate-pulse" : ""}
++                      />
++                    </div>
++                  )}
+ 
+                   <div className="flex-1 min-w-0">
+                     <div className="flex items-center gap-2 mb-2">
+@@ -380,9 +413,9 @@ export default function ImportProcessTab() {
+                         {task.name}
+                       </span>
+                       <span
+-                        className={`text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider ${cfg.bg} ${cfg.color} ${cfg.border} border`}
++                        className={`text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider ${cfg.bg} ${cfg.color} ${cfg.border} border whitespace-nowrap`}
+                       >
+-                        {cfg.label}
++                        {task.status === "running" ? <WavingText text={cfg.label.toUpperCase()} /> : cfg.label}
+                       </span>
+                     </div>
+                     
+diff --git a/src/lib/admin-permissions.ts b/src/lib/admin-permissions.ts
+index 1387757..ecc28e3 100644
+--- a/src/lib/admin-permissions.ts
++++ b/src/lib/admin-permissions.ts
+@@ -236,6 +236,12 @@ export const navCategories = [
+         icon: Download,
+         permission: "IMPORT",
+       },
++      {
++        label: "Bulk Import",
++        href: "/admin/bulk-import",
++        icon: Download,
++        permission: "IMPORT",
++      },
+     ],
+   },
+ ];
+
+```
